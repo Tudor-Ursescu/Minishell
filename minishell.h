@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/16 15:44:17 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:52:22 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,4 @@
 
 char *prompt(void);
 void echo(char **argv);
+void free_tokens(char **tokens);
