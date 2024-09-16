@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/16 15:22:35 by ckonneck         ###   ########.fr       */
+/*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
+/*   Updated: 2024/09/16 15:27:33 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main (int argc, char **argv)
+void echo(char **argv)
 {
-	if (argc < 20000)
+	if (ft_strncmp(argv[1], "echo", ft_strlen(argv[1])) == 0)
 	{
-	// 	char *input;
-	// char *command;
-	// input = NULL;
-	echo(argv);
-	// command = prompt(input);
-
-
-	// free(input);
-	}
-	
-	
+		int i;
+		i = 1;
+		while(argv[i])
+		{
+			printf("%s", argv[i]);
+			if (argv[i + 1])
+				printf(" ");
+			i++;
+		}
 		
-}	
+	}
+}

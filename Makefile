@@ -6,7 +6,7 @@
 #    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/09/16 13:53:43 by ckonneck         ###   ########.fr        #
+#    Updated: 2024/09/16 15:19:29 by ckonneck         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBFT_DIR = ./libft
 LIBS = -L$(LIBFT_DIR) -lft
 
 # Source files for minishell
-MINISHELL_SRCS = minishell.c
+MINISHELL_SRCS = minishell.c prompt.c echo.c
 MINISHELL_OBJS = $(MINISHELL_SRCS:.c=.o)
 
 # 'all' target
