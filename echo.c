@@ -6,11 +6,30 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/16 17:28:42 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:47:24 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	echo2(char **argv, int i)
+{
+	i = 2;
+	if(!argv[2])
+		return;
+	while (argv[i])
+	{
+		printf("%s", argv[i]);
+		if (argv[i + 1])
+			printf(" ");
+		else if (!argv[i + 1] && (ft_strncmp(argv[1], "-n",
+					ft_strlen(argv[1])) == 0))
+			printf("\033[30;47m%%\033[0m");
+		
+		i++;
+	}
+		printf("\n");
+}
 
 void	echo(char **argv)
 {
@@ -31,22 +50,7 @@ void	echo(char **argv)
 			printf("\n");
 		}
 		else
-		{
-			i = 2;
-			while (argv[i])
-			{
-				printf("%s", argv[i]);
-				if (argv[i + 1])
-					printf(" ");
-				else if (!argv[i + 1] && (ft_strncmp(argv[1], "-n",
-							ft_strlen(argv[1])) == 0))
-					printf("\033[30;47m%%\033[0m");
-				i++;
-				printf("\n");
-			}
-			
-		}
-		
+			echo2(argv, i);
 	}
 	else
 		printf("\n");
