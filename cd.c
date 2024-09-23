@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/17 16:35:29 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/18 10:56:11 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,18 @@ void	cd_function(char **argv)
 	}
 }
 
-void	pwd_function(void)
+void	pwd_function(char **argv)
 {
+	(void)argv;
 	char	path[1024];
-
+	
 	getcwd(path, sizeof(path));
 	printf("%s\n", path);
 }
 
-void	ls_function(void)
+void	ls_function(char **argv)
 {
+	(void)argv;
 	DIR				*dir;
 	struct dirent	*entry;
 
@@ -71,8 +73,6 @@ void	ls_function(void)
 		perror("opendir");
 		return ;
 	}
-	// printf("Contents of the current directory:\n");
-	// Read each entry in the directory
 	while ((entry = readdir(dir)) != NULL)
 	{
 		if (entry->d_name[0] != '.')
@@ -81,6 +81,5 @@ void	ls_function(void)
 		}
 	}
 	printf("\n");
-	// Close the directory
 	closedir(dir);
 }

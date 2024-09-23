@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/17 11:47:24 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:12:21 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ void	echo2(char **argv, int i)
 void	echo(char **argv)
 {
 	int	i;
-
 	i = 1;
+
 	if (argv[1])
-	{
+	{ 
+		if(echo3(argv) == 1)
+			return;
+
 		if (!(ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0))
 		{
 			while (argv[i])
