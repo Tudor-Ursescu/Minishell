@@ -6,47 +6,31 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/20 15:13:40 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:39:57 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	*init_command_table(void)
+t_firstcmd	*init_command_table(void)
 {
-	t_command	*command_table;
+	t_firstcmd	*command_table;
 
-	command_table = malloc(11 * sizeof(t_command));
+	command_table = malloc(7 * sizeof(t_firstcmd));
 	if (!command_table)
 	{
 		perror("Failed to allocate memory for command table");
 		exit(1);
 	}
 	// Initialize commands
-	command_table[0] = (t_command){"echo", echo};
-	command_table[1] = (t_command){"cd", cd_function};
-	command_table[2] = (t_command){"pwd", pwd_function};
-	command_table[3] = (t_command){"ls", ls_function};
-	command_table[4] = (t_command){"uwu", uwu_function};
-	command_table[5] = (t_command){"punch", punch_or_hit_function};
-	command_table[6] = (t_command){"hit", punch_or_hit_function};
-	command_table[7] = (t_command){"clear", clear_function};
-	command_table[8] = (t_command){"env", env_function};
-	command_table[9] = (t_command){"export", export_function};
-	command_table[10] = (t_command){NULL, NULL};
+	command_table[0] = (t_firstcmd){"echo", echo};
+	command_table[1] = (t_firstcmd){"cd", cd_function};
+	command_table[2] = (t_firstcmd){"pwd", pwd_function};
+	command_table[3] = (t_firstcmd){"clear", clear_function};
+	command_table[4] = (t_firstcmd){"env", env_function};
+	command_table[5] = (t_firstcmd){"export", export_function};
+	command_table[6] = (t_firstcmd){NULL, NULL};
 	return (command_table);
-}
-
-void	uwu_function(char **argv)
-{
-	(void)argv;
-	printf("UWU COMRADE\n");
-}
-
-void punch_or_hit_function(char **argv)
-{
-	(void)argv;
-	printf("ow that hurt you baka. piece of unko >:[\n");
 }
 
 void clear_function(char **argv)

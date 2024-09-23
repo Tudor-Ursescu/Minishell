@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/20 13:17:22 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:41:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char **g_env = NULL;
 int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
-	t_command	*command_table;
+	t_firstcmd	*command_table;
 	int i;
 	int found;
 	
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 			}
 			if (!found)
-				printf("uwushell: command not found: %s\n", argv[0]);
+				execute_path(argv);	
 		}
 		free_call(argv, input);
 	}
