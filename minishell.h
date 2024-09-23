@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/23 16:16:45 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:26:40 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ void	set_env_variable(const char *var, const char *value);
 char **copy_env(char **env);
 char *find_path(const char *cmd);
 void	free_tokens(char **tokens);
-void execute_path(char **argv);
+void	execute_path(char **argv, char **g_env);
 int	check_fork(int *pid);

@@ -6,13 +6,13 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/23 16:29:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:27:22 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_path(char **argv)
+void	execute_path(char **argv, char **g_env)
 {
 	char	*path;
 	int		pid;
@@ -25,7 +25,8 @@ void	execute_path(char **argv)
 			return ;
 		if (pid == 0)
 		{
-			if (execve(path, argv, NULL) == -1) // shit still breaks with stuff like open or code .
+			if (execve(path, argv, g_env) == -1) // shit still breaks with stuff like open or code . // 
+												//prolly g_env error. need accurate environment path
 			{
 				perror("execve failed"); // Use perror to explain the error
 				exit(1);                 // Terminate the child if execve fails

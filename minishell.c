@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/23 15:41:48 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:30:17 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 				}
 				i++;
 			}
-			if (ft_strncmp(argv[0], "exit", ft_strlen(argv[0])) == 0)
+			if (ft_strncmp(argv[0], "exit", ft_strlen("exit")) == 0)
 			{
 				printf("GOODBYE NYA\n");
 				free(command_table);
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 			}
 			if (!found)
-				execute_path(argv);	
+				execute_path(argv, g_env);	
 		}
 		free_call(argv, input);
 	}
