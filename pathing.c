@@ -6,13 +6,13 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/23 17:27:22 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:08:51 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_path(char **argv, char **g_env)
+void	execute_path(char **argv, char **envp)
 {
 	char	*path;
 	int		pid;
@@ -25,15 +25,17 @@ void	execute_path(char **argv, char **g_env)
 			return ;
 		if (pid == 0)
 		{
-			if (execve(path, argv, g_env) == -1) // shit still breaks with stuff like open or code . // 
-												//prolly g_env error. need accurate environment path
+			if (execve(path, argv, envp) == -1) 
 			{
-				perror("execve failed"); // Use perror to explain the error
-				exit(1);                 // Terminate the child if execve fails
+				perror("execve failed");
+				exit(1);
 			}
 		}
 		else
+		{
 			waitpid(pid, NULL, 0);
+			free(path);
+		}
 	}
 	else
 	{
@@ -46,9 +48,8 @@ void	execute_path(char **argv, char **g_env)
 char	*find_path(const char *cmd)
 {
 	char	*path;
-	char	**tokens;
 	char	*full_path;
-	int		i;
+	char	**tokens;
 
 	path = getenv("PATH");
 	tokens = ft_split(path, ':');
@@ -58,6 +59,18 @@ char	*find_path(const char *cmd)
 		free(full_path);
 		return (NULL);
 	}
+	full_path = stitching(full_path, tokens, cmd);
+	if (full_path != NULL)
+		return(full_path);
+	free_tokens(tokens);
+	free(full_path);
+	return (NULL);
+}
+
+char	*stitching(char *full_path, char **tokens, const char *cmd)
+{
+	int i;
+
 	i = 0;
 	while (tokens[i])
 	{
@@ -71,10 +84,7 @@ char	*find_path(const char *cmd)
 		}
 		i++;
 	}
-	i = 0;
-	free_tokens(tokens);
-	free(full_path);
-	return (NULL);
+	return(NULL);
 }
 
 void	free_tokens(char **tokens)

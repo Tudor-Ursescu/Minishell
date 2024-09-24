@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/18 10:56:11 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:25:44 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	lstatcheck(char **argv)
 		perror("cd"); // Catch-all for other errors
 }
 
-void	cd_function(char **argv)
+void	cd_function(char **argv, char **envp)
 {
 	struct stat	statbuf;
-
+	(void)envp;
 	if (!argv[1])
 	{
 		if (chdir("/home") != 0)
@@ -51,35 +51,12 @@ void	cd_function(char **argv)
 	}
 }
 
-void	pwd_function(char **argv)
+void	pwd_function(char **argv, char **envp)
 {
 	(void)argv;
+	(void)envp;
 	char	path[1024];
 	
 	getcwd(path, sizeof(path));
 	printf("%s\n", path);
-}
-
-void	ls_function(char **argv)
-{
-	(void)argv;
-	DIR				*dir;
-	struct dirent	*entry;
-
-	// Open the current directory
-	dir = opendir(".");
-	if (dir == NULL)
-	{
-		perror("opendir");
-		return ;
-	}
-	while ((entry = readdir(dir)) != NULL)
-	{
-		if (entry->d_name[0] != '.')
-		{
-			printf("%s  ", entry->d_name);
-		}
-	}
-	printf("\n");
-	closedir(dir);
 }

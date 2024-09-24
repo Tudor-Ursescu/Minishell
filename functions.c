@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/23 17:25:04 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:26:55 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,22 @@ t_firstcmd	*init_command_table(void)
 		exit(1);
 	}
 	// Initialize commands
-	command_table[0] = (t_firstcmd){"echo", echo};
-	command_table[1] = (t_firstcmd){"cd", cd_function};
-	command_table[2] = (t_firstcmd){"pwd", pwd_function};
-	command_table[3] = (t_firstcmd){"env", env_function};
-	command_table[4] = (t_firstcmd){"export", export_function};
+	command_table[0] = (t_firstcmd){"cd", cd_function};
+	command_table[1] = (t_firstcmd){"pwd", pwd_function};
+	command_table[2] = (t_firstcmd){"export", export_function};
+	command_table[3] = (t_firstcmd){"echo", echo};
+	command_table[4] = (t_firstcmd){"env", env_function};
 	command_table[5] = (t_firstcmd){NULL, NULL};
 	return (command_table);
 }
 
-void clear_function(char **argv)
+void env_function(char **argv, char **envp)
 {
 	(void)argv;
-	printf("\033[H\033[J");
-}
-void env_function(char **argv)
-{
-	(void)argv;
-    while (*g_env) 
+    while (*envp) 
 	{
-        printf("%s\n", *g_env);  // Print each environment variable
-        g_env++;  // Move to the next environment variable
+        printf("%s\n", *envp);  // Print each environment variable
+        envp++;  // Move to the next environment variable
     }
 }
 

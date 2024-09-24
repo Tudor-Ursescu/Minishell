@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/23 17:26:40 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:30:30 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-extern char			**g_env;
 
-typedef void		(*command_func)(char **);
+typedef void		(*command_func)(char **argv, char **envp);
 typedef struct t_firstcmd
 {
 	char			*name;
@@ -68,24 +67,25 @@ typedef struct s_data
 
 
 char				*prompt(void);
-void				echo(char **argv);
+void                echo(char **argv, char **envp);
 void				echo2(char **argv, int i);
-int					echo3(char **argv);
+int					echo3(char **argv, char **envp);
 void				free_call(char **argv, char *input);
-void				cd_function(char **argv);
-void				pwd_function(char **argv);
+void				cd_function(char **argv, char **envp);
+void				pwd_function(char **argv, char **envp);
 void				lstatcheck(char **argv);
-void				clear_function(char **argv);
 t_firstcmd			*init_command_table(void);
-void				env_function(char **argv);
-int					handle_env(char *arg);
-int					handle_n_flag(char *arg);
-void export_function(char **argv);
+void				env_function(char **argv, char **envp);
+int					handle_env(char *arg, char **envp);
+int					handle_n_flag(char *arg, char **envp);
+void export_function(char **argv, char **envp);
 void sort_env(char **env);
-void	exportnullarg(void);
-void	set_env_variable(const char *var, const char *value);
+void	exportnullarg(char **envp);
+void	set_env_variable(const char *var, const char *value, char **envp);
 char **copy_env(char **env);
 char *find_path(const char *cmd);
 void	free_tokens(char **tokens);
-void	execute_path(char **argv, char **g_env);
+void	execute_path(char **argv, char **envp);
 int	check_fork(int *pid);
+char	*stitching(char *full_path, char **tokens, const char *cmd);
+void exit_function(t_firstcmd *command_table, char **argv, char *input);

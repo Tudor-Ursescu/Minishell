@@ -6,20 +6,20 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 13:21:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/23 11:50:41 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:06:40 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export_function(char **argv)
+void	export_function(char **argv, char **envp)
 {
 	char	*equal_sign;
 	char	*var;
 	char	*value;
 
 	if (argv[1] == NULL)
-		exportnullarg();
+		exportnullarg(envp);
 	else if (argv[1])
 	{
 		if (ft_strchr(argv[1], '='))
@@ -28,16 +28,16 @@ void	export_function(char **argv)
 			*equal_sign = '\0';
 			var = argv[1];
 			value = equal_sign + 1;
-			set_env_variable(var, value);
+			set_env_variable(var, value, envp);
 		}
 		else
 		{
-			set_env_variable(argv[1], "");
+			set_env_variable(argv[1], "", envp);
 		}
 	}
 }
 
-void	set_env_variable(const char *var, const char *value)
+void	set_env_variable(const char *var, const char *value, char **envp)
 {
 	int		i;
 	char	*new_var;
@@ -53,18 +53,18 @@ void	set_env_variable(const char *var, const char *value)
 	ft_strlcpy(new_var, var, var_len + 1);
 	ft_strlcat(new_var, "=", var_len + 2);
 	ft_strlcat(new_var, value, var_len + value_len + 2);
-	while (g_env[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(g_env[i], var, var_len) == 0 && g_env[i][var_len] == '=')
+		if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
 		{
-			free(g_env[i]);
-			g_env[i] = new_var;
+			free(envp[i]);
+			envp[i] = new_var;
 			return ;
 		}
 		i++;
 	}
-	g_env[i] = new_var;
-	g_env[i + 1] = NULL;
+	envp[i] = new_var;
+	envp[i + 1] = NULL;
 }
 
 void	sort_env(char **env)
@@ -96,11 +96,11 @@ void	sort_env(char **env)
 	}
 }
 
-void	exportnullarg(void)
+void	exportnullarg(char **envp)
 {
 	char	**env_ptr;
 
-	env_ptr = copy_env(g_env);
+	env_ptr = copy_env(envp);
 	sort_env(env_ptr);
 	while (*env_ptr)
 	{
