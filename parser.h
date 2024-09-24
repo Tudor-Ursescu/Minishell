@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/23 16:32:56 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:04:41 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ typedef struct	s_command
     struct s_command	*next;
 }				t_command;
 
+typedef struct  s_env
+{
+    char			*value;
+	struct s_env	*next;
+}   t_env;
+
 typedef struct s_data
 {
     t_args      *args;
@@ -63,12 +69,17 @@ void    print_arg_list(t_args *head);
 t_args	*create_arg(t_token_types type, const char *value);
 void	prepend_arg(t_args **list, t_args *new);
 void    append_arg(t_args **list, t_args *new);
-t_args	*find_last(t_args *head);
+t_args	*find_last_arg(t_args *head);
+t_env   *create_env(char *value);
+t_env   *find_last_env(t_env *head);
+void	append_env(t_env **list, t_env *new);
+void	free_env(t_env **list);
+void    print_env_list(t_env *head);
+t_env	*init_env_list(char **envp);
 //UTILS
 int		is_word_char(char c);
 int		ft_isspace(char c);
 char	*ft_strndup(const char *c, int n);
 //LEXER
 t_args	**lexer(const char *input);
-
 #endif

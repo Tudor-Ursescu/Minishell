@@ -6,7 +6,7 @@
 #    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 14:56:05 by tursescu          #+#    #+#              #
-#    Updated: 2024/09/24 08:58:15 by tursescu         ###   ########.fr        #
+#    Updated: 2024/09/24 14:05:09 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBS = -L$(LIBFT_DIR) -lft
 
 # Source files for minishell
 MINISHELL_SRCS = lexer.c main.c parse_utils.c function_utils.c args1.c\
-					args2.c separate_args.c
+					args2.c env1.c env2.c
 MINISHELL_OBJS = $(MINISHELL_SRCS:.c=.o)
 
 # 'all' target

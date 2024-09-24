@@ -1,67 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args1.c                                            :+:      :+:    :+:   */
+/*   env1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 14:40:33 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 11:21:57 by tursescu         ###   ########.fr       */
+/*   Created: 2024/09/24 11:04:01 by tursescu          #+#    #+#             */
+/*   Updated: 2024/09/24 15:27:42 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_args	*create_arg(t_token_types type, const char *value)
+t_env   *create_env(char *value)
 {
-	t_args *new;
-	
-	new = malloc(sizeof(t_args));
-	if (!new)
-		return (NULL);
-	new->type = type;
-	new->value = ft_strdup(value);
-	new->next = NULL;
-	return (new);
+    t_env   *new;
+
+    new = malloc(sizeof(t_env));
+    if (!new)
+        return(NULL);
+    new->value = ft_strdup(value);
+    new->next = NULL;
+    return (new);
 }
 
-void	prepend_arg(t_args **list, t_args *new)
+t_env   *find_last_env(t_env *head)
 {
-	new->next = *list;
-	*list = new;
-}
+    t_env	*temp;
 
-t_args	*find_last_arg(t_args *head)
-{
-	t_args *temp;
-	
 	temp = head;
 	while (temp->next != NULL)
 		temp = temp->next;
 	return (temp);
 }
 
-void	append_arg(t_args **list, t_args *new)
+void	append_env(t_env **list, t_env *new)
 {
-	t_args *temp;
-	
+	t_env	*temp;
+
 	if (*list)
 	{
-		temp = find_last_arg(*list);
-		new = temp->next;
-		new->next = NULL;//don't know if i need this
+		temp = find_last_env(*list);
+		temp->next = new;
+		new->next = NULL;
 	}
 	else
 	{
 		*list = new;
-		(*list)->next = NULL;	
+		(*list)->next = NULL;
 	}
 }
 
-void free_args(t_args **list)
+void	free_env(t_env **list)
 {
-	t_args	*temp;
-	t_args	*head;
+	t_env	*temp;
+	t_env	*head;
 
 	head = *list;
 	while (head)
@@ -72,4 +65,16 @@ void free_args(t_args **list)
 			free(temp->value);
 		free(temp);
 	}
+}
+
+void print_env_list(t_env *head)
+{
+    t_env *temp;
+
+    temp = head;
+    while (temp)
+    {
+        printf("%s\n", temp->value);
+        temp = temp->next;
+    }
 }
