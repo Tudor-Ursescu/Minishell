@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 14:04:41 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:41:04 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,6 @@ int		ft_isspace(char c);
 char	*ft_strndup(const char *c, int n);
 //LEXER
 t_args	**lexer(const char *input);
+//ENV
+void    ft_env(char **envp);
 #endif
