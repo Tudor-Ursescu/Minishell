@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:07:28 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 11:58:55 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:59:15 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void print_arg_list(t_args *head)
 	temp = head;
 	while (temp)
 	{
-		printf("%s %d\n", temp->value, temp->type);
+		printf("Arg:%s, Type:%d\n", temp->value, temp->type);
 		temp = temp->next;
 	}
 }

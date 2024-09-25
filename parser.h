@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 15:41:04 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:07:27 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "./libft/libft.h"
 
 typedef enum e_token_types
 {
-    T_CMD,
     T_PIPE,
     T_ARG,
     T_QUOTE,
@@ -70,18 +71,22 @@ t_args	*create_arg(t_token_types type, const char *value);
 void	prepend_arg(t_args **list, t_args *new);
 void    append_arg(t_args **list, t_args *new);
 t_args	*find_last_arg(t_args *head);
+int 	add_redir(t_args **head, char *line, int i, int *cmd);
+int		add_quote_arg(t_args **list, char *line, int i, char quote);
+int		add_arg(t_args **list, char *line, int i, int *cmd);
+int 	add_pipe(t_args **head, int *i);
+int 	parse_args(t_args **list, char *line);
+//UTILS
+int		is_word_char(char c);
+int		ft_isspace(char c);
+char	*ft_strndup(const char *c, int n);
+int		skip_whitespace(char *line, int i);
+//ENV
 t_env   *create_env(char *value);
 t_env   *find_last_env(t_env *head);
 void	append_env(t_env **list, t_env *new);
 void	free_env(t_env **list);
 void    print_env_list(t_env *head);
 t_env	*init_env_list(char **envp);
-//UTILS
-int		is_word_char(char c);
-int		ft_isspace(char c);
-char	*ft_strndup(const char *c, int n);
-//LEXER
-t_args	**lexer(const char *input);
-//ENV
 void    ft_env(char **envp);
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spearate_args.c                                    :+:      :+:    :+:   */
+/*   separate_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 16:01:54 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:31:22 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,33 @@ int	which_red(char *line, int i)
 		else
 			return (i + 1);
 	}
+	return (0);
 }
 
-int append_redir(t_args **head, char *line, int i, int *cmd)
+int add_redir(t_args **head, char *line, int i, int *cmd)
 {
-	t_args *temp;
+	t_args *new;
 	
 	*cmd = 0;
 	if (line[i] == '<')
 	{
 		if (line[i + 1] == '<')
-			temp = create_arg(T_HEREDOC, "<<");
+			new = create_arg(T_HEREDOC, "<<");
 		else
-			temp = create_arg(T_RED_FROM, "<");
+			new = create_arg(T_RED_FROM, "<");
 	}
 	else
 	{
 		if (line[i + 1] == '>')
-			temp = create_arg(T_REDIR_APPEND, ">>");
+			new = create_arg(T_REDIR_APPEND, ">>");
 		else
-			temp = create_arg(T_RED_TO, "<");
+			new = create_arg(T_RED_TO, "<");
 	}
-	append_arg(head, temp);
+	append_arg(head, new);
 	return (which_red(line, i));
 }
 
-int append_pipe(t_args **head, int *i)
+int add_pipe(t_args **head, int *i)
 {
 	t_args	*temp;
 	
@@ -63,10 +64,36 @@ int append_pipe(t_args **head, int *i)
 	return (1);
 }
 
-// int append_arg(t_args **list, char *line, int i)
-// {
-// 	t_args	*temp;
-// 	char	*arg;
+int	add_quote_arg(t_args **list, char *line, int i, char quote)
+{
+	t_args	*new;
+	int start;
 
-// 	if (line )
-// }
+	start = i + 1; //Skip the opening quote;
+	while (line[i] && line[i] != quote)
+		i++;
+	if (line[i] == quote)
+	{
+		new = create_arg(T_ARG, ft_substr(line, start, i - start));
+		append_arg(list, new);
+		i++;//ending quote
+	}
+	return (i);
+}
+
+int	add_arg(t_args **list, char *line, int i, int *cmd)
+{
+	t_args	*new;
+	int		start;
+	
+	start = i;
+	while (line[i] && is_word_char(line[i]))
+		i++;
+	if (start != i)
+	{
+		new = create_arg(T_ARG, ft_substr(line, start, i - start));
+		append_arg(list, new);
+		*cmd = 0;
+	}
+	return (i);
+}

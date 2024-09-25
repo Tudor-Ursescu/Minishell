@@ -6,18 +6,36 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 15:40:16 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:05:02 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-int main (int argc, char **argv, char **envp)
+#include <string.h>
+int main (void)
 {
-    if (argc > 0)
+    t_args *arg_list;
+    char *line;
+
+    while (1)
     {
-        if (ft_strncmp("env", argv[1], 3) == 0)
-            ft_env(envp);
+		line = readline("minishell> ");
+		printf("%s\n", line);
+		if (line == NULL || strcmp(line, "exit") == 0)
+		{
+			free(line);
+			break;
+		}
+		if(line[0] != '\0')
+			add_history(line);
+		arg_list = NULL;
+		parse_args(&arg_list, line);
+		if (arg_list == NULL)
+			printf("Parsing failed!");
+		else
+			print_arg_list(arg_list);
+		free_args(&arg_list);
+		free(line);
     }
-    return (0);
+	return (0);
 }

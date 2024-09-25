@@ -6,7 +6,7 @@
 #    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 14:56:05 by tursescu          #+#    #+#              #
-#    Updated: 2024/09/24 14:05:09 by tursescu         ###   ########.fr        #
+#    Updated: 2024/09/25 14:35:07 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,9 @@ LIBFT_DIR = ./libft
 LIBS = -L$(LIBFT_DIR) -lft
 
 # Source files for minishell
-MINISHELL_SRCS = lexer.c main.c parse_utils.c function_utils.c args1.c\
-					args2.c env1.c env2.c
+MINISHELL_SRCS = parse_utils.c function_utils.c args1.c parser.c\
+				args2.c env1.c env2.c separate_args.c\
+				main.c
 MINISHELL_OBJS = $(MINISHELL_SRCS:.c=.o)
 
 # 'all' target
