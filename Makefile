@@ -6,7 +6,7 @@
 #    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/09/25 12:52:17 by ckonneck         ###   ########.fr        #
+#    Updated: 2024/09/25 16:24:40 by ckonneck         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,9 +50,9 @@ re: fclean all
 
 # valgrind rule
 valgrind: $(NAME)
-		valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(ARGS)
+		valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGS)
 		
-# extra options: --verbose --log-file=valgrind-out.txt
+# extra options: --verbose --show-leak-kinds=all --log-file=valgrind-out.txt
 #norminette rule
 norminette: $(PHILO_SRSC)
 		norminette $(PHILO_SRSC)

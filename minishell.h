@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 13:06:34 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:04:05 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char					*find_path(const char *cmd);
 void					free_tokens(char **tokens);
 void					execute_path(char **argv, char **envp);
 int						check_fork(int *pid);
-char					*stitching(char *full_path, char **tokens,
+char					*stitching(char **tokens,
 							const char *cmd);
 void					exit_function(t_firstcmd *command_table, char **argv,
 							char *input);

@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 15:12:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:07:33 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	execute_path(char **argv, char **envp)
 {
 	char	*path;
 	int		pid;
+
 	pid = 1;
 	path = find_path(argv[0]);
 	if (path != NULL)
@@ -24,7 +25,7 @@ void	execute_path(char **argv, char **envp)
 			return ;
 		if (pid == 0)
 		{
-			if (execve(path, argv, envp) == -1) 
+			if (execve(path, argv, envp) == -1)
 			{
 				perror("execve failed");
 				exit(1);
@@ -41,8 +42,9 @@ void	execute_path(char **argv, char **envp)
 		printf("uwushell: command not found: %s\n", argv[0]);
 		if (pid == 0)
 		{
+			free(path);
 			exit(1);
-		} // If path not found, also exit the child
+		}
 	}
 }
 
@@ -52,41 +54,37 @@ char	*find_path(const char *cmd)
 	char	*full_path;
 	char	**tokens;
 
-	full_path = NULL;
 	path = getenv("PATH");
-	tokens = ft_split(path, ':');
-	if (!full_path || !tokens)
-	{
-		free_tokens(tokens);
-		free(full_path);
+	if (!path)
 		return (NULL);
-	}
-	full_path = stitching(NULL, tokens, cmd);
-	if (full_path != NULL)
-		return(full_path);
+	tokens = ft_split(path, ':');
+	if (!tokens)
+		return (NULL);
+	full_path = stitching(tokens, cmd);
 	free_tokens(tokens);
-	free(full_path);
-	return (NULL);
+	return (full_path);
 }
 
-char	*stitching(char *full_path, char **tokens, const char *cmd)
+char	*stitching(char **tokens, const char *cmd)
 {
-	int i;
+	char	*full_path;
+	int		i;
 
 	i = 0;
 	while (tokens[i])
 	{
+		full_path = malloc(1024);
+		if (!full_path)
+			return (NULL);
 		ft_strlcpy(full_path, tokens[i], 1024);
 		ft_strlcat(full_path, "/", ft_strlen(full_path) + 2);
 		ft_strlcat(full_path, cmd, ft_strlen(full_path) + ft_strlen(cmd) + 2);
 		if (access(full_path, X_OK) == 0)
-		{
-			free_tokens(tokens);
 			return (full_path);
-		}
+		free(full_path);
 		i++;
 	}
-	return(NULL);
+	return (NULL);
 }
 
 void	free_tokens(char **tokens)

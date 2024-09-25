@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 15:26:17 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:45:55 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	heredoc(char **argv, char **envp) //<<
 			free(input);
 			close(temp_fd);
 			argv[1] = NULL;
+			free(argv[2]);
 			argv[2] = "tempfile.txt";
 			break ;
 		}
@@ -98,7 +99,6 @@ void	heredoc(char **argv, char **envp) //<<
 	input_redirect(argv, envp);
 	unlink("tempfile.txt");
 }
-
 
 void	output_append(char **argv, char **envp) // >>
 {

@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:22:00 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/06/19 17:25:42 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:21:14 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,11 @@ char	**ft_split(const char *s, char c)
 	array = malloc((words + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
-	array = splat(s, c, array, words);
+	if (!splat(s, c, array, words)) // Ensure splat works
+    {
+        free(array); // Free allocated memory if splat fails
+        return (NULL);
+    }
 	return (array);
 }
 
