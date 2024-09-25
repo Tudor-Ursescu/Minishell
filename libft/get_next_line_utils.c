@@ -6,21 +6,11 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 11:52:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/07/09 13:53:43 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:45:07 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-size_t	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 void	*ft_memmove(void *dst, const void *src, size_t n)
 {

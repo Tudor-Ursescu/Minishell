@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/24 12:08:51 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:12:58 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	execute_path(char **argv, char **envp)
 {
 	char	*path;
 	int		pid;
-
 	pid = 1;
 	path = find_path(argv[0]);
 	if (path != NULL)
@@ -40,8 +39,10 @@ void	execute_path(char **argv, char **envp)
 	else
 	{
 		printf("uwushell: command not found: %s\n", argv[0]);
-		if (pid == 0) // If path not found, also exit the child
+		if (pid == 0)
+		{
 			exit(1);
+		} // If path not found, also exit the child
 	}
 }
 
@@ -51,15 +52,16 @@ char	*find_path(const char *cmd)
 	char	*full_path;
 	char	**tokens;
 
+	full_path = NULL;
 	path = getenv("PATH");
 	tokens = ft_split(path, ':');
-	full_path = malloc(1024);
 	if (!full_path || !tokens)
 	{
+		free_tokens(tokens);
 		free(full_path);
 		return (NULL);
 	}
-	full_path = stitching(full_path, tokens, cmd);
+	full_path = stitching(NULL, tokens, cmd);
 	if (full_path != NULL)
 		return(full_path);
 	free_tokens(tokens);
