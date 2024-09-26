@@ -6,11 +6,11 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:48 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 12:52:00 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 char *prompt(void)
 {
@@ -18,7 +18,7 @@ char *prompt(void)
     // print_error_toast();
     if (input && *input)
         add_history(input);
-    return input;
+    return (input);
 }
 
 void    print_error_toast(void)

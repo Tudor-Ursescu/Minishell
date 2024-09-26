@@ -6,20 +6,20 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 15:51:23 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_firstcmd	*command_table;
-	int i;
-	int found;
+	int			i;
+	int			found;
+
 	command_table = init_command_table();
-	printf("\033[H\033[J"); // clears terminal
 	while (1)
 	{
 		input = prompt();
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 		argc = 0;
 		i = 0;
 		found = 0;
+		int pipenumber = 0;
 		while (argv[argc])
 			argc++;
 		if (argc > 0)
@@ -44,16 +45,18 @@ int	main(int argc, char **argv, char **envp)
 			}
 			if (ft_strncmp(argv[0], "exit", ft_strlen("exit")) == 0)
 				exit_function(command_table, argv, input);
-			if (argv[1] && ft_strncmp(argv[1], "<<", ft_strlen("<<")) == 0)
-				heredoc(argv, envp);
-			else if (argv[1] && ft_strncmp(argv[1], "<", ft_strlen("<")) == 0)
-				input_redirect(argv, envp);//redirections found, enter this, thisll also trigger execute_path down the line
-			else if(argv[1] && ft_strncmp(argv[1], ">>", ft_strlen(">>")) == 0)
-				output_append(argv, envp);
-			else if(argv[1] && ft_strncmp(argv[1], ">", ft_strlen(">")) == 0)
-				output_redirect(argv, envp);
-			else if(!found)
-				execute_path(argv, envp);
+			int k = 0;
+			while (argv[k])
+			{
+				if (ft_strncmp(argv[k], "|", ft_strlen("|")) == 0)
+					pipenumber++;
+				k++;
+			}
+			if (pipenumber > 0)
+				handle_pipe(argv, k, envp);
+			
+			if (!found)
+				handle_redirect_or_execute(argv, envp);
 		}
 		free_call(argv, input);
 	}
@@ -73,10 +76,24 @@ void	free_call(char **argv, char *input)
 	free(argv);
 }
 
-void exit_function(t_firstcmd *command_table, char **argv, char *input)
+void	exit_function(t_firstcmd *command_table, char **argv, char *input)
 {
 	printf("GOODBYE NYA\n");
 	free(command_table);
 	free_call(argv, input);
 	exit(0);
+}
+
+void	handle_redirect_or_execute(char **argv, char **envp)
+{
+	if (argv[1] && ft_strncmp(argv[1], "<<", ft_strlen("<<")) == 0)
+		heredoc(argv, envp);
+	else if (argv[1] && ft_strncmp(argv[1], "<", ft_strlen("<")) == 0)
+		input_redirect(argv, envp);
+	else if (argv[1] && ft_strncmp(argv[1], ">>", ft_strlen(">>")) == 0)
+		output_append(argv, envp);
+	else if (argv[1] && ft_strncmp(argv[1], ">", ft_strlen(">")) == 0)
+		output_redirect(argv, envp);
+	else
+		execute_path(argv, envp);
 }

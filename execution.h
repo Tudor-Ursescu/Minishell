@@ -1,15 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 16:04:05 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:35:17 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef EXECUTION_H
+# define  EXECUTION_H
 #include "libft/libft.h"
 #include <dirent.h>
 #include <errno.h>
@@ -89,8 +91,14 @@ char					*stitching(char **tokens,
 							const char *cmd);
 void					exit_function(t_firstcmd *command_table, char **argv,
 							char *input);
+void    print_error_toast(void);
 void input_redirect(char **argv, char **envp);
 void output_redirect(char **argv, char **envp);
-void    print_error_toast(void);
 void output_append(char **argv, char **envp);
 void heredoc(char **argv, char **envp);
+void	handle_redirect_or_execute(char **argv, char **envp);
+int	checkheredoc(char *input, char **argv, int temp_fd);
+void	handle_pipe(char **argv, int number_of_pipes, char **envp);
+
+
+#endif

@@ -6,11 +6,11 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 16:45:55 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 void	input_redirect(char **argv, char **envp) //<
 {
@@ -62,12 +62,12 @@ void	output_redirect(char **argv, char **envp) //>
 		}
 	}
 	else if (pid > 0)
-		waitpid(pid, NULL, 0); // Parent waits for child
+		waitpid(pid, NULL, 0);
 	else
 		perror("SPOON");
 }
 
-void	heredoc(char **argv, char **envp) //<<
+void	heredoc(char **argv, char **envp) // <<
 {
 	char *input = NULL;
 	int temp_fd;
@@ -81,17 +81,8 @@ void	heredoc(char **argv, char **envp) //<<
 			perror("get_next_line");
 			break ;
 		}
-		if (ft_strncmp(input, argv[2], strlen(argv[2])) == 0
-			&& (input[strlen(argv[2])] == '\n'
-				|| input[strlen(argv[2])] == '\0'))
-		{
-			free(input);
-			close(temp_fd);
-			argv[1] = NULL;
-			free(argv[2]);
-			argv[2] = "tempfile.txt";
-			break ;
-		}
+		if (checkheredoc(input, argv, temp_fd) == 0)
+			break;
 		write(temp_fd, input, ft_strlen(input));
 		free(input);
 	}
@@ -123,4 +114,20 @@ void	output_append(char **argv, char **envp) // >>
 		waitpid(pid, NULL, 0); // Parent waits for child
 	else
 		perror("SPork");
+}
+
+int	checkheredoc(char *input, char **argv, int temp_fd)
+{
+	if (ft_strncmp(input, argv[2], strlen(argv[2])) == 0
+		&& (input[strlen(argv[2])] == '\n' || input[strlen(argv[2])] == '\0'))
+	{
+		free(input);
+		close(temp_fd);
+		free(argv[1]);
+		free(argv[2]);
+		argv[1] = NULL;
+		argv[2] = "tempfile.txt";
+		return(0);
+	}
+	return (1);
 }

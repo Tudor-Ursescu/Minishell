@@ -6,16 +6,16 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/24 12:26:55 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 t_firstcmd	*init_command_table(void)
 {
 	t_firstcmd	*command_table;
-
+	printf("\033[H\033[J"); // clears terminal
 	command_table = malloc(6 * sizeof(t_firstcmd));
 	if (!command_table)
 	{

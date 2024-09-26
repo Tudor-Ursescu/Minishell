@@ -10,7 +10,7 @@ libft
 Makefile
 minishell
 minishell.c
-minishell.h
+execution.h
 minishell.o
 pathing.c
 pathing.o

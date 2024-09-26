@@ -6,7 +6,7 @@
 #    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/09/25 16:24:40 by ckonneck         ###   ########.fr        #
+#    Updated: 2024/09/26 11:27:38 by ckonneck         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBS = -L$(LIBFT_DIR) -lft
 
 # Source files for minishell
 MINISHELL_SRCS = minishell.c prompt.c echo.c cd.c functions.c functions2.c \
-				pathing.c redirect.c
+				pathing.c redirect.c piping_and_redirect.c
 MINISHELL_OBJS = $(MINISHELL_SRCS:.c=.o)
 
 # 'all' target
