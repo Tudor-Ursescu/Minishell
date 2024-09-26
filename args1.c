@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:40:33 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 11:21:57 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:15:02 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	append_arg(t_args **list, t_args *new)
 	if (*list)
 	{
 		temp = find_last_arg(*list);
-		new = temp->next;
+		temp->next = new;
 		new->next = NULL;//don't know if i need this
 	}
 	else

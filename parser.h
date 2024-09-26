@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/25 15:07:27 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:23:39 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_args	*find_last_arg(t_args *head);
 int 	add_redir(t_args **head, char *line, int i, int *cmd);
 int		add_quote_arg(t_args **list, char *line, int i, char quote);
 int		add_arg(t_args **list, char *line, int i, int *cmd);
-int 	add_pipe(t_args **head, int *i);
+int 	add_pipe(t_args **head, int i);
 int 	parse_args(t_args **list, char *line);
 //UTILS
 int		is_word_char(char c);

@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:30:21 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/25 13:49:26 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:25:07 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int parse_args(t_args **list, char *line)
         if (line[i] == '>' || line[i] == '<')
             i = add_redir(list, line, i, &cmd);
         else if (line[i] == '|')
-            i = add_pipe(list, &i);
+            i = add_pipe(list, i);
         else if (line[i] == '\'' || line[i] == '"')
             i = add_quote_arg(list, line, i , line[i]);
         else
