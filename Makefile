@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/09/26 11:27:38 by ckonneck         ###   ########.fr        #
+#    Created: 2024/09/16 14:56:05 by tursescu          #+#    #+#              #
+#    Updated: 2024/09/26 15:15:56 by ckonneck         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,14 @@ LIBFT_DIR = ./libft
 LIBS = -L$(LIBFT_DIR) -lft
 
 # Source files for minishell
-MINISHELL_SRCS = minishell.c prompt.c echo.c cd.c functions.c functions2.c \
-				pathing.c redirect.c piping_and_redirect.c
-MINISHELL_OBJS = $(MINISHELL_SRCS:.c=.o)
+MINISHELL_SRCSTUDOR = parse_utils.c function_utils.c args1.c parser.c\
+				args2.c env1.c env2.c separate_args.c\
+				main.c 
+MINISHELL_SRCSCHRIS = minishell.c prompt.c echo.c cd.c functions.c functions2.c \
+				pathing.c redirect.c 
+MINISHELL_OBJS = $(MINISHELL_SRCSTUDOR:.c=.o) $(MINISHELL_SRCSCHRIS:.c=.o)
 
+# add this again piping_and_redirect.c
 # 'all' target
 all: $(NAME)
 
@@ -50,9 +54,9 @@ re: fclean all
 
 # valgrind rule
 valgrind: $(NAME)
-		valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGS)
+		valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(ARGS)
 		
-# extra options: --verbose --show-leak-kinds=all --log-file=valgrind-out.txt
+# extra options: --verbose --log-file=valgrind-out.txt
 #norminette rule
 norminette: $(PHILO_SRSC)
 		norminette $(PHILO_SRSC)

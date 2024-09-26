@@ -6,26 +6,51 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:14:23 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-void	execute_path(char **argv, char **envp)
+#include "parser.h"
+void	execute_path(t_args *arg_list, char **envp)
 {
 	char	*path;
 	int		pid;
-
 	pid = 1;
-	path = find_path(argv[0]);//too static, need to change
+	path = find_path(arg_list->value);//too static, need to change
+	char **cmd = NULL;
+    int arg_count = 0;
+
+    // Count the arguments in the linked list
+    t_args *current = arg_list;
+    while (current) {
+        arg_count++;
+        current = current->next;
+    }
+
+    // Allocate memory for cmd array
+    cmd = malloc((arg_count + 1) * sizeof(char *)); // +1 for NULL termination
+    if (!cmd) {
+        perror("Failed to allocate memory for command arguments");
+        return;
+    }
+
+    // Fill cmd array with argument values
+    current = arg_list;
+    for (int i = 0; i < arg_count; i++) {
+        cmd[i] = current->value;
+        current = current->next;
+    }
+    cmd[arg_count] = NULL; // NULL terminate the array
+	printf("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	if (path != NULL)
 	{
 		if (check_fork(&pid))
 			return ;
 		if (pid == 0)
 		{
-			if (execve(path, argv, envp) == -1)
+			printf("%s", path);
+			if (execve(path, cmd, envp) == -1)
 			{
 				perror("execve failed");
 				exit(1);
@@ -39,7 +64,7 @@ void	execute_path(char **argv, char **envp)
 	}
 	else
 	{
-		printf("uwushell: command not found: %s\n", argv[0]);
+		printf("uwushell: command not found: %s\n", arg_list->value);
 		if (pid == 0)
 		{
 			free(path);

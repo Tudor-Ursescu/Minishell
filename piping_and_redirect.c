@@ -6,12 +6,12 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:48:50 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:14:35 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
+#include "parser.h"
 // if pipe = 1, argv 0 pipe to argv 1
 
 void	handle_pipe(char **argv, int number_of_pipes, char **envp) //maybe do recursive...

@@ -6,12 +6,12 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:11:14 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
+#include "parser.h"
 t_firstcmd	*init_command_table(void)
 {
 	t_firstcmd	*command_table;
