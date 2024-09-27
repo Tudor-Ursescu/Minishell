@@ -1,40 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args2.c                                            :+:      :+:    :+:   */
+/*   cmd1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 15:07:28 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/25 16:59:15 by tursescu         ###   ########.fr       */
+/*   Created: 2024/09/27 16:00:39 by tursescu          #+#    #+#             */
+/*   Updated: 2024/09/27 16:38:00 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-
-int	list_len(t_args *head)
-{
-	t_args *temp;
-	size_t i;
-
-	temp = head;
-	i = 0;
-	while (temp != NULL)
-	{
-		temp = temp->next;
-		i++;
-	}
-	return (i);
-}
-
-void print_arg_list(t_args *head)
-{
-	t_args *temp;
-
-	temp = head;
-	while (temp)
-	{
-		printf("Arg:%s, Type:%d\n", temp->value, temp->type);
-		temp = temp->next;
-	}
-}
+#include "parsing.h"
+// the cmdlist should hold multiple nodes based on how many chunks are present in the terminal cmdline
+// the chunks will be determined(separated) by pipes. In every cmd node we have a matrix that holds the 
+// args and a struct that holds the redirections.
+t_cmd	create_cmd_list()

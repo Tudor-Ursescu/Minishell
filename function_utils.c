@@ -6,11 +6,11 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:45:14 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/25 14:35:29 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:18:36 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parsing.h"
 
 char	*ft_strndup(const char *s, int n)
 {
@@ -28,4 +28,22 @@ char	*ft_strndup(const char *s, int n)
 	}
 	copy[i] = '\0';
 	return (copy);
+}
+
+int	ft_strcmp(const char *s1, char const *s2)
+{
+	int				result;
+	unsigned int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+		{
+			result = (unsigned char)s1[i] - (unsigned char)s2[i];
+			return (result);
+		}
+		i++;
+	}
+	return (0);
 }

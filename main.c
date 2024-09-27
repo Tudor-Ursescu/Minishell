@@ -6,15 +6,15 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/25 17:05:02 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parsing.h"
 #include <string.h>
 int main (void)
 {
-    t_args *arg_list;
+    t_token *arg_list;
     char *line;
 
     while (1)

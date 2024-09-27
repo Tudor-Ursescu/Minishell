@@ -6,16 +6,17 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:30:21 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/26 12:25:07 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parsing.h"
 
-int parse_args(t_args **list, char *line)
+int parse_args(t_token **list, char *line)
 {
     int i;
     int cmd;
+    int count;
 
     i = 0;
     cmd = 1;

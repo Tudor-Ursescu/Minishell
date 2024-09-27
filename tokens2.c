@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env2.c                                             :+:      :+:    :+:   */
+/*   tokens2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
+/*   Created: 2024/09/23 15:07:28 by tursescu          #+#    #+#             */
+/*   Updated: 2024/09/27 16:43:56 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_env	*init_env_list(char **envp)
+int	list_len(t_token *head)
 {
-	int		i;
-	t_env	*env_list;
-	t_env	*new;
+	t_token *temp;
+	size_t i;
 
-	env_list = NULL;
+	temp = head;
 	i = 0;
-
-	while (envp[i])
+	while (temp != NULL)
 	{
-		new = create_env(envp[i]);
-		append_env(&env_list, new);
+		temp = temp->next;
 		i++;
 	}
-	return (env_list);
+	return (i);
 }
-void ft_env(char **envp)
+
+bool is_redirection(t_token *token)
 {
-	t_env	*env_list;
-	
-	env_list = init_env_list(envp);
-	print_env_list(env_list);
-	free_env(&env_list);
+	return (token->type == T_IN || token->type == T_OUT ||
+			token->type == T_HEREDOC || token->type == T_APPEND);
 }
+
+bool is_pippe(t_token *token)
+{
+	return (token->type = T_PIPE);
+}
+

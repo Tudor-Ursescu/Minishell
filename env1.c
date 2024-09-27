@@ -6,11 +6,11 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:04:01 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/24 15:27:42 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parsing.h"
 
 t_env   *create_env(char *value)
 {
@@ -48,22 +48,6 @@ void	append_env(t_env **list, t_env *new)
 	{
 		*list = new;
 		(*list)->next = NULL;
-	}
-}
-
-void	free_env(t_env **list)
-{
-	t_env	*temp;
-	t_env	*head;
-
-	head = *list;
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		if (temp->value)
-			free(temp->value);
-		free(temp);
 	}
 }
 

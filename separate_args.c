@@ -6,11 +6,11 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/26 12:23:13 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parsing.h"
 
 int	which_red(char *line, int i)
 {
@@ -31,9 +31,9 @@ int	which_red(char *line, int i)
 	return (0);
 }
 
-int add_redir(t_args **head, char *line, int i, int *cmd)
+int add_redir(t_token **head, char *line, int i, int *cmd)
 {
-	t_args *new;
+	t_token *new;
 	
 	*cmd = 0;
 	if (line[i] == '<')
@@ -41,22 +41,22 @@ int add_redir(t_args **head, char *line, int i, int *cmd)
 		if (line[i + 1] == '<')
 			new = create_arg(T_HEREDOC, "<<");
 		else
-			new = create_arg(T_RED_FROM, "<");
+			new = create_arg(T_IN, "<");
 	}
 	else
 	{
 		if (line[i + 1] == '>')
-			new = create_arg(T_REDIR_APPEND, ">>");
+			new = create_arg(T_APPEND, ">>");
 		else
-			new = create_arg(T_RED_TO, ">");
+			new = create_arg(T_OUT, ">");
 	}
 	append_arg(head, new);
 	return (which_red(line, i));
 }
 
-int add_pipe(t_args **head, int i)
+int add_pipe(t_token **head, int i)
 {
-	t_args	*temp;
+	t_token	*temp;
 	
 	temp = create_arg(T_PIPE, "|");
 	append_arg(head, temp);
@@ -64,9 +64,9 @@ int add_pipe(t_args **head, int i)
 	return (i);
 }
 
-int	add_quote_arg(t_args **list, char *line, int i, char quote)
+int	add_quote_arg(t_token **list, char *line, int i, char quote)
 {
-	t_args	*new;
+	t_token	*new;
 	int		start;
 	char	*sub;
 
@@ -76,7 +76,7 @@ int	add_quote_arg(t_args **list, char *line, int i, char quote)
 	if (line[i] == quote)
 	{
 		sub = ft_substr(line, start, i - start);
-		new = create_arg(T_ARG, sub);
+		new = create_arg(T_WORD, sub);
 		free(sub);
 		append_arg(list, new);
 		i++;//ending quote
@@ -84,9 +84,9 @@ int	add_quote_arg(t_args **list, char *line, int i, char quote)
 	return (i);
 }
 
-int	add_arg(t_args **list, char *line, int i, int *cmd)
+int	add_arg(t_token **list, char *line, int i, int *cmd)
 {
-	t_args	*new;
+	t_token	*new;
 	int		start;
 	char	*sub;
 	start = i;
@@ -95,7 +95,7 @@ int	add_arg(t_args **list, char *line, int i, int *cmd)
 	if (start != i)
 	{
 		sub = ft_substr(line, start, i - start);
-		new = create_arg(T_ARG, sub);
+		new = create_arg(T_WORD, sub);
 		free(sub);
 		append_arg(list, new);
 		*cmd = 0;

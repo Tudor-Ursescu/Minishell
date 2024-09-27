@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args1.c                                            :+:      :+:    :+:   */
+/*   tokens1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:40:33 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/26 12:15:02 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:34:07 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parsing.h"
 
-t_args	*create_arg(t_token_types type, const char *value)
+t_token	*create_token(t_token_types type, const char *value)
 {
-	t_args *new;
+	t_token *new;
 	
-	new = malloc(sizeof(t_args));
+	new = malloc(sizeof(t_token));
 	if (!new)
-		return (NULL);
+		return (NULL); //ERROR needed
 	new->type = type;
 	new->value = ft_strdup(value);
 	new->next = NULL;
 	return (new);
 }
 
-void	prepend_arg(t_args **list, t_args *new)
+void	prepend_token(t_token **list, t_token *new)
 {
 	new->next = *list;
 	*list = new;
 }
 
-t_args	*find_last_arg(t_args *head)
+t_token	*find_last_token(t_token *head)
 {
-	t_args *temp;
+	t_token *temp;
 	
 	temp = head;
 	while (temp->next != NULL)
@@ -41,13 +41,13 @@ t_args	*find_last_arg(t_args *head)
 	return (temp);
 }
 
-void	append_arg(t_args **list, t_args *new)
+void	append_token(t_token **list, t_token *new)
 {
-	t_args *temp;
+	t_token *temp;
 	
 	if (*list)
 	{
-		temp = find_last_arg(*list);
+		temp = find_last_token(*list);
 		temp->next = new;
 		new->next = NULL;//don't know if i need this
 	}
@@ -58,18 +58,14 @@ void	append_arg(t_args **list, t_args *new)
 	}
 }
 
-void free_args(t_args **list)
+void print_token_list(t_token *head)
 {
-	t_args	*temp;
-	t_args	*head;
+	t_token *temp;
 
-	head = *list;
-	while (head)
+	temp = head;
+	while (temp)
 	{
-		temp = head;
-		head = head->next;
-		if (temp->value)
-			free(temp->value);
-		free(temp);
+		printf("Token:%s, Type:%d\n", temp->value, temp->type);
+		temp = temp->next;
 	}
 }
