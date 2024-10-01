@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/30 15:56:56 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:10:56 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ t_token *get_redirectons(t_token *tokens)
     t_token *redirections;
     
     redirections = NULL;
-    while (tokens != NULL && !is_pippe(tokens))
+    while (tokens != NULL && !is_pipe(tokens))
     {
         if (is_redirection(tokens))
-            append_token(redirections, tokens);// to dup probably
+            append_token(&redirections, tokens);// to dup probably
         tokens = tokens->next;
     }
     return (redirections);

@@ -6,7 +6,7 @@
 #    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 14:56:05 by tursescu          #+#    #+#              #
-#    Updated: 2024/10/01 11:53:13 by tursescu         ###   ########.fr        #
+#    Updated: 2024/10/01 15:58:17 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ LIBS = -L$(LIBFT_DIR) -lft
 
 # Source files for minishell
 MINISHELL_SRCS = parse_utils.c function_utils.c tokens1.c\
-				tokens2.c env1.c env2.c separate_args.c\
-				main.c freeing.c cmd1.c cmd2.c debug.c\
-				tokenize.c
+				tokens2.c env1.c env2.c tokenize.c\
+				freeing.c cmd1.c cmd2.c debug.c\
+				main.c
 MINISHELL_OBJS = $(MINISHELL_SRCS:.c=.o)
 
 # 'all' target

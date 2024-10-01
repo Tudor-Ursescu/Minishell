@@ -6,99 +6,84 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/01 12:20:53 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:01:22 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	which_red(char *line, int i)
-{
-    if (line[i] == '>')
-    {
-		if (line[i + 1] == '>')
-			return (i + 2);
-		else
-			return (i + 1);
-    }
-	else if (line[i] == '<')
-	{
-		if (line[i + 1] == '<')
-			return (i + 2);
-		else
-			return (i + 1);
-	}
-	return (0);
-}
-
-int add_redir(t_token **head, char *line, int i, int *cmd)
+int add_operator(t_token **list, char *line, int i)
 {
 	t_token *new;
+    int     op_len;
+    char    *temp;
 	
-	*cmd = 0;
-	if (line[i] == '<')
-	{
-		if (line[i + 1] == '<')
-			new = create_arg(T_HEREDOC, "<<");
-		else
-			new = create_arg(T_IN, "<");
-	}
-	else
-	{
-		if (line[i + 1] == '>')
-			new = create_arg(T_APPEND, ">>");
-		else
-			new = create_arg(T_OUT, ">");
-	}
-	append_arg(head, new);
-	return (which_red(line, i));
-}
-
-int add_pipe(t_token **head, int i)
-{
-	t_token	*temp;
-	
-	temp = create_arg(T_PIPE, "|");
-	append_arg(head, temp);
-	i += 1;
+    op_len = is_operator(&line[i]);
+	if (op_len > 0)
+    {
+        temp = ft_strndup(&line[i], op_len);         //proper alloc so we don't have overwritning
+        new = create_token(set_type(&line[i]), temp);
+        free(temp);
+		append_token(list, new);
+		i += op_len;
+    }
 	return (i);
 }
-
-int	add_quote_arg(t_token **list, char *line, int i, char quote)
+int	add_quote(t_token **list, char *line, int i)
 {
 	t_token	*new;
+	char	quote;
 	int		start;
-	char	*sub;
+	char	*temp;
 
-	start = i + 1; //Skip the opening quote;
+	quote = line[i];
+	start = i++;//skip the beginning quote
 	while (line[i] && line[i] != quote)
 		i++;
 	if (line[i] == quote)
-	{
-		sub = ft_substr(line, start, i - start);
-		new = create_arg(T_WORD, sub);
-		free(sub);
-		append_arg(list, new);
-		i++;//ending quote
-	}
+		i++;//skip the end quote
+	temp = ft_strndup(&line[start], i - start);
+	new = create_token(set_type(&line[start]), temp);
+	free(temp);
+	append_token(list, new);
 	return (i);
 }
 
-int	add_arg(t_token **list, char *line, int i, int *cmd)
+int	add_words(t_token **list, char *line, int i)
 {
 	t_token	*new;
 	int		start;
 	char	*sub;
+	
 	start = i;
-	while (line[i] && is_word_char(line[i]))
+	while (line[i] && is_word(&line[i]))
 		i++;
 	if (start != i)
 	{
 		sub = ft_substr(line, start, i - start);
-		new = create_arg(T_WORD, sub);
+		new = create_token(T_WORD, sub);
 		free(sub);
-		append_arg(list, new);
-		*cmd = 0;
+		append_token(list, new);
 	}
 	return (i);
+}
+
+t_token	*tokenize(char *line)
+{
+	t_token	*tokens;
+	int		i;
+	
+	i = 0;
+	tokens = NULL;
+	while (line[i])
+	{
+		i = skip_whitespace(line, i);
+		if (is_operator(&line[i]))
+			i = add_operator(&tokens, line, i);
+		else if (line[i] == '\'' || line[i] == '"')
+			i = add_quote(&tokens, line, i);
+		else
+			i = add_words(&tokens, line, i);
+	}
+	return(tokens);
 }
