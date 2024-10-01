@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:04:01 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:53:41 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,3 @@ void	append_env(t_env **list, t_env *new)
 	}
 }
 
-void print_env_list(t_env *head)
-{
-    t_env *temp;
-
-    temp = head;
-    while (temp)
-    {
-        printf("%s\n", temp->value);
-        temp = temp->next;
-    }
-}

@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/30 12:17:49 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 #include <string.h>
 int main (void)
 {
-    t_token *arg_list;
-    char *line;
+    // t_token *arg_list;
+    // char *line;
 
-    while (1)
-    {
-		line = readline("minishell> ");
-		printf("%s\n", line);
-		if (line == NULL || strcmp(line, "exit") == 0)
-		{
-			free(line);
-			break;
-		}
-		if(line[0] != '\0')
-			add_history(line);
-		arg_list = NULL;
-		parse_args(&arg_list, line);
-		if (arg_list == NULL)
-			printf("Parsing failed!");
-		else
-			print_arg_list(arg_list);
-		free_args(&arg_list);
-		free(line);
-    }
+    // while (1)
+    // {
+	// 	line = readline("minishell> ");
+	// 	printf("%s\n", line);
+	// 	if (line == NULL || strcmp(line, "exit") == 0)
+	// 	{
+	// 		free(line);
+	// 		break;
+	// 	}
+	// 	if(line[0] != '\0')
+	// 		add_history(line);
+	// 	arg_list = NULL;
+	// 	parse_args(&arg_list, line);
+	// 	if (arg_list == NULL)
+	// 		printf("Parsing failed!");
+	// 	else
+	// 		print_arg_list(arg_list);
+	// 	free_args(&arg_list);
+	// 	free(line);
+    // }
 	return (0);
 }

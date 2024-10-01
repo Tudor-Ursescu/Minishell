@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:07:28 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/27 16:43:56 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:22:23 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	list_len(t_token *head)
 	return (i);
 }
 
-bool is_redirection(t_token *token)
+bool	is_redirection(t_token *token)
 {
 	return (token->type == T_IN || token->type == T_OUT ||
 			token->type == T_HEREDOC || token->type == T_APPEND);
 }
 
-bool is_pippe(t_token *token)
+bool	is_pipe(t_token *token)
 {
 	return (token->type = T_PIPE);
 }

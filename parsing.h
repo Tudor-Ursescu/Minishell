@@ -34,6 +34,7 @@ typedef enum e_token_types
     T_OUT, // >
     T_HEREDOC, // <<
     T_APPEND, // >>
+    T_INVALID, //UNKNOWN
     T_END
 }   t_token_types;
 
@@ -63,25 +64,38 @@ typedef struct s_data
     t_cmd        *cmd;
     t_env        *env;
 }   t_data;
-
-//TOKENS
-int	    list_len(t_token *head);
+//FREE
+void    free_env(t_env **list);
 void    free_tokens(t_token **list);
+void    free_cmds(t_cmd *head);
+void	free_matrix(char **args);
+void    free_all(t_cmd *cmd_list, t_token *token_list);
+//CMD
+t_token *find_next_cmd(t_token *tokens);
+t_token *get_redirectons(t_token *tokens);
+char    **get_args(t_token *tokens);
+size_t  nb_of_args(t_token *tokens);
+void    print_cmd_list(t_cmd *cmd_list);
+t_cmd	*create_cmd_list(t_token *tokens);
+//TOKENS
+t_token_types    set_type(const char *str);
+int	    list_len(t_token *head);
 void    print_token_list(t_token *head);
 t_token	*create_token(t_token_types type, const char *value);
-void	prepend_token(t_token **list, t_token *new);
 void    append_token(t_token **list, t_token *new);
 t_token	*find_last_token(t_token *head);
-int 	add_redir(t_token **head, char *line, int i, int *cmd);
-int		add_quote_arg(t_token **list, char *line, int i, char quote);
-int		add_arg(t_token **list, char *line, int i, int *cmd);
-int 	add_pipe(t_token **head, int i);
-int 	parse_args(t_token **list, char *line);
-bool    is_pippe(t_token *token);
+// int 	add_redir(t_token **head, char *line, int i, int *cmd);
+// int		add_quote_arg(t_token **list, char *line, int i, char quote);
+// int		add_arg(t_token **list, char *line, int i, int *cmd);
+// int 	add_pipe(t_token **head, int i);
+// int 	parse_args(t_token **list, char *line);
+bool    is_pipe(t_token *token);
 bool    is_redirection(t_token *token);
+int     is_operator(const char *s);
 //UTILS
-int		is_word_char(char c);
-int		ft_isspace(char c);
+bool    is_word(const char *s);
+bool    ft_isspace(char c);
+bool    is_quote(char c);
 char	*ft_strndup(const char *c, int n);
 int		skip_whitespace(char *line, int i);
 int     ft_strcmp(const char *s1, char const *s2);
@@ -89,7 +103,6 @@ int     ft_strcmp(const char *s1, char const *s2);
 t_env   *create_env(char *value);
 t_env   *find_last_env(t_env *head);
 void	append_env(t_env **list, t_env *new);
-void	free_env(t_env **list);
 void    print_env_list(t_env *head);
 t_env	*init_env_list(char **envp);
 void    ft_env(char **envp);

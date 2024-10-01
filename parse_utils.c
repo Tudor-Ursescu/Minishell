@@ -6,27 +6,40 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:28:54 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/27 16:04:10 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:01:39 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int is_word_char(char c)
+bool is_word(const char *s)
 {
-    return (ft_isalnum(c) || c == '_' || c == '-');
+    return (!is_quote(s[0]) && s[0] != '$' && !is_operator(s) &&
+            !isspace(s[0]));
 }
 
-int ft_isspace(char c)
+bool ft_isspace(char c)
 {
     return (c == 32 || (c >= 9 && c <= 13));
 }
 
-int skip_whitespace(char *line, int i)
+bool is_quote(char c)
 {
-    while(line[i] && ft_isspace(line[i]))
-        i++;
-    return (i);
+    return (c == '\'' || c == '"');
+}
+
+
+int is_operator(const char *s) // returns the nb of bytes the operator takes
+{
+	if (!s || !s[0])
+		return (0);
+	else if (s[0] == '>' || s[0] == '<' || s[0] == '|')
+		return (1);
+	if ((s[0] == '<' && s[1] && s[1] == '<') ||
+		(s[0] == '>' && s[1] && s[1] == '>'))
+		return (2);
+	else
+		return (0);
 }
 
 t_token_types set_type(const char *str)
@@ -41,8 +54,14 @@ t_token_types set_type(const char *str)
         return (T_OUT);
     else if (str[0] == '<')
         return (T_IN);
-    else if (is_word_char(str[0]))
+    else if (str[0] == '\'')
+        return (T_QUOTE);
+    else if (str[0] == '"')
+        return (T_DQUOTE);
+    else if (is_word(str))
         return (T_WORD);
+    else
+        return (T_INVALID);
 }
 
 //to do (maybe) a function to concat words into a string

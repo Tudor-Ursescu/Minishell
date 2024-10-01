@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:45:14 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/27 16:18:36 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:43:44 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,11 @@ int	ft_strcmp(const char *s1, char const *s2)
 		i++;
 	}
 	return (0);
+}
+
+int skip_whitespace(char *line, int i)
+{
+    while(line[i] && ft_isspace(line[i]))
+        i++;
+    return (i);
 }
