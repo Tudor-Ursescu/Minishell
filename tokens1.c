@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:40:33 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/01 15:42:17 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:08:51 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_token	*create_token(t_token_types type, const char *value)
 	if (!new)
 	{
 		printf("Token allocation errror\n");
-		return (NULL); //ERROR needed
+		return (NULL);
 	}
 	new->type = type;
 	new->value = ft_strdup(value);

@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/01 16:01:22 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:17:40 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int add_operator(t_token **list, char *line, int i)
     op_len = is_operator(&line[i]);
 	if (op_len > 0)
     {
-        temp = ft_strndup(&line[i], op_len);         //proper alloc so we don't have overwritning
+        temp = ft_strndup(&line[i], op_len);
         new = create_token(set_type(&line[i]), temp);
         free(temp);
 		append_token(list, new);

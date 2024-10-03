@@ -6,12 +6,12 @@
 #    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 14:56:05 by tursescu          #+#    #+#              #
-#    Updated: 2024/10/01 15:58:17 by tursescu         ###   ########.fr        #
+#    Updated: 2024/10/03 13:18:54 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CC = cc
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror -I$(LIBFT_DIR)
 LIBFT_DIR = ./libft
 LIBS = -L$(LIBFT_DIR) -lft

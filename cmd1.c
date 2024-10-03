@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/01 16:10:56 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:37:28 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ size_t nb_of_args(t_token *tokens)
     size_t res;
 
     res = 0;
-    while (tokens != NULL && !is_pipe(tokens))
+    while (tokens)
     {
-        if (!is_redirection(tokens))
+        if (!ft_strcmp(tokens->value, "|"))
+            break;
+        if (tokens->type == T_WORD)
             res++;
         tokens = tokens->next;
     }
@@ -39,9 +41,10 @@ char    **get_args(t_token *tokens)
 
     i = 0;
     size = nb_of_args(tokens);
+    
     if (size == 0)
     {
-        printf("Error: ");
+        printf("Error: No arguments found for command.\n");
         return (NULL);
     }
     args = malloc (sizeof(char *) * (size + 1));
@@ -50,12 +53,16 @@ char    **get_args(t_token *tokens)
         printf("Allocation error(args initialisation)\n");
         return (NULL);
     }
-    while (i != size)
+    while (i < size && tokens != NULL && tokens->type != T_PIPE)
     {
-        if (!is_redirection(tokens) && tokens->value != NULL)
-            args[i++] = ft_strdup(tokens->value);
+        if (tokens->type == T_WORD)
+        {
+            args[i] = ft_strdup(tokens->value);
+            i++;
+        }
         tokens = tokens->next;
     }
+    args[i] = NULL;
     return (args);
 }
 
@@ -63,23 +70,33 @@ char    **get_args(t_token *tokens)
 t_token *get_redirectons(t_token *tokens)
 {
     t_token *redirections;
-    
+    t_token *new_redir;
+
+    new_redir = NULL;
     redirections = NULL;
-    while (tokens != NULL && !is_pipe(tokens))
+    while (tokens != NULL)
     {
+        if (is_pipe(tokens))
+            break;
         if (is_redirection(tokens))
-            append_token(&redirections, tokens);// to dup probably
+        {
+            new_redir = create_token(tokens->type, tokens->value);
+            append_token(&redirections, new_redir);
+        }
         tokens = tokens->next;
     }
     return (redirections);
 }
+
 //this function finds the pipe and returns the tokens after the pipe
 t_token *find_next_cmd(t_token *tokens)
 {
-    while(tokens != NULL && !is_pipe(tokens))
-        tokens = tokens->next;
-    if (is_pipe(tokens))
-        tokens = tokens->next;
-    return (tokens);
+    while(tokens != NULL) {
+        if (!is_pipe(tokens))
+            tokens = tokens->next;
+        else
+            return (tokens->next);
+    }
+    return (NULL);
 }
 

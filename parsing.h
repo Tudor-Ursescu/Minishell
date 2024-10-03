@@ -88,13 +88,13 @@ int     add_operator(t_token **list, char *line, int i);
 int	    add_quote(t_token **list, char *line, int i);
 int	    add_words(t_token **list, char *line, int i);
 t_token *tokenize(char *line);
-bool    is_pipe(t_token *token);
-bool    is_redirection(t_token *token);
+int     is_pipe(t_token *token);
+int     is_redirection(t_token *token);
 int     is_operator(const char *s);
 //UTILS
-bool    is_word(const char *s);
-bool    ft_isspace(char c);
-bool    is_quote(char c);
+int     is_word(const char *s);
+int     ft_isspace(char c);
+int     is_quote(char c);
 char	*ft_strndup(const char *c, int n);
 int		skip_whitespace(char *line, int i);
 int     ft_strcmp(const char *s1, char const *s2);

@@ -6,15 +6,18 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/01 16:15:22 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:25:01 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include <string.h>
 
-int main (void)
+
+int main (int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
     t_token *token_list;
 	t_cmd	*cmd_list;
     char *line;
@@ -24,7 +27,11 @@ int main (void)
     while (1)
     {
 		line = readline("minishell> ");
-		printf("%s\n", line);
+		if (strcmp(line, "env") == 0)
+		{
+			ft_env(envp);
+			continue;
+		}
 		if (line == NULL || strcmp(line, "exit") == 0)
 		{
 			free(line);
@@ -39,9 +46,10 @@ int main (void)
 			return (0);
 		}
 		else
+		{
 			print_token_list(token_list);
-		if (token_list)
-			create_cmd_list(token_list);
+			cmd_list = create_cmd_list(token_list);
+		}
 		if (!cmd_list)
 		{
 			printf("Parsing failed!\n");
