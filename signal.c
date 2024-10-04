@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:04:59 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 15:27:55 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:51:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	mini_newline(int signum)
 	write(1, "\n", 1);
 }
 
-void	load_ammo(int signum)
-{
-	(void)signum;
-	g_sig = 1;
-}
+// void	load_ammo(int signum)
+// {
+// 	(void)signum;
+// 	g_sig = 1;
+// }

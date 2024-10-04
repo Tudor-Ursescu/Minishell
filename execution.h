@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 15:34:46 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:51:38 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 
-extern int g_sig;
+// extern int g_sig;
 
 typedef void			(*command_func)(char **argv, char **envp);
 typedef struct t_firstcmd
