@@ -6,25 +6,26 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 10:11:44 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:34:46 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
-# define  EXECUTION_H
-#include "libft/libft.h"
-#include <dirent.h>
-#include <errno.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <signal.h>
+# define EXECUTION_H
+# include "libft/libft.h"
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 
+extern int g_sig;
 
 typedef void			(*command_func)(char **argv, char **envp);
 typedef struct t_firstcmd
@@ -89,21 +90,22 @@ char					*find_path(const char *cmd);
 void					free_tokens(char **tokens);
 void					execute_path(char **argv, char **envp);
 int						check_fork(int *pid);
-char					*stitching(char **tokens,
-							const char *cmd);
+char					*stitching(char **tokens, const char *cmd);
 void					exit_function(t_firstcmd *command_table, char **argv,
 							char *input);
-void    print_error_toast(void);
-void input_redirect(char **argv, char **envp);
-void output_redirect(char **argv, char **envp);
-void output_append(char **argv, char **envp);
-void heredoc(char **argv, char **envp);
-void	handle_redirect_or_execute(char **argv, char **envp);
-int	checkheredoc(char *input, char **argv, int temp_fd);
-void	handle_pipe(char **argv, int number_of_pipes, char **envp);
-void execute_absolute(char *path, char **argv, char **envp);
-void execute_relative(char *path, char **argv, char **envp);
-void setup_signal_handlers(void);
-void handle_sigint(int signum);
-void    mini_newline(int signum);
+void					print_error_toast(void);
+void					input_redirect(char **argv, char **envp);
+void					output_redirect(char **argv, char **envp);
+void					output_append(char **argv, char **envp);
+void					heredoc(char **argv, char **envp);
+void					handle_redirect_or_execute(char **argv, char **envp);
+int						checkheredoc(char *input, char **argv, int temp_fd);
+void					handle_pipe(char **argv, int number_of_pipes,
+							char **envp);
+void					execute_absolute(char *path, char **argv, char **envp);
+void					execute_relative(char *path, char **argv, char **envp);
+void					setup_signal_handlers(void);
+void					handle_sigint(int signum);
+void					mini_newline(int signum);
+void	load_ammo(int signum);
 #endif

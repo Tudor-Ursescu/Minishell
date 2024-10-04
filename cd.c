@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 11:55:55 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:35:56 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void	cd_function(char **argv, char **envp)
 {
 	struct stat	statbuf;
 	(void)envp;
+	char *home_dir;
 
 	if (!argv[1])
 	{
-		if (chdir("/home") != 0)
+		home_dir = getenv("HOME");
+		if (chdir(home_dir) != 0)
 			perror("cd");
 		return ;
 	}

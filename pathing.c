@@ -6,11 +6,12 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 11:25:44 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:50:18 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
 
 void	execute_path(char **argv, char **envp)
 {
@@ -36,21 +37,36 @@ void	execute_path(char **argv, char **envp)
 			return ;
 		if (pid == 0)
 		{
+			// signal(SIGINT, SIG_DFL);
 			if (execve(path, argv, envp) == -1)
 			{
-				perror("uwushell: ");
+				perror("cat_shell: ");
 				exit(1);
 			}
 		}
 		else
 		{
+
 			waitpid(pid, NULL, 0);
-			free(path);
+			// signal(SIGINT, load_ammo);
+			// while(waitpid(pid, NULL, 0))
+			// {
+				// if(g_sig == 1)
+				// {
+				// 	printf("\n");
+				// 	kill(pid, SIGKILL);
+				// 	break;
+				// }
+			// }
+			// g_sig = 0;
+			signal(SIGINT, handle_sigint);
+			 // maybe handle with the child ignoring the signal, and parent
+			free(path);// killing the child when the signal is received. would involve global signal though maybe
 		}
 	}
 	else
 	{
-		printf("uwushell: command not found: %s\n", argv[0]);
+		printf("cat_shell: command not found: %s\n", argv[0]);
 		if (pid == 0)
 		{
 			free(path);
@@ -74,22 +90,18 @@ void execute_absolute(char *path, char **argv, char **envp)
 		{
 			if (execve(path, argv, envp) == -1)
 			{
-				perror("uwushell");
+				perror("cat_shell");
 				exit(1);
 			}
 		}
 		else
-		{
 			waitpid(pid, NULL, 0);
-		}
 	}
 	else
 	{
-		printf("uwushell: command not found: %s\n", argv[0]);
+		printf("cat_shell: command not found: %s\n", argv[0]);
 		if (pid == 0)
-		{
 			exit(1);
-		}
 	}
 }
 
@@ -108,7 +120,7 @@ void execute_relative(char *path, char **argv, char **envp)
 		{
 			if (execve(path, argv, envp) == -1)
 			{
-				perror("uwushell");
+				perror("cat_shell");
 				exit(1);
 			}
 		}
@@ -119,7 +131,7 @@ void execute_relative(char *path, char **argv, char **envp)
 	}
 	else
 	{
-		printf("uwushell: command not found: %s\n", argv[0]);
+		printf("cat_shell: command not found: %s\n", argv[0]);
 		if (pid == 0)
 		{
 			exit(1);
