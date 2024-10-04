@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:48:50 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:49:15 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	handle_pipe(char **argv, int number_of_pipes, char **envp) //maybe do recur
 	int pid;
 
 	if (number_of_pipes == 0)
+	{
 		execute_path(argv, envp);//TUDOR
+		return;
+	}
 	i = 0;
 	if (number_of_pipes > 0)//change this for tudorparse
 		pipe(pipefd);

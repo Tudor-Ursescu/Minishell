@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:35:17 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,13 @@ void	echo2(char **argv, int i)
 		return ;
 	while (argv[i])
 	{
+		while(argv[i+1] && ((ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)))
+			i++;
 		printf("%s", argv[i]);
 		if (argv[i + 1])
 			printf(" ");
-		else if (!argv[i + 1] && (ft_strncmp(argv[1], "-n",
-					ft_strlen(argv[1])) == 0))
-			printf("\033[30;47m%%\033[0m");
 		i++;
 	}
-	printf("\n");
 }
 int	echo3(char **argv, char **envp)
 {
@@ -90,8 +88,6 @@ int	handle_n_flag(char *arg, char **envp)
 			&& (*envp)[ft_strlen(arg + 1)] == '=')
 		{
 			printf("%s", *envp + ft_strlen(arg));
-			printf("\033[30;47m%%\033[0m");
-			printf("\n");
 			return (1);
 		}
 		envp++;

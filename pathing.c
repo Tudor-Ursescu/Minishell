@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:25:44 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,19 @@ void	execute_path(char **argv, char **envp)
 	char	*path;
 	int		pid;
 
+	path = NULL;
 	pid = 1;
-	path = find_path(argv[0]);//too static, need to change
+	if (argv[0][0] == '/')
+	{
+		execute_absolute(path, argv, envp);
+		return ;	
+	}
+	else if (argv[0][0] == '.')
+	{
+		execute_relative(path, argv, envp);
+		return ;
+	}
+	path = find_path(argv[0]);//TDUORPASRE
 	if (path != NULL)
 	{
 		if (check_fork(&pid))
@@ -27,7 +38,7 @@ void	execute_path(char **argv, char **envp)
 		{
 			if (execve(path, argv, envp) == -1)
 			{
-				perror("execve failed");
+				perror("uwushell: ");
 				exit(1);
 			}
 		}
@@ -43,6 +54,74 @@ void	execute_path(char **argv, char **envp)
 		if (pid == 0)
 		{
 			free(path);
+			exit(1);
+		}
+	}
+}
+
+
+void execute_absolute(char *path, char **argv, char **envp)
+{
+	int		pid;
+
+	pid = 1;
+	path = argv[0];
+	if (path != NULL)
+	{
+		if (check_fork(&pid))
+			return ;
+		if (pid == 0)
+		{
+			if (execve(path, argv, envp) == -1)
+			{
+				perror("uwushell");
+				exit(1);
+			}
+		}
+		else
+		{
+			waitpid(pid, NULL, 0);
+		}
+	}
+	else
+	{
+		printf("uwushell: command not found: %s\n", argv[0]);
+		if (pid == 0)
+		{
+			exit(1);
+		}
+	}
+}
+
+
+void execute_relative(char *path, char **argv, char **envp)
+{
+	int		pid;
+
+	pid = 1;
+	path = argv[0];
+	if (path != NULL)
+	{
+		if (check_fork(&pid))
+			return ;
+		if (pid == 0)
+		{
+			if (execve(path, argv, envp) == -1)
+			{
+				perror("uwushell");
+				exit(1);
+			}
+		}
+		else
+		{
+			waitpid(pid, NULL, 0);
+		}
+	}
+	else
+	{
+		printf("uwushell: command not found: %s\n", argv[0]);
+		if (pid == 0)
+		{
 			exit(1);
 		}
 	}

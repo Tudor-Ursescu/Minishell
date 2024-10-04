@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:55:55 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	cd_function(char **argv, char **envp)
 {
 	struct stat	statbuf;
 	(void)envp;
+
 	if (!argv[1])
 	{
 		if (chdir("/home") != 0)
@@ -53,10 +54,21 @@ void	cd_function(char **argv, char **envp)
 
 void	pwd_function(char **argv, char **envp)
 {
-	(void)argv;
-	(void)envp;
 	char	path[1024];
-	
-	getcwd(path, sizeof(path));
-	printf("%s\n", path);
+	int		argc;
+
+	(void)envp;
+	argc = 0;
+	while (argv[argc])
+		argc++;
+	if (argc == 1)
+	{
+		getcwd(path, sizeof(path));
+		printf("%s\n", path);
+	}
+	else
+	{
+		printf("pwd: too many arguments\n");
+		// exit code 1
+	}
 }

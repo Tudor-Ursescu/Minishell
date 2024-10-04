@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:35:17 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 10:11:44 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <signal.h>
+
 
 typedef void			(*command_func)(char **argv, char **envp);
 typedef struct t_firstcmd
@@ -99,6 +101,9 @@ void heredoc(char **argv, char **envp);
 void	handle_redirect_or_execute(char **argv, char **envp);
 int	checkheredoc(char *input, char **argv, int temp_fd);
 void	handle_pipe(char **argv, int number_of_pipes, char **envp);
-
-
+void execute_absolute(char *path, char **argv, char **envp);
+void execute_relative(char *path, char **argv, char **envp);
+void setup_signal_handlers(void);
+void handle_sigint(int signum);
+void    mini_newline(int signum);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:48:29 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	input_redirect(char **argv, char **envp) //<
 		if (execve(path, argv, envp) == -1)
 		{
 			perror("execve failed");
-			exit(1);
+			exit(127);
 		}
 	}
 	else if (pid > 0)
@@ -58,7 +58,7 @@ void	output_redirect(char **argv, char **envp) //>
 		if (execve(path, argv, envp) == -1)
 		{
 			perror("execve failed");
-			exit(1);
+			exit(127);
 		}
 	}
 	else if (pid > 0)
@@ -107,11 +107,11 @@ void	output_append(char **argv, char **envp) // >>
 		if (execve(path, argv, envp) == -1)
 		{
 			perror("execve failed");
-			exit(1);
+			exit(127);
 		}
 	}
 	else if (pid > 0)
-		waitpid(pid, NULL, 0); // Parent waits for child
+		waitpid(pid, NULL, 0);
 	else
 		perror("SPork");
 }

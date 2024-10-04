@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:48 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:54:17 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ char *prompt(void)
     // print_error_toast();
     if (input && *input)
         add_history(input);
+    if (!input)
+    {
+            // This happens when CTRL+D (EOF) is pressed
+            write(1, "dead cat. \n", 11);
+              write(1," /\\_/\\\n", 7);
+                   write(1, "( x.x )\n", 8);
+write(1, " > ^ < \n", 8);// Print exit message
+            exit(0); // Exit the shell
+    }
     return (input);
 }
 
