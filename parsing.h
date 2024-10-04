@@ -26,16 +26,16 @@
 
 typedef enum e_token_types
 {
-    T_WORD,
-    T_QUOTE,
-    T_DQUOTE,
-    T_PIPE,
-    T_IN,  // <
-    T_OUT, // >
-    T_HEREDOC, // <<
-    T_APPEND, // >>
-    T_INVALID, //UNKNOWN
-    T_END
+    T_WORD, // 0
+    T_QUOTE, // 1
+    T_DQUOTE, // 2
+    T_PIPE, // 3 
+    T_IN,  // <  4
+    T_OUT, // >  5 
+    T_HEREDOC, // <<  6 
+    T_APPEND, // >> 7 
+    T_INVALID, //UNKNOWN 8 
+    T_END   // 9
 }   t_token_types;
 
 typedef struct	s_token

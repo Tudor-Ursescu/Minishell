@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:28:54 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/03 15:36:04 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:13:48 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int is_operator(const char *s) // returns the nb of bytes the operator takes
 {
 	if (!s || !s[0])
 		return (0);
+	if ((s[0] == '<' && s[1] == '<') ||
+		(s[0] == '>' && s[1] == '>'))
+		return (2);
 	else if (s[0] == '>' || s[0] == '<' || s[0] == '|')
 		return (1);
-	if ((s[0] == '<' && s[1] && s[1] == '<') ||
-		(s[0] == '>' && s[1] && s[1] == '>'))
-		return (2);
 	else
 		return (0);
 }
@@ -46,13 +46,13 @@ t_token_types set_type(const char *str)
 {
     if (str[0] == '|')
         return (T_PIPE);
-    else if (str[0] == '>' && str[1] &&  str[1] == '>')
+    else if (str[0] == '>' &&  str[1] == '>')
         return (T_APPEND);
-    else if (str[0] == '<' && str[1] && str[1] == '<')
+    else if (str[0] == '<' && str[1] == '<')
         return (T_HEREDOC);
-    else if (str[0] == '>' && !str[1])
+    else if (str[0] == '>')
         return (T_OUT);
-    else if (str[0] == '<' && !str[1])
+    else if (str[0] == '<')
         return (T_IN);
     else if (str[0] == '\'')
         return (T_QUOTE);
