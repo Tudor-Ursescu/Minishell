@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/04 13:26:22 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:13:54 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,13 @@ char    **get_args(t_token *tokens)
             printf("Error: Consecutive pipes!\n");
             return (NULL);
         }
-        printf("Error: No arguments found for command.\n");
-        return (NULL);
+        else
+        {
+            printf("Error: No arguments found for command.\n");
+            return (NULL);
+        }
     }
-    args = malloc (sizeof(char *) * (size + 1));
+    args = malloc((size + 1) * sizeof(char *));
     if (!args)
     {
         printf("Allocation error(args initialisation)\n");

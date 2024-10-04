@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/04 13:44:15 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:53:19 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_token	*tokenize(char *line)
 {
 	t_token	*tokens;
 	int		i;
-	
+
 	i = 0;
 	tokens = NULL;
 	while (line[i])
