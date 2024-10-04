@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/04 12:17:41 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:46:11 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ int main (int argc, char **argv, char **envp)
 		token_list = tokenize(line);
 		if (token_list == NULL)
 		{
+			if (line)
+				continue;
 			printf("Tokenization failed(no line inputted)!\n");
-			return (0);
+			continue;
 		}
 		else
 		{

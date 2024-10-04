@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/03 15:17:40 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:44:15 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int	add_quote(t_token **list, char *line, int i)
 		i++;
 	if (line[i] == quote)
 		i++;//skip the end quote
+	else
+	{
+		printf("Error: Unclosed quotes!\n");
+		return (0);
+	}
 	temp = ft_strndup(&line[start], i - start);
 	new = create_token(set_type(&line[start]), temp);
 	free(temp);
@@ -80,8 +85,18 @@ t_token	*tokenize(char *line)
 		i = skip_whitespace(line, i);
 		if (is_operator(&line[i]))
 			i = add_operator(&tokens, line, i);
-		else if (line[i] == '\'' || line[i] == '"')
+		else if (line[i] == '\'')
+		{
 			i = add_quote(&tokens, line, i);
+			if (i == 0)
+				return (NULL);
+		}
+		else if (line[i] == '"')
+		{
+			i = add_quote(&tokens, line, i);
+			if (i == 0)
+			return (NULL);
+		}
 		else
 			i = add_words(&tokens, line, i);
 	}

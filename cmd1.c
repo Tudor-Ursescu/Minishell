@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/03 15:37:28 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:26:22 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t nb_of_args(t_token *tokens)
     {
         if (!ft_strcmp(tokens->value, "|"))
             break;
-        if (tokens->type == T_WORD)
+        if (!is_operator(tokens->value) && !is_pipe(tokens))
             res++;
         tokens = tokens->next;
     }
@@ -44,6 +44,11 @@ char    **get_args(t_token *tokens)
     
     if (size == 0)
     {
+        if (tokens)
+        {
+            printf("Error: Consecutive pipes!\n");
+            return (NULL);
+        }
         printf("Error: No arguments found for command.\n");
         return (NULL);
     }
@@ -55,7 +60,7 @@ char    **get_args(t_token *tokens)
     }
     while (i < size && tokens != NULL && tokens->type != T_PIPE)
     {
-        if (tokens->type == T_WORD)
+        if (!is_operator(tokens->value) && !is_pipe(tokens))
         {
             args[i] = ft_strdup(tokens->value);
             i++;

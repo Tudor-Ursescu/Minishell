@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 16:00:39 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/03 15:16:03 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:29:46 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ t_cmd	*create_cmd_list(t_token *tokens)
 			last_cmd = curr_cmd;
 		}
 		else
+		{
 			last_cmd->next = curr_cmd;
+			last_cmd = curr_cmd;
+		}
 		curr_tokens = find_next_cmd(curr_tokens);
 	}
 	return (cmd_list);
