@@ -6,7 +6,7 @@
 #    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/10/03 15:10:25 by ckonneck         ###   ########.fr        #
+#    Updated: 2024/10/07 11:26:16 by ckonneck         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,13 @@ LIBFT_DIR = ./libft
 LIBS = -L$(LIBFT_DIR) -lft
 
 # Source files for minishell
-MINISHELL_SRCS = minishell.c prompt.c echo.c cd.c functions.c functions2.c \
+MINISHELL_SRCSTUDOR = parse_utils.c function_utils.c tokens1.c\
+                tokens2.c env1.c env2.c tokenize.c\
+                freeing.c cmd1.c cmd2.c debug.c\
+              
+MINISHELL_SRCSCHRIS = minishell.c prompt.c echo.c cd.c functions.c functions2.c \
 				pathing.c redirect.c piping_and_redirect.c signal.c
-MINISHELL_OBJS = $(MINISHELL_SRCS:.c=.o)
+MINISHELL_OBJS = $(MINISHELL_SRCSTUDOR:.c=.o) $(MINISHELL_SRCSCHRIS:.c=.o)
 
 # 'all' target
 all: $(NAME)

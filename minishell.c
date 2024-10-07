@@ -6,12 +6,12 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 16:48:18 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:22:09 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
+#include "parsing.h"
 // int g_sig = 0;
 
 int	main(int argc, char **argv, char **envp)

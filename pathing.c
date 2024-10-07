@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 15:50:18 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:29:11 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ char	*find_path(const char *cmd)
 	if (!tokens)
 		return (NULL);
 	full_path = stitching(tokens, cmd);
-	free_tokens(tokens);
+	free_tokensexec(tokens);
 	return (full_path);
 }
 
@@ -178,7 +178,7 @@ char	*stitching(char **tokens, const char *cmd)
 	return (NULL);
 }
 
-void	free_tokens(char **tokens)
+void	free_tokensexec(char **tokens)
 {
 	int	i;
 
