@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/04 16:42:17 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:06:40 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int add_operator(t_token **list, char *line, int i)
     char    *temp;
 	
     op_len = is_operator(&line[i]);
+	if (op_len == 3)
+	{
+		printf("Error: Invalid redirection!\n");
+		return (-1);
+	}
 	if (op_len > 0)
     {
         temp = ft_strndup(&line[i], op_len);
@@ -26,9 +31,10 @@ int add_operator(t_token **list, char *line, int i)
         free(temp);
 		append_token(list, new);
 		i += op_len;
-    }
+	}
 	return (i);
 }
+
 int	add_quote(t_token **list, char *line, int i)
 {
 	t_token	*new;
@@ -88,7 +94,11 @@ t_token	*tokenize(char *line)
 	{
 		i = skip_whitespace(line, i);
 		if (is_operator(&line[i]))
+		{
 			i = add_operator(&tokens, line, i);
+			if (i == -1)
+				return (NULL);
+		}
 		else if (line[i] == '\'')
 		{
 			i = add_quote(&tokens, line, i);

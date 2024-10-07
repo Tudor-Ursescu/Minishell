@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:28:54 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/04 12:30:38 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:04:17 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,14 @@ int is_operator(const char *s) // returns the nb of bytes the operator takes
 		return (0);
 	if ((s[0] == '<' && s[1] == '<') ||
 		(s[0] == '>' && s[1] == '>'))
+    {
+         if (s[1] == s[2])
+            return (3);
 		return (2);
-	else if (s[0] == '>' || s[0] == '<' || s[0] == '|')
+    }
+    else if (s[0] == '|')
+        return (1);
+	else if (s[0] == '>' || s[0] == '<')
 		return (1);
 	else
 		return (0);
