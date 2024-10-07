@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/07 11:27:52 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:14:29 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-
+# include "parsing.h"
 // extern int g_sig;
 
 typedef void			(*command_func)(char **argv, char **envp);
@@ -55,7 +55,7 @@ void					set_env_variable(const char *var, const char *value,
 char					**copy_env(char **env);
 char					*find_path(const char *cmd);
 void					free_tokensexec(char **tokens);
-void					execute_path(char **argv, char **envp);
+void	execute_path(t_cmd *cmd_list, char **envp);
 int						check_fork(int *pid);
 char					*stitching(char **tokens, const char *cmd);
 void					exit_function(t_firstcmd *command_table, char **argv,
@@ -65,10 +65,9 @@ void					input_redirect(char **argv, char **envp);
 void					output_redirect(char **argv, char **envp);
 void					output_append(char **argv, char **envp);
 void					heredoc(char **argv, char **envp);
-void					handle_redirect_or_execute(char **argv, char **envp);
+void	handle_redirect_or_execute(t_cmd *cmd_list, char **envp);
 int						checkheredoc(char *input, char **argv, int temp_fd);
-void					handle_pipe(char **argv, int number_of_pipes,
-							char **envp);
+void	handle_pipe(t_cmd *cmd_list, int number_of_pipes, char **envp);
 void					execute_absolute(char *path, char **argv, char **envp);
 void					execute_relative(char *path, char **argv, char **envp);
 void					setup_signal_handlers(void);

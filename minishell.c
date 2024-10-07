@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/07 11:22:09 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:02:39 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,53 +16,93 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*input;
+	(void)argv;
+	t_token *token_list;
+	t_cmd	*cmd_list;
+	cmd_list = NULL;
+	token_list = NULL;
+	char		*line;
 	t_firstcmd	*command_table;
 	int			i;
 	int			found;
 	// g_sig = 0;
 	command_table = init_command_table();
-	input = NULL;
+	line = NULL;
 	setup_signal_handlers();
 	while (1)
 	{
-		input = prompt();
-		argv = ft_split(input, ' ');
-		argc = 0;
-		i = 0;
+		line = prompt();
+
+		if (strcmp(line, "env") == 0)
+		{
+			ft_env(envp);
+			continue;
+		}
+		token_list = tokenize(line);
+		if (token_list == NULL)
+		{
+			if (line)
+			{
+				free(line);
+				continue;
+			}
+			printf("Tokenization failed(no line inputted)!\n");
+			free(line);
+			continue;
+		}
+		else
+		{
+			// print_token_list(token_list); // DISABLED PRINT
+			cmd_list = create_cmd_list(token_list);
+		}
+		if (!cmd_list)
+		{
+			printf("Parsing failed!\n");
+			free(line);
+			free_tokens(&token_list);
+			return (0);
+		}
+		
+		// argv = ft_split(input, ' ');
+		
 		found = 0;
-		int pipenumber = 0;
-		while (argv[argc])
+		// int pipenumber = 0;
+		argc = 0;
+		while (cmd_list->args[argc])
 			argc++;
+		i = 0;
 		if (argc > 0)
 		{
 			while (command_table[i].name != NULL)
 			{
-				if (ft_strncmp(argv[0], command_table[i].name,
+				if (ft_strncmp(cmd_list->args[0], command_table[i].name,
 						ft_strlen(command_table[i].name)) == 0)
 				{
-					command_table[i].func(argv, envp);
+					command_table[i].func(cmd_list->args, envp);
 					found = 1;
 					break ;
 				}
 				i++;
 			}
-			if (ft_strncmp(argv[0], "exit", ft_strlen("exit")) == 0)
-				exit_function(command_table, argv, input);
-			int k = 0;
-			while (argv[k])
-			{
-				if (ft_strncmp(argv[k], "|", ft_strlen("|")) == 0)
-					pipenumber++;
-				k++;
-			}
-			if (pipenumber > 0)
-				handle_pipe(argv, k, envp);
+			if (ft_strncmp(cmd_list->args[0], "exit", ft_strlen("exit")) == 0)
+				exit_function(command_table, cmd_list->args, line);
+			// int k = 0;
+			// while (argv[k])
+			// {
+			// 	if (ft_strncmp(argv[k], "|", ft_strlen("|")) == 0)
+			// 		pipenumber++;
+			// 	k++;
+			// }
+			// if (pipenumber > 0)
+			// 	handle_pipe(argv, k, envp);
 			
 			if (!found)
-				handle_redirect_or_execute(argv, envp);
+				handle_redirect_or_execute(cmd_list, envp);
 		}
-		free_call(argv, input);
+		// print_cmd_list(cmd_list);
+		free_all(cmd_list, token_list);
+		free(line);
+		// free_call(argv, line);
 	}
 }
 
@@ -88,16 +128,31 @@ void	exit_function(t_firstcmd *command_table, char **argv, char *input)
 	exit(0);
 }
 
-void	handle_redirect_or_execute(char **argv, char **envp)
+void	handle_redirect_or_execute(t_cmd *cmd_list, char **envp)
 {
-	if (argv[1] && ft_strncmp(argv[1], "<<", ft_strlen("<<")) == 0)
-		heredoc(argv, envp);
-	else if (argv[1] && ft_strncmp(argv[1], "<", ft_strlen("<")) == 0)
-		input_redirect(argv, envp);
-	else if (argv[1] && ft_strncmp(argv[1], ">>", ft_strlen(">>")) == 0)
-		output_append(argv, envp);
-	else if (argv[1] && ft_strncmp(argv[1], ">", ft_strlen(">")) == 0)
-		output_redirect(argv, envp);
-	else
-		execute_path(argv, envp);
+	if (!cmd_list->redirections)
+	{
+		execute_path(cmd_list, envp);
+		return;
+	}
+	if (cmd_list->redirections->type == T_HEREDOC) // <<
+	{
+		printf("triggered T HEREDOC (<<)\n");
+		heredoc(cmd_list->args, envp);
+	}
+	else if (cmd_list->redirections->type == T_APPEND) // >>
+	{
+		printf("triggered T APPEND (>>)\n");
+		output_append(cmd_list->args, envp);
+	}
+	else if (cmd_list->redirections->type == T_IN) // <
+	{
+		printf("triggered T IN (<)\n");
+		input_redirect(cmd_list->args, envp);
+	}
+	else if (cmd_list->redirections->type == T_OUT) //>
+	{
+		printf("triggered T OUT (>)\n");
+		output_redirect(cmd_list->args, envp);
+	}
 }

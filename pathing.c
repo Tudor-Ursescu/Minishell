@@ -6,31 +6,32 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/07 11:29:11 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:27:34 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "parsing.h"
 
-
-void	execute_path(char **argv, char **envp)
+void	execute_path(t_cmd *cmd_list, char **envp)
 {
 	char	*path;
 	int		pid;
 
 	path = NULL;
 	pid = 1;
-	if (argv[0][0] == '/')
+
+	if (cmd_list->args[0][0] == '/')
 	{
-		execute_absolute(path, argv, envp);
+		execute_absolute(path, cmd_list->args, envp);
 		return ;	
 	}
-	else if (argv[0][0] == '.')
+	else if (cmd_list->args[0][0] == '.')
 	{
-		execute_relative(path, argv, envp);
+		execute_relative(path, cmd_list->args, envp);
 		return ;
 	}
-	path = find_path(argv[0]);//TDUORPASRE
+	path = find_path(cmd_list->args[0]);//TDUORPASRE
 	if (path != NULL)
 	{
 		if (check_fork(&pid))
@@ -38,7 +39,7 @@ void	execute_path(char **argv, char **envp)
 		if (pid == 0)
 		{
 			// signal(SIGINT, SIG_DFL);
-			if (execve(path, argv, envp) == -1)
+			if (execve(path, cmd_list->args, envp) == -1)
 			{
 				perror("cat_shell: ");
 				exit(1);
@@ -66,7 +67,7 @@ void	execute_path(char **argv, char **envp)
 	}
 	else
 	{
-		printf("cat_shell: command not found: %s\n", argv[0]);
+		printf("cat_shell: command not found: %s\n", cmd_list->args[0]);
 		if (pid == 0)
 		{
 			free(path);

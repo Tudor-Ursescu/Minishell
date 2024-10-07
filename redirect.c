@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/03 14:48:29 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:50:32 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	input_redirect(char **argv, char **envp) //<
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(argv[2], O_RDONLY);
+		fd = open(argv[1], O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		argv[1] = NULL;
@@ -50,7 +50,7 @@ void	output_redirect(char **argv, char **envp) //>
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		argv[1] = NULL;
@@ -91,6 +91,20 @@ void	heredoc(char **argv, char **envp) // <<
 	unlink("tempfile.txt");
 }
 
+
+int	checkheredoc(char *input, char **argv, int temp_fd)
+{
+	if (ft_strncmp(input, argv[1], strlen(argv[1])) == 0
+		&& (input[strlen(argv[1])] == '\n' || input[strlen(argv[1])] == '\0'))
+	{
+		free(input);
+		close(temp_fd);
+		free(argv[1]);
+		argv[1] = ft_strdup("tempfile.txt");
+		return(0);
+	}
+	return (1);
+}
 void	output_append(char **argv, char **envp) // >>
 {
 	int fd;
@@ -99,7 +113,7 @@ void	output_append(char **argv, char **envp) // >>
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(argv[2], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(argv[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 		argv[1] = NULL;
@@ -114,20 +128,4 @@ void	output_append(char **argv, char **envp) // >>
 		waitpid(pid, NULL, 0);
 	else
 		perror("SPork");
-}
-
-int	checkheredoc(char *input, char **argv, int temp_fd)
-{
-	if (ft_strncmp(input, argv[2], strlen(argv[2])) == 0
-		&& (input[strlen(argv[2])] == '\n' || input[strlen(argv[2])] == '\0'))
-	{
-		free(input);
-		close(temp_fd);
-		free(argv[1]);
-		free(argv[2]);
-		argv[1] = NULL;
-		argv[2] = "tempfile.txt";
-		return(0);
-	}
-	return (1);
 }
