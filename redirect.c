@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/07 15:56:08 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:16:47 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	output_redirect(char **argv, char **envp) //>
 	else
 		perror("SPOON");
 }
-
+//BIG FYI In terms of shell redirection, the first argument after <, >, or >> is strictly 
+//interpreted as a file. If it is not a file, the shell will either fail or behave unexpectedly.
 void	heredoc(char **argv, char **envp) // <<
 {
 	char *input = NULL;
