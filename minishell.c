@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/07 14:02:39 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:45:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		}
 		
-		// argv = ft_split(input, ' ');
+		
 		
 		found = 0;
-		// int pipenumber = 0;
+		int pipenumber = 0;
 		argc = 0;
 		while (cmd_list->args[argc])
 			argc++;
@@ -86,20 +86,18 @@ int	main(int argc, char **argv, char **envp)
 			}
 			if (ft_strncmp(cmd_list->args[0], "exit", ft_strlen("exit")) == 0)
 				exit_function(command_table, cmd_list->args, line);
-			// int k = 0;
-			// while (argv[k])
-			// {
-			// 	if (ft_strncmp(argv[k], "|", ft_strlen("|")) == 0)
-			// 		pipenumber++;
-			// 	k++;
-			// }
-			// if (pipenumber > 0)
-			// 	handle_pipe(argv, k, envp);
-			
-			if (!found)
+			while (token_list)
+			{
+				if (token_list->type == T_PIPE)
+					pipenumber++;
+				token_list = token_list->next;
+			}
+			if (pipenumber > 0)
+				handle_pipe(cmd_list, pipenumber, envp);
+			else if (!found)
 				handle_redirect_or_execute(cmd_list, envp);
 		}
-		// print_cmd_list(cmd_list);
+		print_cmd_list(cmd_list);
 		free_all(cmd_list, token_list);
 		free(line);
 		// free_call(argv, line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/07 11:06:40 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:00:26 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	add_quote(t_token **list, char *line, int i)
 		printf("Error: Unclosed quotes!\n");
 		return (0);
 	}
-	temp = ft_strndup(&line[start], i - start);
+	temp = ft_strndup(&line[start + 1], i - start - 2);
 	if (!temp)
 		return (0);
 	new = create_token(set_type(&line[start]), temp);
