@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/08 13:16:13 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:42:42 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int main (int argc, char **argv, char **envp)
 					value = ft_strdup(&cmd_list->args[1][i + 1]);
 				}
 				ft_export(&env_list, name, value);
+				free(name);
+				free(value);
 			}
 			else if (ft_strcmp(cmd_list->args[0], "export") == 0 && !cmd_list->args[1])
 			{
