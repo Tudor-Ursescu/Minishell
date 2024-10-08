@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/08 11:17:24 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:23:06 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		token_list = tokenize(line);
-		t_token *temp = token_list;
 		if (token_list == NULL)
 		{
 			if (line)
@@ -88,9 +87,10 @@ int	main(int argc, char **argv, char **envp)
 			{
 				exit_function(command_table, cmd_list->args, line);
 			}
+			t_token *temp = token_list;
 			while (temp)
 			{
-				if (token_list->type == T_PIPE)
+				if (temp->type == T_PIPE)
 					pipenumber++;
 				temp = temp->next;
 			}
