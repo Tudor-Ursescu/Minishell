@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/08 11:04:00 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:08:06 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,8 @@ void				setup_signal_handlers(void);
 void				handle_sigint(int signum);
 void				mini_newline(int signum);
 void				load_ammo(int signum);
+void	child_function(int *pipefd, t_cmd *cmd_list, char **envp);
+void	parent_function(int *pipefd, t_cmd *cmd_list, char **envp, int number_of_pipes);
+void	pipe_function(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout);
+void	pipe_end_function(int saved_stdin, int saved_stdout);
 #endif
