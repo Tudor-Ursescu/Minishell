@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:29:43 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/08 11:55:48 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:00:19 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 void    print_cmd_list(t_cmd *cmd_list)
 {
     int     i;
+    int     j;
     t_token *redirections;
+    
     while (cmd_list)
     {
         i = 1;
+        j = 0;
         redirections = cmd_list->redirections;
         printf("Cmd: [%s]\n", cmd_list->args[0]);
         printf("Args: ");
@@ -30,6 +33,9 @@ void    print_cmd_list(t_cmd *cmd_list)
             printf("Value:[%s]Type:[%d]\t", redirections->value, redirections->type);
             redirections = redirections->next;
         }
+        printf("\nRedir_args: ");
+        while (cmd_list->red_args != NULL && cmd_list->red_args[j] != NULL)
+            printf("[%s]", cmd_list->red_args[j++]);
         printf("\n");
         cmd_list = cmd_list->next;
     }

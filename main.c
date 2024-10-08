@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/08 13:42:42 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:42:28 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int main (int argc, char **argv, char **envp)
 		}
 		else
 		{
-			print_token_list(token_list);
+			// print_token_list(token_list);
 			cmd_list = create_cmd_list(token_list);
 		}
 		if (!cmd_list)
@@ -90,6 +90,7 @@ int main (int argc, char **argv, char **envp)
 			else if (ft_strcmp(cmd_list->args[0], "env") == 0)
 				print_env_list(env_list);
 		}
+		print_cmd_list(cmd_list);
 		free_all(cmd_list, token_list);
 		free(line);
     }
