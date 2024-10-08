@@ -105,5 +105,11 @@ void	append_env(t_env **list, t_env *new);
 void    print_env_list(t_env *head);
 t_env	*init_env_list(char **envp);
 void    ft_env(char **envp);
-
+t_env   *copy_env_list(t_env *env_list);
+void	sort_env_list(t_env *env_list);
+void    print_sorted_env(t_env *env_list);
+void	ft_export(t_env **env_list, char *name, char *value);
+t_env	*find_env_var(t_env *env_list, char *name);
+void	ft_unset(t_env **env_list, char *name);
+char    *ft_getenv(t_env *env_list, char *name);
 #endif

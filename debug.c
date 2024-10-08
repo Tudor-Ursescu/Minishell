@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:29:43 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/04 12:00:49 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:55:48 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ void print_env_list(t_env *head)
     while (temp)
     {
         printf("%s\n", temp->value);
+        temp = temp->next;
+    }
+}
+
+void    print_sorted_env(t_env *env_list)
+{
+    t_env   *temp;
+    temp = env_list;
+    while (temp)
+    {
+        printf("declare -x %s\n", temp->value);
         temp = temp->next;
     }
 }
