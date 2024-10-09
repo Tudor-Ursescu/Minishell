@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/04 15:13:54 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/09 09:57:54 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 size_t nb_of_args(t_token *tokens)
 {
     size_t res;
-
+    size_t red_args;
+    
+    red_args = nb_of_redir(tokens);
     res = 0;
     while (tokens)
     {
@@ -29,7 +31,8 @@ size_t nb_of_args(t_token *tokens)
             res++;
         tokens = tokens->next;
     }
-    return (res);
+    
+    return (res - red_args);
 }
 
 // function that takes the tokens regarded as args, and adds them in the args matrix contained in cmd 
@@ -63,7 +66,9 @@ char    **get_args(t_token *tokens)
     }
     while (i < size && tokens != NULL && tokens->type != T_PIPE)
     {
-        if (!is_operator(tokens->value) && !is_pipe(tokens))
+        if (is_operator(tokens->value))
+            tokens = tokens->next->next;
+        if (tokens && !is_operator(tokens->value) && !is_pipe(tokens))
         {
             args[i] = ft_strdup(tokens->value);
             i++;
