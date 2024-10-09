@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/08 13:09:00 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:21:28 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void	ft_export(t_env **env_list, char *name, char *value)
 	char	*new_value;
 	char	*temp;
 	
+	if (ft_isdigit(name[0]))
+	{
+		printf("Error: Invalid environemnt variable name:%s\n", name);
+		return;
+	}		
 	new_value = ft_strjoin(name, "=");
 	temp = new_value;
 	new_value = ft_strjoin(new_value, value);

@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/08 14:42:28 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:37:27 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int main (int argc, char **argv, char **envp)
 		}
 		if (!cmd_list)
 		{
-			printf("Parsing failed!\n");
 			free(line);
 			free_tokens(&token_list);
 			return (0);

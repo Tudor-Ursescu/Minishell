@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/07 16:00:26 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:49:08 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int add_operator(t_token **list, char *line, int i)
     op_len = is_operator(&line[i]);
 	if (op_len == 3)
 	{
-		printf("Error: Invalid redirection!\n");
+		printf("Syntax error: Invalid multiple redirections.\n");
 		return (-1);
 	}
 	if (op_len > 0)
@@ -50,7 +50,7 @@ int	add_quote(t_token **list, char *line, int i)
 		i++;//skip the end quote
 	else
 	{
-		printf("Error: Unclosed quotes!\n");
+		printf("Error: Unclosed quotes detected.\n");
 		return (0);
 	}
 	temp = ft_strndup(&line[start + 1], i - start - 2);

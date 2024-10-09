@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/09 09:57:54 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:00:13 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char    **get_args(t_token *tokens)
     {
         if (tokens)
         {
-            printf("Error: Consecutive pipes!\n");
+            printf("Syntax error: Pipes not followed by commands.\n");
             return (NULL);
         }
         else
