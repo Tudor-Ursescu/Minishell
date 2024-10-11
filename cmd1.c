@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/09 14:00:13 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:25:44 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_token *get_redirectons(t_token *tokens)
 {
     t_token *redirections;
     t_token *new_redir;
-
+    
     new_redir = NULL;
     redirections = NULL;
     while (tokens != NULL)

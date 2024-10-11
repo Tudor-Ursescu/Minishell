@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/09 14:21:28 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:09:35 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,15 @@ void	ft_export(t_env **env_list, char *name, char *value)
 	{
 		printf("Error: Invalid environemnt variable name:%s\n", name);
 		return;
-	}		
+	}
+	if (value == NULL)
+	{
+		temp = ft_strdup(name);
+		new_var = create_env(temp);
+		free(temp);
+		append_env(env_list, new_var);
+		return;
+	}
 	new_value = ft_strjoin(name, "=");
 	temp = new_value;
 	new_value = ft_strjoin(new_value, value);
@@ -60,6 +68,33 @@ void	ft_export(t_env **env_list, char *name, char *value)
 }
 
 void	ft_unset(t_env **env_list, char *name)
+{
+	t_env	*temp;
+	t_env	*prev;
+	int		len;
+
+	temp = *env_list;
+	prev = NULL;
+	len = ft_strlen(name);
+	while(temp)
+	{
+		if (ft_strncmp(temp->value, name, len) == 0 &&
+			temp->value[len] == '=')
+		{
+			if (prev)
+				prev->next = temp->next;
+			else
+				*env_list = temp->next;
+			free(temp->value);
+			free(temp);
+			return;
+		}
+		prev = temp;
+		temp = temp->next;
+	}
+}
+
+void	delete_env_var(t_env **env_list, char *name)
 {
 	t_env	*temp;
 	t_env	*prev;

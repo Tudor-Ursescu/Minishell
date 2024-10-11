@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:29:43 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/08 15:00:19 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:05:02 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,15 @@ void print_token_list(t_token *head)
 
 void print_env_list(t_env *head)
 {
-    t_env *temp;
+    t_env	*temp;
+    char    *equal_sign_pos;
 
     temp = head;
     while (temp)
     {
-        printf("%s\n", temp->value);
+		equal_sign_pos = ft_strchr(temp->value, '=');
+		if (equal_sign_pos)
+        	printf("%s\n", temp->value);
         temp = temp->next;
     }
 }
@@ -68,10 +71,28 @@ void print_env_list(t_env *head)
 void    print_sorted_env(t_env *env_list)
 {
     t_env   *temp;
+    char    *equal_sign_pos;
+    char    *name;
+    char    *value;
+    
     temp = env_list;
     while (temp)
     {
-        printf("declare -x %s\n", temp->value);
+        equal_sign_pos = ft_strchr(temp->value, '=');
+        if (equal_sign_pos)
+        {
+            name = ft_strndup(temp->value, equal_sign_pos - temp->value);
+            value = ft_strdup(equal_sign_pos + 1);
+            printf("declare -x %s=\"%s\"\n", name,value);
+            free(name);
+            free(value);
+        }
+        else
+        {
+            name = ft_strdup(temp->value);
+            printf("declare -x %s\n", name);
+            free(name);
+        }
         temp = temp->next;
     }
 }

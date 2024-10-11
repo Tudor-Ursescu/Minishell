@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/09 13:49:08 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:25:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int add_operator(t_token **list, char *line, int i)
     {
         temp = ft_strndup(&line[i], op_len);
         new = create_token(set_type(&line[i]), temp);
-        free(temp);
 		append_token(list, new);
+        free(temp);
 		i += op_len;
 	}
 	return (i);
@@ -43,17 +43,17 @@ int	add_quote(t_token **list, char *line, int i)
 	char	*temp;
 
 	quote = line[i];
-	start = i++;//skip the beginning quote
+	start = ++i;
 	while (line[i] && line[i] != quote)
 		i++;
 	if (line[i] == quote)
-		i++;//skip the end quote
+		i++;
 	else
 	{
 		printf("Error: Unclosed quotes detected.\n");
 		return (0);
 	}
-	temp = ft_strndup(&line[start + 1], i - start - 2);
+	temp = ft_strndup(&line[start], i - start - 1);
 	if (!temp)
 		return (0);
 	new = create_token(set_type(&line[start]), temp);
@@ -99,16 +99,7 @@ t_token	*tokenize(char *line)
 			if (i == -1)
 				return (NULL);
 		}
-		else if (line[i] == '\'')
-		{
-			i = add_quote(&tokens, line, i);
-			if (i == 0)
-			{
-				free_tokens(&tokens);
-				return (NULL);
-			}
-		}
-		else if (line[i] == '"')
+		else if (line[i] == '\'' || line[i] == '"')
 		{
 			i = add_quote(&tokens, line, i);
 			if (i == 0)

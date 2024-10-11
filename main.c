@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/09 14:37:27 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:57:43 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int main (int argc, char **argv, char **envp)
 		if(line[0] != '\0')
 			add_history(line);
 		token_list = tokenize(line);
+		print_token_list(token_list);
 		if (token_list == NULL)
 		{
 			if (line)
@@ -71,8 +72,16 @@ int main (int argc, char **argv, char **envp)
 				if (cmd_list->args[1][i] == '=')
 				{
 					name = ft_strndup(cmd_list->args[1], i);
-					value = ft_strdup(&cmd_list->args[1][i + 1]);
+					if (cmd_list->args[2])
+					{
+						value = ft_strdup(cmd_list->args[2]);
+						printf("value = %s\n", value);
+					}
+					else
+						value = ft_strdup(&cmd_list->args[1][i + 1]);
 				}
+				else if (!has_char(cmd_list->args[1], '='))
+					name = ft_strdup(cmd_list->args[1]);
 				ft_export(&env_list, name, value);
 				free(name);
 				free(value);
@@ -81,13 +90,26 @@ int main (int argc, char **argv, char **envp)
 			{
 				t_env	*sorted_list;
 				sorted_list = copy_env_list(env_list);
+				sort_env_list(sorted_list);
 				print_sorted_env(sorted_list);
 				free_env(&sorted_list);
 			}
 			else if (ft_strcmp(cmd_list->args[0], "unset") == 0 && cmd_list->args[1])
 				ft_unset(&env_list, cmd_list->args[1]);
+			else if (ft_strcmp(cmd_list->args[0], "unset") == 0 && !cmd_list->args[1])
+			{
+				printf("Error: No variable name provided.\n");
+				free_all(cmd_list, token_list);
+				free(line);
+				continue;
+			}
 			else if (ft_strcmp(cmd_list->args[0], "env") == 0)
-				print_env_list(env_list);
+			{
+				if (!cmd_list->args[1])
+					print_env_list(env_list);
+				else
+					printf("\'%s\': No such file or directory\n", cmd_list->args[1]);
+			}
 		}
 		print_cmd_list(cmd_list);
 		free_all(cmd_list, token_list);

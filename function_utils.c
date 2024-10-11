@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:45:14 by tursescu          #+#    #+#             */
-/*   Updated: 2024/09/30 11:43:44 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:59:06 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,38 @@ int skip_whitespace(char *line, int i)
     while(line[i] && ft_isspace(line[i]))
         i++;
     return (i);
+}
+
+void	remove_quotes(char ** value)
+{
+	size_t	len;
+	char	*temp;
+
+	if (!value || !*value)
+		return;
+	len = ft_strlen(*value);
+	if ((*value[0] == '"' && (*value)[len - 1] == '"') ||
+		(*value [0] == '\'' && (*value)[len - 1] == '\''))
+	{
+		temp = ft_strndup((*value) + 1, len - 2);
+		if (temp)
+		{
+			free(*value);
+			*value = temp;
+		}
+	}
+}
+
+int	has_char(const char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
