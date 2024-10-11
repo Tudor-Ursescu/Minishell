@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/08 10:59:10 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:54:44 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 	path = find_path(cmd_list->args[0]);//TDUORPASRE
 	if (path != NULL)
 	{
-		if (check_fork(&pid))
-			return ;
+		pid = fork();
 		if (pid == 0)
 		{
 			// signal(SIGINT, SIG_DFL);
@@ -85,8 +84,7 @@ void execute_absolute(char *path, char **argv, char **envp)
 	path = argv[0];
 	if (path != NULL)
 	{
-		if (check_fork(&pid))
-			return ;
+		pid = fork();
 		if (pid == 0)
 		{
 			if (execve(path, argv, envp) == -1)
@@ -115,8 +113,7 @@ void execute_relative(char *path, char **argv, char **envp)
 	path = argv[0];
 	if (path != NULL)
 	{
-		if (check_fork(&pid))
-			return ;
+		pid = fork();
 		if (pid == 0)
 		{
 			if (execve(path, argv, envp) == -1)

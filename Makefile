@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
+#    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/10/10 13:24:15 by tursescu         ###   ########.fr        #
+#    Updated: 2024/10/11 15:44:34 by ckonneck         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ MINISHELL_SRCSTUDOR = parse_utils.c function_utils.c tokens1.c\
                 freeing.c cmd1.c cmd2.c debug.c main.c\
               
 MINISHELL_SRCSCHRIS = minishell.c prompt.c echo.c cd.c functions.c functions2.c \
-				pathing.c redirect.c piping_and_redirect.c signal.c
+				pathing.c redirect.c piping_and_redirect.c signal.c \
+				handle_redirect.c
 MINISHELL_OBJS = $(MINISHELL_SRCSTUDOR:.c=.o) $(MINISHELL_SRCSCHRIS:.c=.o)
 
 # 'all' target

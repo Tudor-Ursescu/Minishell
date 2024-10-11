@@ -6,13 +6,13 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/07 17:16:47 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:35:57 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	input_redirect(char **argv, char **envp) //<
+void	input_redirect(char **argv, char **envp, char *red_args) //<
 {
 	// we go by the assumption that by the time this function is called,
 	// it has been determined that there is a < in the arguments,
@@ -25,10 +25,9 @@ void	input_redirect(char **argv, char **envp) //<
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(argv[1], O_RDONLY);
+		fd = open(red_args, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-		argv[1] = NULL;
 		path = find_path(argv[0]);
 		if (execve(path, argv, envp) == -1)
 		{
@@ -42,7 +41,7 @@ void	input_redirect(char **argv, char **envp) //<
 		perror("fork");
 }
 
-void	output_redirect(char **argv, char **envp) //>
+void	output_redirect(char **argv, char **envp, char *red_args) //>
 {
 	int fd;
 	int pid;
@@ -50,10 +49,9 @@ void	output_redirect(char **argv, char **envp) //>
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(red_args, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		argv[1] = NULL;
 		path = find_path(argv[0]);
 		if (execve(path, argv, envp) == -1)
 		{
@@ -68,45 +66,50 @@ void	output_redirect(char **argv, char **envp) //>
 }
 //BIG FYI In terms of shell redirection, the first argument after <, >, or >> is strictly 
 //interpreted as a file. If it is not a file, the shell will either fail or behave unexpectedly.
-void	heredoc(char **argv, char **envp) // <<
+void	heredoc(char **argv, char **envp, char *red_args) // <<
 {
 	char *input = NULL;
 	int temp_fd;
-
+	(void)argv;
+	(void)envp;
 	temp_fd = open("tempfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
-		input = get_next_line(STDIN_FILENO);
+		input = readline(">");
+		
+		// printf("input: %s", input);
 		if (!input)
 		{
-			perror("get_next_line");
-			break ;
+			perror("somethignnotgood\n");
+			close(temp_fd);
+			return ;
 		}
-		if (checkheredoc(input, argv, temp_fd) == 0)
+		if (checkheredoc(input, temp_fd, red_args) == 0)
+		{
 			break;
+		}
 		write(temp_fd, input, ft_strlen(input));
+		write(temp_fd, "\n", 1);
 		free(input);
 	}
 	close(temp_fd);
-	input_redirect(argv, envp);
-	unlink("tempfile.txt");
+	// unlink("tempfile.txt"); // need to ahndle this somewhere
 }
 
 
-int	checkheredoc(char *input, char **argv, int temp_fd)
+int	checkheredoc(char *input, int temp_fd, char *red_args)
 {
-	if (ft_strncmp(input, argv[1], strlen(argv[1])) == 0
-		&& (input[strlen(argv[1])] == '\n' || input[strlen(argv[1])] == '\0'))
+
+	if (ft_strncmp(input, red_args, strlen(red_args)) == 0
+		&& (input[ft_strlen(red_args)] == '\n' || input[ft_strlen(red_args)] == '\0'))
 	{
 		free(input);
 		close(temp_fd);
-		free(argv[1]);
-		argv[1] = ft_strdup("tempfile.txt");
 		return(0);
 	}
 	return (1);
 }
-void	output_append(char **argv, char **envp) // >>
+void	output_append(char **argv, char **envp, char *red_args) // >>
 {
 	int fd;
 	int pid;
@@ -114,10 +117,10 @@ void	output_append(char **argv, char **envp) // >>
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(argv[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		printf("red_args[0]%s\n", red_args);
+		fd = open(red_args, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		argv[1] = NULL;
 		path = find_path(argv[0]);
 		if (execve(path, argv, envp) == -1)
 		{

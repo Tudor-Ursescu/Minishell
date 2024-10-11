@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/08 12:08:06 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:43:53 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 // extern int g_sig;
 
 typedef void		(*command_func)(char **argv, char **envp);
@@ -59,12 +59,12 @@ int					check_fork(int *pid);
 char				*stitching(char **tokens, const char *cmd);
 void    exit_function(t_firstcmd *command_table, char **argv, char *input);
 void				print_error_toast(void);
-void				input_redirect(char **argv, char **envp);
-void				output_redirect(char **argv, char **envp);
-void				output_append(char **argv, char **envp);
-void				heredoc(char **argv, char **envp);
+void				input_redirect(char **argv, char **envp, char *red_args);
+void				output_redirect(char **argv, char **envp, char *red_args);
+void				output_append(char **argv, char **envp, char *red_args);
+void				heredoc(char **argv, char **envp, char *red_args);
 void				handle_redirect_or_execute(t_cmd *cmd_list, char **envp);
-int					checkheredoc(char *input, char **argv, int temp_fd);
+int					checkheredoc(char *input, int temp_fd, char *red_args);
 void				handle_pipe(t_cmd *cmd_list, int number_of_pipes,
 						char **envp);
 void				execute_absolute(char *path, char **argv, char **envp);
@@ -75,6 +75,7 @@ void				mini_newline(int signum);
 void				load_ammo(int signum);
 void	child_function(int *pipefd, t_cmd *cmd_list, char **envp);
 void	parent_function(int *pipefd, t_cmd *cmd_list, char **envp, int number_of_pipes);
-void	pipe_function(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout);
+void	last_pipe(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout);
 void	pipe_end_function(int saved_stdin, int saved_stdout);
+void handle_redirect(t_cmd *cmd_list, char **envp);
 #endif

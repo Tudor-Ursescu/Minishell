@@ -6,12 +6,12 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:48:50 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/08 12:07:54 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:56:15 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
+#include "parsing.h"
 void	handle_pipe(t_cmd *cmd_list, int number_of_pipes, char **envp)
 {
 	int pipefd[2];
@@ -21,9 +21,11 @@ void	handle_pipe(t_cmd *cmd_list, int number_of_pipes, char **envp)
 	int saved_stdout;
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
+	// handle_redirect_or_execute(cmd_list, envp);
 	if (number_of_pipes == 0)
 	{
-		pipe_function(cmd_list, envp, saved_stdin, saved_stdout);
+		// last_pipe(cmd_list, envp, saved_stdin, saved_stdout);
+		// execute_path(cmd_list, envp);
 		return;
 	}
 	i = 0;
@@ -41,12 +43,13 @@ void	handle_pipe(t_cmd *cmd_list, int number_of_pipes, char **envp)
 }
 
 
-void	child_function(int *pipefd, t_cmd *cmd_list, char **envp)
+void	child_function(int *pipefd, t_cmd *cmd_list, char **envp)// need to handle this better, if i handle shit first i forgor the pipes, if last my output gets eaten
 {
 	close(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
-	execute_path(cmd_list, envp);
+	handle_redirect_or_execute(cmd_list, envp);
+	// execute_path(cmd_list, envp);
 	exit(0);
 }
 
@@ -56,10 +59,12 @@ void	parent_function(int *pipefd, t_cmd *cmd_list, char **envp, int number_of_pi
     dup2(pipefd[0], STDIN_FILENO);
     close(pipefd[0]);
 	printf("WE GOING DOWN BOIS\n");
+	// handle_redirect_or_execute(cmd_list, envp);
     handle_pipe(cmd_list->next, number_of_pipes - 1, envp);
 }
-void	pipe_function(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout)
+void	last_pipe(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout)
 {
+	// execute_path(cmd_list, envp);
 	handle_redirect_or_execute(cmd_list, envp);
 	dup2(saved_stdin, STDIN_FILENO);   
 	dup2(saved_stdout, STDOUT_FILENO);
