@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/11 15:43:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:56:25 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,17 @@ void				output_append(char **argv, char **envp, char *red_args);
 void				heredoc(char **argv, char **envp, char *red_args);
 void				handle_redirect_or_execute(t_cmd *cmd_list, char **envp);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
-void				handle_pipe(t_cmd *cmd_list, int number_of_pipes,
-						char **envp);
+void				handle_pipe(t_cmd *cmd_list, int numer_of_pipes, char **envp, int prev_fd, int prev_pid);
 void				execute_absolute(char *path, char **argv, char **envp);
 void				execute_relative(char *path, char **argv, char **envp);
 void				setup_signal_handlers(void);
 void				handle_sigint(int signum);
 void				mini_newline(int signum);
 void				load_ammo(int signum);
-void	child_function(int *pipefd, t_cmd *cmd_list, char **envp);
-void	parent_function(int *pipefd, t_cmd *cmd_list, char **envp, int number_of_pipes);
+void	child_function(int *pipefd, t_cmd *cmd_list, char **envp, int prev_fd);
+void	parent_function(int *pipefd, t_cmd *cmd_list, int *prev_fd);
 void	last_pipe(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout);
 void	pipe_end_function(int saved_stdin, int saved_stdout);
-void handle_redirect(t_cmd *cmd_list, char **envp);
+void restore_fds(int saved_stdin, int saved_stdout);
+void	check_next(int pipefd[2], t_cmd *cmd_list);
 #endif

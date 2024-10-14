@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/11 16:11:57 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:55:52 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	main(int argc, char **argv, char **envp)
 		
 		found = 0;
 		int pipenumber = 0;
+		// int i = 0;
 		argc = 0;
 		while (cmd_list->args[argc])
 			argc++;
@@ -94,7 +95,10 @@ int	main(int argc, char **argv, char **envp)
 			}
 			free(temp);
 			if (pipenumber > 0)
-				handle_pipe(cmd_list, pipenumber, envp);
+			{
+				handle_pipe(cmd_list, pipenumber, envp, -1, -1);
+				// printf("i've returned\n");
+			}
 			else if (!found)
 				handle_redirect_or_execute(cmd_list, envp);
 		}
@@ -202,10 +206,10 @@ void handle_redirect_or_execute(t_cmd *cmd_list, char **envp)
 
         cmd_list->redirections = cmd_list->redirections->next;
     	i++;
-		
+	
 	}
-
     // Now execute the command after all redirections have been set up
+	// printf("EXECUTING\n");
     execute_path(cmd_list, envp);
 	restore_fds(saved_stdin, saved_stdout);
 	free_tokens(&temp);
