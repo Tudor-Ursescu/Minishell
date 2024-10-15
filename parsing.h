@@ -33,9 +33,7 @@ typedef enum e_token_types
     T_IN,  // <  4
     T_OUT, // >  5 
     T_HEREDOC, // <<  6 
-    T_APPEND, // >> 7 
-    T_INVALID, //UNKNOWN 8 
-    T_END   // 9
+    T_APPEND // >> 7 
 }   t_token_types;
 
 typedef struct	s_token
