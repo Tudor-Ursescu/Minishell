@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/15 13:56:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:57:12 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@
 void	heredoc(char **argv, char **envp, char *red_args) // <<
 {
 	char *input = NULL;
-	int temp_fd;
+	int temp_fd= 0;
 	(void)argv;
 	(void)envp;
+	int saved_stdin = dup(STDIN_FILENO);
+	int saved_stdout = dup(STDOUT_FILENO);
+	dup2(temp_fd, 1);
 	temp_fd = open("tempfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
@@ -32,14 +35,15 @@ void	heredoc(char **argv, char **envp, char *red_args) // <<
 			return ;
 		}
 		if (checkheredoc(input, temp_fd, red_args) == 0)
-		{
+		{	
+			restore_fds(saved_stdin, saved_stdout);
 			break;
 		}
 		write(temp_fd, input, ft_strlen(input));
 		write(temp_fd, "\n", 1);
 		free(input);
 	}
-	// close(temp_fd);
+	close(temp_fd);
 	// unlink("tempfile.txt"); // need to ahndle this somewhere
 }
 
