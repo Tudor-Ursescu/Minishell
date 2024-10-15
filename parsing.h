@@ -42,6 +42,7 @@ typedef struct	s_token
 {
     t_token_types	type;
     char		    *value;
+    int             append;
     struct s_token  *next;
 }					t_token;
 
@@ -101,6 +102,7 @@ int     is_quote(char c);
 char	*ft_strndup(const char *c, int n);
 int		skip_whitespace(char *line, int i);
 int     ft_strcmp(const char *s1, char const *s2);
+int     has_char(const char *str, int c);
 //ENV
 t_env   *create_env(char *value);
 t_env   *find_last_env(t_env *head);
