@@ -47,7 +47,7 @@ typedef struct	s_token
 typedef struct	s_cmd
 {
 	char		    **args;
-    char            **red_args;
+    // char            **red_args;
     struct s_token  *redirections;      
     struct s_cmd    *next;
 }				t_cmd;
@@ -75,10 +75,8 @@ t_token *find_next_cmd(t_token *tokens);
 t_token *get_redirectons(t_token *tokens);
 char    **get_args(t_token *tokens);
 size_t  nb_of_args(t_token *tokens);
-size_t	nb_of_redir(t_token	*tokens);
 void    print_cmd_list(t_cmd *cmd_list);
 t_cmd	*create_cmd_list(t_token *tokens);
-char	**get_red_args(t_token *tokens);
 //TOKENS
 t_token_types    set_type(const char *str);
 int	    list_len(t_token *head);

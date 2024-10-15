@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:33:35 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/09 09:20:32 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:54:08 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void free_cmds(t_cmd *list)
     {
         free_tokens(&list->redirections);
         free_matrix(list->args);
-		if (list->red_args)
-			free_matrix(list->red_args);
         temp = list->next;
         free(list);
         list = temp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 13:16:20 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:52:32 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,24 @@
 size_t nb_of_args(t_token *tokens)
 {
     size_t res;
-    size_t red_args;
+    int     was_red;
     
-    red_args = nb_of_redir(tokens);
+    was_red = 0;
     res = 0;
     while (tokens)
     {
         if (is_pipe(tokens))
             break;
-        if (!is_redirection(tokens) && !is_pipe(tokens))
+        if (is_redirection(tokens))
+            was_red = 1;
+        else if (!is_redirection(tokens) && !is_pipe(tokens) && !was_red)
             res++;
+        if (was_red && !is_redirection(tokens))
+            was_red = 0;
         tokens = tokens->next;
     }
     
-    return (res - red_args);
+    return (res);
 }
 
 // function that takes the tokens regarded as args, and adds them in the args matrix contained in cmd 
@@ -90,9 +94,9 @@ t_token *get_redirectons(t_token *tokens)
     {
         if (is_pipe(tokens))
             break;
-        if (is_redirection(tokens))
+        if (is_redirection(tokens) && tokens->next)
         {
-            new_redir = create_token(tokens->type, tokens->value);
+            new_redir = create_token(tokens->type, tokens->next->value);
             append_token(&redirections, new_redir);
         }
         tokens = tokens->next;
