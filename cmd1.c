@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 13:03:03 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:16:20 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char    **get_args(t_token *tokens)
 
     i = 0;
     size = nb_of_args(tokens);
-    printf("size = %zu\n", size);
     if (size == 0)
     {
         if (tokens)
