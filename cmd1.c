@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:36:56 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 11:05:06 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:25:44 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ size_t nb_of_args(t_token *tokens)
     res = 0;
     while (tokens)
     {
-        if (is_pipe(tokens))
+        if (!ft_strcmp(tokens->value, "|"))
             break;
-        if (!is_both(tokens))//here the value will change
+        if (!is_operator(tokens->value) && !is_pipe(tokens))
             res++;
         tokens = tokens->next;
     }
@@ -44,7 +44,7 @@ char    **get_args(t_token *tokens)
 
     i = 0;
     size = nb_of_args(tokens);
-    printf("size = %zu\n", size);
+    
     if (size == 0)
     {
         if (tokens)
@@ -66,9 +66,9 @@ char    **get_args(t_token *tokens)
     }
     while (i < size && tokens != NULL && tokens->type != T_PIPE)
     {
-        if (is_redirection(tokens))
+        if (is_operator(tokens->value))
             tokens = tokens->next->next;
-        if (tokens && !is_redirection(tokens) && !is_pipe(tokens))
+        if (tokens && !is_operator(tokens->value) && !is_pipe(tokens))
         {
             args[i] = ft_strdup(tokens->value);
             i++;

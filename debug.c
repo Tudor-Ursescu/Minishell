@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:29:43 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 10:14:46 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:05:02 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void print_token_list(t_token *head)
 	temp = head;
 	while (temp)
 	{
-		printf("Token:%s, Type:%d, Append:%d\n", temp->value, temp->type, temp->append);
+		printf("Token:%s, Type:%d\n", temp->value, temp->type);
 		temp = temp->next;
 	}
 }

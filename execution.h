@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/14 13:56:25 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:15:30 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void				free_tokensexec(char **tokens);
 void				execute_path(t_cmd *cmd_list, char **envp);
 int					check_fork(int *pid);
 char				*stitching(char **tokens, const char *cmd);
-void    exit_function(t_firstcmd *command_table, char **argv, char *input);
+void    			exit_function(char **argv, char *input);
 void				print_error_toast(void);
 void				input_redirect(char **argv, char **envp, char *red_args);
 void				output_redirect(char **argv, char **envp, char *red_args);
@@ -78,4 +78,5 @@ void	last_pipe(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout);
 void	pipe_end_function(int saved_stdin, int saved_stdout);
 void restore_fds(int saved_stdin, int saved_stdout);
 void	check_next(int pipefd[2], t_cmd *cmd_list);
+int		checkforbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list, int *found);
 #endif

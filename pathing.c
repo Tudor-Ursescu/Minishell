@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/11 11:54:44 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:10:58 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 
 	path = NULL;
 	pid = 1;
-
+	t_firstcmd	*command_table;
+	command_table = init_command_table();
+	int found = 0;
+	
 	if (cmd_list->args[0][0] == '/')
 	{
 		execute_absolute(path, cmd_list->args, envp);
@@ -37,6 +40,11 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
+			if(checkforbuiltin(envp, command_table, cmd_list, &found) == 1)
+			{
+				free(command_table);
+				exit(0);
+			}
 			// signal(SIGINT, SIG_DFL);
 			if (execve(path, cmd_list->args, envp) == -1)
 			{
@@ -73,6 +81,7 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 			exit(1);
 		}
 	}
+	free(command_table);
 }
 
 

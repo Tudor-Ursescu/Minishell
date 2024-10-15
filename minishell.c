@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/14 15:55:52 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:33:24 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	main(int argc, char **argv, char **envp)
 	cmd_list = NULL;
 	token_list = NULL;
 	char		*line;
-	t_firstcmd	*command_table;
+
 	int			found;
 	// g_sig = 0;
-	command_table = init_command_table();
+	printf("\033[H\033[J");
 	line = NULL;
 	setup_signal_handlers();
 	while (1)
@@ -71,20 +71,10 @@ int	main(int argc, char **argv, char **envp)
 			argc++;
 		if (argc > 0)
 		{
-			// while (command_table[i].name != NULL)
-			// {
-			// 	if (ft_strncmp(cmd_list->args[0], command_table[i].name,
-			// 			ft_strlen(command_table[i].name)) == 0)
-			// 	{
-			// 		command_table[i].func(cmd_list->args, envp);
-			// 		found = 1;
-			// 		break ;
-			// 	}
-			// 	i++;
-			// }
+			
 			if (ft_strncmp(line, "exit", ft_strlen("exit")) == 0)
 			{
-				exit_function(command_table, cmd_list->args, line);
+				exit_function(cmd_list->args, line);
 			}
 			t_token *temp = token_list;
 			while (temp)
@@ -123,10 +113,9 @@ void    free_call(char **argv, char *input)
     }
     free(argv);
 }
-void    exit_function(t_firstcmd *command_table, char **argv, char *input)
+void    exit_function(char **argv, char *input)
 {
     printf("GOODBYE NYA\n");
-    free(command_table);
     free_call(argv, input);
     exit(0);
 }

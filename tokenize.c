@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 10:23:04 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:25:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int	add_quote(t_token **list, char *line, int i)
 	new = create_token(set_type(&line[start]), temp);
 	if (!new)
 		return (0);
-	if (!ft_isspace(line[i]) && !is_operator(line + i))
-			new->append = 1;
 	free(temp);
 	append_token(list, new);
 	return (i);
@@ -80,8 +78,6 @@ int	add_words(t_token **list, char *line, int i)
 		sub = ft_substr(line, start, i - start);
 		new = create_token(T_WORD, sub);
 		free(sub);
-		if (!ft_isspace(line[i]) && !is_operator(line + i))
-			new->append = 1;
 		append_token(list, new);
 	}
 	return (i);

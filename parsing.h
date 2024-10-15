@@ -33,14 +33,15 @@ typedef enum e_token_types
     T_IN,  // <  4
     T_OUT, // >  5 
     T_HEREDOC, // <<  6 
-    T_APPEND // >> 7 
+    T_APPEND, // >> 7 
+    T_INVALID, //UNKNOWN 8 
+    T_END   // 9
 }   t_token_types;
 
 typedef struct	s_token
 {
     t_token_types	type;
     char		    *value;
-    int             append;
     struct s_token  *next;
 }					t_token;
 
@@ -93,7 +94,6 @@ t_token *tokenize(char *line);
 int     is_pipe(t_token *token);
 int     is_redirection(t_token *token);
 int     is_operator(const char *s);
-int     is_both(t_token *token);
 //UTILS
 int     is_word(const char *s);
 int     ft_isspace(char c);
@@ -101,7 +101,6 @@ int     is_quote(char c);
 char	*ft_strndup(const char *c, int n);
 int		skip_whitespace(char *line, int i);
 int     ft_strcmp(const char *s1, char const *s2);
-int	    has_char(const char *str, int c);
 //ENV
 t_env   *create_env(char *value);
 t_env   *find_last_env(t_env *head);

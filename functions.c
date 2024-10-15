@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/26 13:33:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:13:20 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_firstcmd	*init_command_table(void)
 {
 	t_firstcmd	*command_table;
-	printf("\033[H\033[J"); // clears terminal
+	// printf("\033[H\033[J"); // clears terminal
 	command_table = malloc(6 * sizeof(t_firstcmd));
 	if (!command_table)
 	{
@@ -43,3 +43,22 @@ void env_function(char **argv, char **envp)
 }
 
 
+int checkforbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list, int *found)
+{
+	int i;
+	
+	i = 0;
+	while (command_table[i].name != NULL)
+	{
+		if (ft_strncmp(cmd_list->args[0], command_table[i].name,
+				ft_strlen(command_table[i].name)) == 0)
+		{
+			command_table[i].func(cmd_list->args, envp);
+			*found = 1;
+			return(1) ;
+		}
+		i++;
+	}
+	return(0);
+	
+}
