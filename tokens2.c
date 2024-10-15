@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:07:28 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/03 12:38:51 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:44:05 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,7 @@ int	is_pipe(t_token *token)
 	return (token->type == T_PIPE);
 }
 
+int is_both(t_token *token)
+{
+	return (is_redirection(token) || is_pipe(token));
+}

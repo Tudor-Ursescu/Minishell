@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:40:33 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/10 14:32:49 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:25:44 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token	*create_token(t_token_types type, const char *value)
 	}
 	new->type = type;
 	new->value = ft_strdup(value);
+	new->append = 0;
 	new->next = NULL;
 	return (new);
 }

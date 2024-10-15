@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:28:54 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/07 11:04:17 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:37:48 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int is_quote(char c)
 {
     return (c == '\'' || c == '"');
 }
-
 
 int is_operator(const char *s) // returns the nb of bytes the operator takes
 {
@@ -64,8 +63,6 @@ t_token_types set_type(const char *str)
         return (T_QUOTE);
     else if (str[0] == '"')
         return (T_DQUOTE);
-    else if (is_word(str))
-        return (T_WORD);
     else
-        return (T_INVALID);
+        return (T_WORD);
 }
