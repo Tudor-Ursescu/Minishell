@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:44:25 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/09 17:57:14 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:53:35 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,96 @@ void	sort_env_list(t_env *env_list)
 		}
 		i = i->next;
 	}
+}
+
+void	handle_export(t_env **env_list, t_token *tokens)
+{
+	t_token	*token;
+	char	*name;
+	char	*value;
+	int		i;
+
+	tokens = merge_tokens(tokens);
+	token = tokens;
+	while (token)
+	{
+		name = NULL;
+		value = NULL;
+		if (token->type <= 2)
+		{
+			i = 0;
+			while (token ->value[i] && token->value[i] != '=')
+				i++;
+			if (token->value[i] == '=')
+			{
+				name = ft_strndup(token->value, i);
+				value = ft_strdup(&token->value[i + 1]);
+			}
+			else
+				name = ft_strdup(token->value);
+			ft_export(env_list, name, value);
+			free(name);
+			if (value)
+				free(value);
+		}
+		token = token->next;
+	}
+}
+
+void	handle_unset(t_env **env_list, t_token *tokens)
+{
+	t_token *token;
+
+	token = tokens;
+	while (token)
+	{
+		if (token->type <= 2)
+			ft_unset(env_list, token->value);
+		token = token->next;
+	}
+}
+
+void	handle_env_tudor(t_env *env_list, t_token *tokens)
+{
+	if (!tokens || !tokens->next)
+		print_env_list(env_list);
+	else
+		printf("Syntax error: 'env' does not accept arguments.\n");
+}
+
+t_token	*merge_tokens(t_token *tokens)
+{
+	t_token *current;
+	t_token	*next_token;
+	char	*new_value;
+
+	current = tokens;
+	while (current && current->next)
+	{
+		if (current->append)
+		{
+			while (current->next)
+			{
+				new_value = ft_strjoin(current->value, current->next->value);
+				free(current->value);
+				current->value = new_value;
+				next_token = current->next;
+				if (next_token->append == 0)
+				{
+					current->next = next_token->next;	
+					free(next_token->value);
+					free(next_token);
+					break;
+				}
+				else
+				{
+					current->next = next_token->next;
+					free(next_token->value);
+					free(next_token);	
+				}
+			}
+		}
+		current = current->next;
+	}
+	return (tokens);
 }

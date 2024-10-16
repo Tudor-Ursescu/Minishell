@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 17:29:35 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:25:37 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,13 @@ int main (int argc, char **argv, char **envp)
 			free(line);
 			continue;
 		}	
-		print_token_list(token_list);
 		if (check_syntax(token_list))
 		{
 			free_tokens(&token_list);
 			free(line);
 			continue;
 		}
-		if (token_list == NULL)
-		{
-			if (line)
-			{
-				free(line);
-				continue;
-			}
-			printf("Tokenization failed(no line inputted)!\n");
-			free(line);
-			continue;
-		}
-		else
-		{
-			// print_token_list(token_list);
-			cmd_list = create_cmd_list(token_list);
-		}
+		cmd_list = create_cmd_list(token_list);
 		if (!cmd_list)
 		{
 			free(line);
@@ -73,31 +57,7 @@ int main (int argc, char **argv, char **envp)
 		}
 		if (cmd_list->args[0])
 		{
-			if (ft_strcmp(cmd_list->args[0], "export") == 0 && cmd_list->args[1])
-			{
-				char *name = NULL;
-				char *value = NULL;
-				int i = 0;
-				while (cmd_list->args[1][i] && cmd_list->args[1][i] != '=')
-					i++;
-				if (cmd_list->args[1][i] == '=')
-				{
-					name = ft_strndup(cmd_list->args[1], i);
-					if (cmd_list->args[2])
-					{
-						value = ft_strdup(cmd_list->args[2]);
-						printf("value = %s\n", value);
-					}
-					else
-						value = ft_strdup(&cmd_list->args[1][i + 1]);
-				}
-				else if (!has_char(cmd_list->args[1], '='))
-					name = ft_strdup(cmd_list->args[1]);
-				ft_export(&env_list, name, value);
-				free(name);
-				free(value);
-			}
-			else if (ft_strcmp(cmd_list->args[0], "export") == 0 && !cmd_list->args[1])
+			if (ft_strcmp(cmd_list->args[0], "export") == 0 && !cmd_list->args[1])
 			{
 				t_env	*sorted_list;
 				sorted_list = copy_env_list(env_list);
@@ -105,24 +65,13 @@ int main (int argc, char **argv, char **envp)
 				print_sorted_env(sorted_list);
 				free_env(&sorted_list);
 			}
-			else if (ft_strcmp(cmd_list->args[0], "unset") == 0 && cmd_list->args[1])
-				ft_unset(&env_list, cmd_list->args[1]);
-			else if (ft_strcmp(cmd_list->args[0], "unset") == 0 && !cmd_list->args[1])
-			{
-				printf("Error: No variable name provided.\n");
-				free_all(cmd_list, token_list);
-				free(line);
-				continue;
-			}
+			else if (ft_strcmp(cmd_list->args[0], "export") == 0 && cmd_list->args[1])
+				handle_export(&env_list, token_list->next);
+			else if (ft_strcmp(cmd_list->args[0], "unset") == 0)
+				handle_unset(&env_list, token_list->next);
 			else if (ft_strcmp(cmd_list->args[0], "env") == 0)
-			{
-				if (!cmd_list->args[1])
-					print_env_list(env_list);
-				else
-					printf("\'%s\': No such file or directory\n", cmd_list->args[1]);
-			}
+				handle_env_tudor(env_list, token_list->next);
 		}
-		print_cmd_list(cmd_list);
 		free_all(cmd_list, token_list);
 		free(line);
     }

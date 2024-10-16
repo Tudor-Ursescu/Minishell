@@ -47,8 +47,7 @@ typedef struct	s_token
 typedef struct	s_cmd
 {
 	char		    **args;
-    // char            **red_args;
-    struct s_token  *redirections;      
+    struct s_token  *redirections;
     struct s_cmd    *next;
 }				t_cmd;
 
@@ -113,6 +112,10 @@ void	ft_export(t_env **env_list, char *name, char *value);
 t_env	*find_env_var(t_env *env_list, char *name);
 void	ft_unset(t_env **env_list, char *name);
 char    *ft_getenv(t_env *env_list, char *name);
+void	handle_env_tudor(t_env *env_list, t_token *tokens);
+void	handle_unset(t_env **env_list, t_token *tokens);
+void	handle_export(t_env **env_list, t_token *tokens);
+t_token	*merge_tokens(t_token *tokens);
 //SYNTAX
 int	    first_token (t_token *list);
 int	    check_syntax(t_token *list);

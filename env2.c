@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/11 13:09:35 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:03:05 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,21 @@ void	ft_unset(t_env **env_list, char *name)
 	t_env	*temp;
 	t_env	*prev;
 	int		len;
+	int		var_name_len;
+	char	*equal_sign;
 
 	temp = *env_list;
 	prev = NULL;
 	len = ft_strlen(name);
 	while(temp)
 	{
+		equal_sign = ft_strchr(temp->value, '=');
+		if (equal_sign)
+			var_name_len = equal_sign - temp->value;
+		else
+			var_name_len = ft_strlen(temp->value);
 		if (ft_strncmp(temp->value, name, len) == 0 &&
-			temp->value[len] == '=')
+			var_name_len == len);
 		{
 			if (prev)
 				prev->next = temp->next;
