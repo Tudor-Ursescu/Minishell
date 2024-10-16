@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/15 15:38:42 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:24:39 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-// extern int g_sig;
+extern int g_exit;
 
 typedef void		(*command_func)(char **argv, char **envp);
 typedef struct t_firstcmd
@@ -33,6 +33,13 @@ typedef struct t_firstcmd
 	char			*name;
 	command_func	func;
 }					t_firstcmd;
+
+typedef struct t_pipeinfo
+{
+	int prev_fd;
+	int prev_pid;
+	int number_of_pipes;
+}					t_pipeinfo;
 
 char				*prompt(void);
 void				echo(char **argv, char **envp);
@@ -62,7 +69,7 @@ void				print_error_toast(void);
 void				heredoc(char **argv, char **envp, char *red_args);
 void				handle_redirect_or_execute(t_cmd *cmd_list, char **envp);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
-void				handle_pipe(t_cmd *cmd_list, int numer_of_pipes, char **envp, int prev_fd, int prev_pid);
+void				handle_pipe(t_cmd *cmd_list, char **envp, t_pipeinfo pipeinfo);
 void				execute_absolute(char *path, char **argv, char **envp);
 void				execute_relative(char *path, char **argv, char **envp);
 void				setup_signal_handlers(void);
@@ -71,9 +78,9 @@ void				mini_newline(int signum);
 void				load_ammo(int signum);
 void	child_function(int *pipefd, t_cmd *cmd_list, char **envp, int prev_fd);
 void	parent_function(int *pipefd, t_cmd *cmd_list, int *prev_fd);
-void	last_pipe(t_cmd *cmd_list, char **envp, int saved_stdin, int saved_stdout);
-void	pipe_end_function(int saved_stdin, int saved_stdout);
 void restore_fds(int saved_stdin, int saved_stdout);
 void	check_next(int pipefd[2], t_cmd *cmd_list);
-int		checkforbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list, int *found);
+int		checkforbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list);
+t_pipeinfo initialize_pipeinfo(t_token *token_list);
+void waitandsave(int pid);
 #endif

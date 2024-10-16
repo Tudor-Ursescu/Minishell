@@ -6,55 +6,48 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/15 15:38:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:07:15 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "parsing.h"
-// int g_sig = 0;
+
+int g_exit = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argv;
 	t_token *token_list;
 	t_cmd	*cmd_list;
-
+	t_pipeinfo pipeinfo;
+	char		*line;
 	cmd_list = NULL;
 	token_list = NULL;
-	char		*line;
-
-	int			found;
-	// g_sig = 0;
-	printf("\033[H\033[J");
 	line = NULL;
+	printf("\033[H\033[J");
 	setup_signal_handlers();
 	while (1)
 	{
 		line = prompt();
-		
 		if (strcmp(line, "env") == 0)
 		{
 			ft_env(envp);
 			continue;
 		}
 		token_list = tokenize(line);
-		if (token_list == NULL)
+		if (!token_list)
 		{
-			if (line)
-			{
-				free(line);
-				continue;
-			}
-			printf("Tokenization failed(no line inputted)!\n");
+			free(line);
+			continue;
+		}	
+		if (check_syntax(token_list))
+		{
+			free_tokens(&token_list);
 			free(line);
 			continue;
 		}
-		else
-		{
-			// print_token_list(token_list); // DISABLED PRINT
-			cmd_list = create_cmd_list(token_list);
-		}
+		cmd_list = create_cmd_list(token_list);
 		if (!cmd_list)
 		{
 			printf("Parsing failed!\n");
@@ -62,44 +55,46 @@ int	main(int argc, char **argv, char **envp)
 			free_tokens(&token_list);
 			return (0);
 		}
-		
-		found = 0;
-		int pipenumber = 0;
-		// int i = 0;
 		argc = 0;
 		while (cmd_list->args[argc])
 			argc++;
 		if (argc > 0)
-		{
-			
+		{	
+			if (ft_strncmp(line, "$?", ft_strlen("$?")) == 0)
+				printf("%d ", g_exit);
 			if (ft_strncmp(line, "exit", ft_strlen("exit")) == 0)
 			{
 				exit_function(cmd_list->args, line);
 			}
-			t_token *temp = token_list;
-			while (temp)
+			pipeinfo = initialize_pipeinfo(token_list);
+			if (pipeinfo.number_of_pipes > 0)
 			{
-				if (temp->type == T_PIPE)
-					pipenumber++;
-				temp = temp->next;
+				handle_pipe(cmd_list, envp, pipeinfo);
 			}
-			free(temp);
-			if (pipenumber > 0)
-			{
-				handle_pipe(cmd_list, pipenumber, envp, -1, -1);
-				// printf("i've returned\n");
-			}
-			else if (!found)
+			else if (pipeinfo.number_of_pipes == 0)
 				handle_redirect_or_execute(cmd_list, envp);
 		}
 		free_all(cmd_list, token_list);
 		free(line);
-		// print_cmd_list(cmd_list);
-		// free_call(argv, line);
 	}
 }
 
-
+t_pipeinfo initialize_pipeinfo(t_token *token_list)
+{
+	t_pipeinfo pipeinfo;
+	t_token *temp = token_list;
+	pipeinfo.number_of_pipes = 0;
+	while (temp)
+	{
+		if (temp->type == T_PIPE)
+			pipeinfo.number_of_pipes++;
+		temp = temp->next;
+	}
+	free(temp);
+	pipeinfo.prev_fd = -1;
+	pipeinfo.prev_pid = -1;
+	return (pipeinfo);
+}
 
 void    free_call(char **argv, char *input)
 {
@@ -113,9 +108,11 @@ void    free_call(char **argv, char *input)
     }
     free(argv);
 }
+
 void    exit_function(char **argv, char *input)
 {
     printf("GOODBYE NYA\n");
+	g_exit = 2;
     free_call(argv, input);
     exit(0);
 }
@@ -144,7 +141,6 @@ void handle_redirect_or_execute(t_cmd *cmd_list, char **envp)
     {
         if (cmd_list->redirections->type == T_HEREDOC) // <<
         {	
-			printf("triggered\n");
         	heredoc(cmd_list->args, envp, cmd_list->redirections->value);
 			flag = 1;
 			free(cmd_list->redirections->value);
@@ -189,9 +185,7 @@ void handle_redirect_or_execute(t_cmd *cmd_list, char **envp)
             dup2(fd, STDOUT_FILENO);
             close(fd);
         }
-
         cmd_list->redirections = cmd_list->redirections->next;
-	
 	}
     // Now execute the command after all redirections have been set up
 	// printf("EXECUTING\n");

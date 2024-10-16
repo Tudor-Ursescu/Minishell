@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/15 11:10:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:08:19 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 	pid = 1;
 	t_firstcmd	*command_table;
 	command_table = init_command_table();
-	int found = 0;
 	
 	if (cmd_list->args[0][0] == '/')
 	{
@@ -34,13 +33,13 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 		execute_relative(path, cmd_list->args, envp);
 		return ;
 	}
-	path = find_path(cmd_list->args[0]);//TDUORPASRE
+	path = find_path(cmd_list->args[0]);
 	if (path != NULL)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			if(checkforbuiltin(envp, command_table, cmd_list, &found) == 1)
+			if(checkforbuiltin(envp, command_table, cmd_list) == 1)
 			{
 				free(command_table);
 				exit(0);
@@ -54,8 +53,7 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 		}
 		else
 		{
-
-			waitpid(pid, NULL, 0);
+			waitandsave(pid);
 			// signal(SIGINT, load_ammo);
 			// while(waitpid(pid, NULL, 0))
 			// {
@@ -74,16 +72,27 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 	}
 	else
 	{
-		printf("cat_shell: command not found: %s\n", cmd_list->args[0]);
-		if (pid == 0)
-		{
-			free(path);
-			exit(1);
-		}
+		printf("command not found: %s\n", cmd_list->args[0]);
+		g_exit = 127;
+		// exit(127);
+		// if (pid == 0)
+		// {
+		// 	free(path);
+		// 	exit(126);
+		// }
 	}
 	free(command_table);
 }
 
+void waitandsave(int pid)
+{
+	int status;
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+	{
+		g_exit = WEXITSTATUS(status);
+	}
+}
 
 void execute_absolute(char *path, char **argv, char **envp)
 {
@@ -103,16 +112,15 @@ void execute_absolute(char *path, char **argv, char **envp)
 			}
 		}
 		else
-			waitpid(pid, NULL, 0);
+			waitandsave(pid);
 	}
 	else
 	{
-		printf("cat_shell: command not found: %s\n", argv[0]);
-		if (pid == 0)
-			exit(1);
+		printf("command not found: %s\n", argv[0]);
+		// if (pid == 0)
+		// 	exit(1);
 	}
 }
-
 
 void execute_relative(char *path, char **argv, char **envp)
 {
@@ -132,17 +140,13 @@ void execute_relative(char *path, char **argv, char **envp)
 			}
 		}
 		else
-		{
-			waitpid(pid, NULL, 0);
-		}
+			waitandsave(pid);
 	}
 	else
 	{
-		printf("cat_shell: command not found: %s\n", argv[0]);
-		if (pid == 0)
-		{
-			exit(1);
-		}
+		printf("command not found: %s\n", argv[0]);
+		// if (pid == 0)
+		// 	exit(1);
 	}
 }
 
