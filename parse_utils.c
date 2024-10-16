@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:28:54 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 09:38:44 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:41:48 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int is_word(const char *s)
 {
-    return (!is_quote(s[0]) && s[0] != '$' && !is_operator(s) &&
-            !isspace(s[0]));
+    return (!is_quote(s[0]) && !is_operator(s) && !isspace(s[0]));
 }
 
 int ft_isspace(char c)
