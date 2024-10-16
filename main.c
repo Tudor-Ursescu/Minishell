@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 12:06:54 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:29:35 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,18 @@ int main (int argc, char **argv, char **envp)
 		if(line[0] != '\0')
 			add_history(line);
 		token_list = tokenize(line);
+		if (!token_list)
+		{
+			free(line);
+			continue;
+		}	
 		print_token_list(token_list);
+		if (check_syntax(token_list))
+		{
+			free_tokens(&token_list);
+			free(line);
+			continue;
+		}
 		if (token_list == NULL)
 		{
 			if (line)

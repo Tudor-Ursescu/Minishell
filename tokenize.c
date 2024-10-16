@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 12:41:52 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/16 09:40:23 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ int add_operator(t_token **list, char *line, int i)
     char    *temp;
 	
     op_len = is_operator(&line[i]);
-	if (op_len == 3)
-	{
-		printf("Syntax error: Invalid multiple redirections.\n");
-		return (-1);
-	}
 	if (op_len > 0)
     {
         temp = ft_strndup(&line[i], op_len);
@@ -50,15 +45,11 @@ int	add_quote(t_token **list, char *line, int i)
 		i++;
 	else
 	{
-		printf("Error: Unclosed quotes detected.\n");
+		printf("Syntax error: Unclosed quotes detected.\n");
 		return (0);
 	}
 	temp = ft_strndup(&line[start], i - start - 1);
-	if (!temp)
-		return (0);
 	new = create_token(set_type(&line[start]), temp);
-	if (!new)
-		return (0);
 	free(temp);
 	if (!ft_isspace(line[i]) && !is_operator(line + i))
 			new->append = 1;
@@ -98,17 +89,14 @@ t_token	*tokenize(char *line)
 	{
 		i = skip_whitespace(line, i);
 		if (is_operator(&line[i]))
-		{
 			i = add_operator(&tokens, line, i);
-			if (i == -1)
-				return (NULL);
-		}
 		else if (line[i] == '\'' || line[i] == '"')
 		{
 			i = add_quote(&tokens, line, i);
 			if (i == 0)
 			{
-				free_tokens(&tokens);
+				if (tokens)
+					free_tokens(&tokens);
 				return (NULL);
 			}
 		}
