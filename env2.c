@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/17 12:35:01 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:54:18 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ t_env	*find_env_var(t_env *env_list, char *name)
 	len = ft_strlen(name);
 	while (temp)
 	{
-		if (ft_strncmp(temp->value, name, len) == 0 &&
-			temp->value[len] == '=')
+		if (ft_strncmp(temp->value, name, len) == 0)
 			return (temp);
 		temp = temp-> next;
 	}
