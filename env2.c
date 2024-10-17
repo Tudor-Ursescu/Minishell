@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 18:03:05 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:35:01 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ void	ft_export(t_env **env_list, char *name, char *value)
 		printf("Error: Invalid environemnt variable name:%s\n", name);
 		return;
 	}
+	var = find_env_var(*env_list, name);
 	if (value == NULL)
 	{
-		temp = ft_strdup(name);
-		new_var = create_env(temp);
-		free(temp);
-		append_env(env_list, new_var);
+		if (var)
+			return;
+		var = create_env(name);
+		append_env(env_list, var);
 		return;
 	}
 	new_value = ft_strjoin(name, "=");
 	temp = new_value;
 	new_value = ft_strjoin(new_value, value);
 	free(temp);
-	var = find_env_var(*env_list, name);
 	if (var)
 	{
 		free(var->value);
 		var->value = ft_strdup(new_value);
+
 	}
 	else
 	{
@@ -86,7 +87,7 @@ void	ft_unset(t_env **env_list, char *name)
 		else
 			var_name_len = ft_strlen(temp->value);
 		if (ft_strncmp(temp->value, name, len) == 0 &&
-			var_name_len == len);
+			var_name_len == len)
 		{
 			if (prev)
 				prev->next = temp->next;
