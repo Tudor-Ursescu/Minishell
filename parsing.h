@@ -20,9 +20,12 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <signal.h>
+# include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "./libft/libft.h"
+
+extern int  g_sig_nb;
 
 typedef enum e_token_types
 {
@@ -104,7 +107,6 @@ t_env   *find_last_env(t_env *head);
 void	append_env(t_env **list, t_env *new);
 void    print_env_list(t_env *head);
 t_env	*init_env_list(char **envp);
-void    ft_env(char **envp);
 t_env   *copy_env_list(t_env *env_list);
 void	sort_env_list(t_env *env_list);
 void    print_sorted_env(t_env *env_list);
@@ -120,5 +122,7 @@ int	    is_valid_identifier(char *name);
 //SYNTAX
 int	    first_token (t_token *list);
 int	    check_syntax(t_token *list);
-
+//SIGNALS
+void    sig_handle(int sig_nb);
+void    signal_init(void);
 #endif
