@@ -1,62 +1,100 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   redirect2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/15 15:57:12 by ckonneck         ###   ########.fr       */
+/*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
+/*   Updated: 2024/10/18 14:35:09 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-//BIG FYI In terms of shell redirection, the first argument after <, >, or >> is strictly 
-//interpreted as a file. If it is not a file, the shell will either fail or behave unexpectedly.
-void	heredoc(char **argv, char **envp, char *red_args) // <<
+void	handle_redirect_or_execute(t_cmd *cmd_list, char **envp)
 {
-	char *input = NULL;
-	int temp_fd= 0;
-	(void)argv;
-	(void)envp;
-	int saved_stdin = dup(STDIN_FILENO);
-	int saved_stdout = dup(STDOUT_FILENO);
-	dup2(temp_fd, 1);
-	temp_fd = open("tempfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while (1)
+	int		fd;
+	int		saved_stdin;
+	int		saved_stdout;
+	int		flag;
+	t_token	*temp;
+
+	fd = 0;
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	temp = cmd_list->redirections;
+	while (cmd_list->redirections)
 	{
-		input = readline(">");
-		
-		if (!input)
-		{
-			perror("somethignnotgood\n");
-			close(temp_fd);
-			return ;
-		}
-		if (checkheredoc(input, temp_fd, red_args) == 0)
-		{	
-			restore_fds(saved_stdin, saved_stdout);
-			break;
-		}
-		write(temp_fd, input, ft_strlen(input));
-		write(temp_fd, "\n", 1);
-		free(input);
+		if (cmd_list->redirections->type == T_HEREDOC) // <<
+			flag = handle_heredocpre(cmd_list, flag, fd);
+		cmd_list->redirections = cmd_list->redirections->next;
 	}
-	close(temp_fd);
-	// unlink("tempfile.txt"); // need to ahndle this somewhere
+	cmd_list->redirections = temp;
+	if (handle_all_but_heredoc(cmd_list, fd, flag) == 1)
+		return ;
+	execute_path(cmd_list, envp);
+	restore_fds(saved_stdin, saved_stdout);
+	free_tokens(&temp);
+	unlink("tempfile.txt");
 }
 
-
-int	checkheredoc(char *input, int temp_fd, char *red_args)
+int	handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag)
 {
+	char	*file;
 
-	if (ft_strncmp(input, red_args, strlen(red_args)) == 0
-		&& (input[ft_strlen(red_args)] == '\n' || input[ft_strlen(red_args)] == '\0'))
+	while (cmd_list->redirections)
 	{
-		free(input);
-		close(temp_fd);
-		return(0);
+		file = cmd_list->redirections->value;
+		if (cmd_list->redirections->type == T_APPEND
+			|| cmd_list->redirections->type == T_OUT) // >>
+			handle_append_and_out(cmd_list, fd);
+		else if (cmd_list->redirections->type == T_IN) // <
+		{
+			if (handle_input_redirection(flag, fd, file) == 1)
+				return (1);
+		}
+		cmd_list->redirections = cmd_list->redirections->next;
 	}
-	return (1);
+	return (0);
+}
+
+int	handle_heredocpre(t_cmd *cmd_list, int flag, int fd)
+{
+	heredoc(cmd_list->redirections->value);
+	flag = 1;
+	free(cmd_list->redirections->value);
+	cmd_list->redirections->value = ft_strdup("tempfile.txt");
+	fd = open("tempfile.txt", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (flag);
+}
+
+int	handle_input_redirection(int flag, int fd, char *file)
+{
+	if (flag == 1)
+		file = "tempfile.txt";
+	// Setup input redirection (stdin)// triggers error == Warning: invalid file descriptor -1 in syscall close()
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("fd error");
+		return (1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (0);
+}
+
+void	handle_append_and_out(t_cmd *cmd_list, int fd)
+{
+	if (cmd_list->redirections->type == T_OUT)
+		fd = open(cmd_list->redirections->value, O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
+	else
+		fd = open(cmd_list->redirections->value, O_WRONLY | O_CREAT | O_APPEND,
+				0644);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 }

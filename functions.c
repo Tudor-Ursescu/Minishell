@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/16 12:50:35 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:22:07 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,18 @@
 t_firstcmd	*init_command_table(void)
 {
 	t_firstcmd	*command_table;
-	// printf("\033[H\033[J"); // clears terminal
 	command_table = malloc(6 * sizeof(t_firstcmd));
 	if (!command_table)
 	{
 		perror("Failed to allocate memory for command table");
 		exit(1);
 	}
-	// Initialize commands
-	command_table[0] = (t_firstcmd){"cd", cd_function};
-	command_table[1] = (t_firstcmd){"pwd", pwd_function};
-	command_table[2] = (t_firstcmd){"export", export_function};
-	command_table[3] = (t_firstcmd){"echo", echo};
-	command_table[4] = (t_firstcmd){"env", env_function};
-	command_table[5] = (t_firstcmd){NULL, NULL};
+	command_table[0] = (t_firstcmd){"cd", cd_function, NULL};
+	command_table[1] = (t_firstcmd){"pwd", pwd_function, NULL};
+	command_table[2] = (t_firstcmd){"export", export_function, NULL};
+	command_table[3] = (t_firstcmd){"echo", echo, NULL};
+	command_table[4] = (t_firstcmd){"env", env_function, NULL};
+	command_table[5] = (t_firstcmd){NULL, NULL, NULL};
 	return (command_table);
 }
 
@@ -43,7 +41,7 @@ void env_function(char **argv, char **envp)
 }
 
 
-int checkforbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list)
+int execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list)
 {
 	int i;
 	
@@ -54,10 +52,9 @@ int checkforbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list)
 				ft_strlen(command_table[i].name)) == 0)
 		{
 			command_table[i].func(cmd_list->args, envp);
-			return(1) ;
+			return (1) ;
 		}
 		i++;
 	}
 	return(0);
-	
 }

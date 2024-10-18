@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/04 13:35:56 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:22:52 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,43 @@ void	lstatcheck(char **argv)
 
 void	cd_function(char **argv, char **envp)
 {
-	struct stat	statbuf;
 	(void)envp;
-	char *home_dir;
-
-	if (!argv[1])
-	{
-		home_dir = getenv("HOME");
-		if (chdir(home_dir) != 0)
-			perror("cd");
-		return ;
-	}
-	if (lstat(argv[1], &statbuf) != 0)
-	{
-		lstatcheck(argv);
-		return ;
-	}
-	if (!S_ISDIR(statbuf.st_mode))
-	{
-		printf("cd: not a directory: %s\n", argv[1]);
-		return ;
-	}
+	errno = 0;
+	if(cd_function2(argv) == 1)
+		return;
 	if (chdir(argv[1]) != 0)
 	{
+		printf("directioning\n");
 		if (errno == EACCES)
 			printf("cd: permission denied: %s\n", argv[1]);
 		else
 			perror("cd");
 	}
+}
+
+int	 cd_function2(char **argv)
+{
+	char *home_dir;
+	struct stat	statbuf;
+	
+	if (!argv[1])
+	{
+		home_dir = getenv("HOME");
+		if (chdir(home_dir) != 0)
+			perror("cd");
+		return (1);
+	}
+	if (lstat(argv[1], &statbuf) != 0)
+	{
+		lstatcheck(argv);
+		return (1);
+	}
+	if (!S_ISDIR(statbuf.st_mode))
+	{
+		printf("cd: not a directory: %s\n", argv[1]);
+		return (1);
+	}
+	return (0);
 }
 
 void	pwd_function(char **argv, char **envp)
@@ -71,6 +80,6 @@ void	pwd_function(char **argv, char **envp)
 	else
 	{
 		printf("pwd: too many arguments\n");
-		// exit code 1
+		g_exit = 1;
 	}
 }
