@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/17 12:54:18 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:37:17 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	ft_export(t_env **env_list, char *name, char *value)
 	char	*new_value;
 	char	*temp;
 	
-	if (ft_isdigit(name[0]))
+	if (!is_valid_identifier(name))
 	{
-		printf("Error: Invalid environemnt variable name:%s\n", name);
+		printf("bash: export: `%s=%s': not a valid identifier\n", name, value);
 		return;
 	}
 	var = find_env_var(*env_list, name);
@@ -137,4 +137,20 @@ char *ft_getenv(t_env *env_list, char *name)
 		return (value);
 	}
 	return (NULL);
+}
+
+int	is_valid_identifier(char *name)
+{
+	int	i;
+	
+	if (!(ft_isalpha(name[0]) || name[0] == '_'))
+		return(0);
+	i = 1;
+	while(name[i])
+	{
+		if (!(ft_isalnum(name[i]) || name[i]== '_'))
+			return (0);
+		i++;
+	}
+	return (1);
 }

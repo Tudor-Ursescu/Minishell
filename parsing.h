@@ -116,6 +116,7 @@ void	handle_env_tudor(t_env *env_list, t_token *tokens);
 void	handle_unset(t_env **env_list, t_token *tokens);
 void	handle_export(t_env **env_list, t_token *tokens);
 t_token	*merge_tokens(t_token *tokens);
+int	    is_valid_identifier(char *name);
 //SYNTAX
 int	    first_token (t_token *list);
 int	    check_syntax(t_token *list);
