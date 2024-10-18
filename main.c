@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 10:59:47 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 18:25:37 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:07:36 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,7 @@ int main (int argc, char **argv, char **envp)
 		}
 		if (cmd_list->args[0])
 		{
-			if (ft_strcmp(cmd_list->args[0], "export") == 0 && !cmd_list->args[1])
-			{
-				t_env	*sorted_list;
-				sorted_list = copy_env_list(env_list);
-				sort_env_list(sorted_list);
-				print_sorted_env(sorted_list);
-				free_env(&sorted_list);
-			}
-			else if (ft_strcmp(cmd_list->args[0], "export") == 0 && cmd_list->args[1])
+			if (ft_strcmp(cmd_list->args[0], "export") == 0)
 				handle_export(&env_list, token_list->next);
 			else if (ft_strcmp(cmd_list->args[0], "unset") == 0)
 				handle_unset(&env_list, token_list->next);

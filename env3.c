@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:44:25 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 17:53:35 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:07:02 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ void	handle_export(t_env **env_list, t_token *tokens)
 	char	*value;
 	int		i;
 
+	if (!tokens)
+	{
+		t_env	*sorted_list;
+		sorted_list = copy_env_list(*env_list);
+		sort_env_list(sorted_list);
+		print_sorted_env(sorted_list);
+		free_env(&sorted_list);
+		return;
+	}
 	tokens = merge_tokens(tokens);
 	token = tokens;
 	while (token)
