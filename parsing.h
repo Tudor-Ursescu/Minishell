@@ -65,6 +65,7 @@ typedef struct s_data
     t_token	*token_list;
     t_cmd	*cmd_list;
     t_env	*env;
+    char    **new_env;
     int		exit;
 	int		is_heredoc;
 }   t_data;
@@ -122,6 +123,8 @@ void	handle_unset(t_env **env_list, t_token *tokens);
 void	handle_export(t_env **env_list, t_token *tokens);
 t_token	*merge_tokens(t_token *tokens);
 int	    is_valid_identifier(char *name);
+void	populate_env_array(t_data *data);
+char	**env_to_array(t_env *env_list, int *count);
 //SYNTAX
 int	    first_token (t_token *list);
 int	    check_syntax(t_token *list);
