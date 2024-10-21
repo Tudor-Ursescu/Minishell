@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:00:46 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/21 14:24:25 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:57:48 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,22 @@
 	
 // }
 
-char	**env_to_array(t_env *env_list, int *count)
+char	**env_to_array(t_env *env_list)
 {
 	t_env *current;
 	char **new_env;
 	int i;
+	int count;
 
 	current = env_list;
 	i = 0;
-	*count = 0;
+	count = 0;
 	while (current)
 	{
-		(*count)++;
+		count++;
 		current = current->next;
 	}
-	new_env = malloc(sizeof(char *) * (*count + 1));
+	new_env = malloc(sizeof(char *) * (count + 1));
 	if (!new_env)
 		return (NULL);
 	current = env_list;
@@ -65,8 +66,8 @@ char	**env_to_array(t_env *env_list, int *count)
 	return (new_env);
 }
 
-void	populate_env_array(t_data *data)
-{
-	int count;
-	data->new_env = env_to_array(data->env, &count);
-}
+// void	populate_env_array(t_data *data)
+// {
+
+// 	data->new_env = env_to_array(data->env, &count);
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 17:20:37 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:05:14 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = prompt();
-		populate_env_array(&data);
+		if (data.new_env)
+			free_matrix(data.new_env);
+		data.new_env = env_to_array(data.env);
 		data.token_list = tokenize(line);
 		if (!data.token_list)
 		{
@@ -63,9 +65,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free_all(data.cmd_list, data.token_list);
 		free(line);
-		if (data.new_env)
-			free_matrix(data.new_env);
+		
 	}
+	if (data.new_env)
+		free_matrix(data.new_env);
 	free_env(&data.env);
 }
 

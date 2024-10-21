@@ -132,7 +132,7 @@ void	handle_export(t_env **env_list, t_token *tokens);
 t_token	*merge_tokens(t_token *tokens);
 int	    is_valid_identifier(char *name);
 void	populate_env_array(t_data *data);
-char	**env_to_array(t_env *env_list, int *count);
+char	**env_to_array(t_env *env_list);
 //SYNTAX
 int	    first_token (t_token *list);
 int	    check_syntax(t_token *list);
