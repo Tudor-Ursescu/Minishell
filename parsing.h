@@ -62,10 +62,12 @@ typedef struct  s_env
 
 typedef struct s_data
 {
-    t_token      *args;
-    t_cmd        *cmd;
-    t_env        *env;
+    t_token	*args;
+    t_cmd	*cmd;
+    t_env	*env;
+    int		exit;
 }   t_data;
+
 //FREE
 void    free_env(t_env **list);
 void    free_tokens(t_token **list);

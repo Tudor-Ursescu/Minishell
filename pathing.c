@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/18 16:26:57 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:12:04 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 void waitandsave(int pid)
 {
 	int status;
+
+	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{

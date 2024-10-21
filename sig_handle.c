@@ -6,12 +6,12 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:59:37 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/18 16:34:13 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:10:38 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
+#include <errno.h>
 int g_sig_nb = 0;
 
 void	sig_handle(int sig_nb)
@@ -27,11 +27,10 @@ void	sig_handle(int sig_nb)
 			g_sig_nb = 0;
 			return;
 		}
-		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
 		g_sig_nb = 0;
 	}
+	// while (wait(NULL) != -1 || errno != ECHILD);
 }
 
 void signal_init(void)
