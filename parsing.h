@@ -26,7 +26,6 @@
 #include "./libft/libft.h"
 
 extern int  g_sig_nb;
-
 typedef enum e_token_types
 {
     T_WORD, // 0
@@ -60,11 +59,20 @@ typedef struct  s_env
 	struct s_env	*next;
 }   t_env;
 
+
+typedef struct t_pipeinfo
+{
+	int				prev_fd;
+	int				prev_pid;
+	int				number_of_pipes;
+}					t_pipeinfo;
+
 typedef struct s_data
 {
     t_token	*token_list;
     t_cmd	*cmd_list;
     t_env	*env;
+    t_pipeinfo pipeinfo;
     char    **new_env;
     int		exit;
 	int		is_heredoc;

@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/18 15:34:36 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:09:59 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ extern int			g_exit;
 
 typedef void		(*command_func)(char **argv, char **envp);
 typedef void		(*command_func2)(t_env **env_list, t_token *tokens);
+
 typedef struct t_firstcmd
 {
 	char			*name;
@@ -36,12 +37,7 @@ typedef struct t_firstcmd
 	command_func2	func2;
 }					t_firstcmd;
 
-typedef struct t_pipeinfo
-{
-	int				prev_fd;
-	int				prev_pid;
-	int				number_of_pipes;
-}					t_pipeinfo;
+
 
 char				*prompt(void);
 void				echo(char **argv, char **envp);
@@ -53,7 +49,7 @@ void				pwd_function(char **argv, char **envp);
 void				lstatcheck(char **argv);
 t_firstcmd			*init_command_table(void);
 void				env_function(char **argv, char **envp);
-int					handle_env(char *arg, char **envp);
+char				*handle_env(char *arg, char **envp);
 int					handle_n_flag(char *arg, char **envp);
 void				export_function(char **argv, char **envp);
 void				sort_env(char **env);
@@ -63,29 +59,23 @@ void				set_env_variable(const char *var, const char *value,
 char				**copy_env(char **env);
 char				*find_path(const char *cmd);
 void				free_tokensexec(char **tokens);
-void				execute_path(t_cmd *cmd_list, char **envp);
+void				execute_path(t_cmd *cmd_list, t_data *data);
 int					check_fork(int *pid);
 char				*stitching(char **tokens, const char *cmd);
-void				exit_function(char **argv, char *input);
+void				exit_function(t_data *data, char *input);
 void				heredoc(char *red_args);
-void				handle_redirect_or_execute(t_cmd *cmd_list, char **envp);
+void				handle_redirect_or_execute(t_data *data, t_cmd *cmd_list);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
-void				handle_pipe(t_cmd *cmd_list, char **envp,
-						t_pipeinfo pipeinfo);
+void				handle_pipe(t_data *data, t_cmd *cmd_list, t_pipeinfo pipeinfo);
 void				execute_absolute(char *path, char **argv, char **envp);
 void				execute_relative(char *path, char **argv, char **envp);
-void				setup_signal_handlers(void);
-void				handle_sigint(int signum);
-void				mini_newline(int signum);
-void				load_ammo(int signum);
-void				child_function(int *pipefd, t_cmd *cmd_list, char **envp,
-						int prev_fd);
+void				child_function(int *pipefd, t_data *data, t_cmd *cmd_list, int prev_fd);
 void				parent_function(int *pipefd, t_cmd *cmd_list, int *prev_fd);
 void				restore_fds(int saved_stdin, int saved_stdout);
 void				check_next(int pipefd[2], t_cmd *cmd_list);
 int					execbuiltin(char **envp, t_firstcmd *command_table,
 						t_cmd *cmd_list);
-int				check_if_builtin(char **envp, t_cmd *cmd_list);
+int					check_if_builtin(char **envp, t_cmd *cmd_list);
 t_pipeinfo			initialize_pipeinfo(t_token *token_list);
 void				waitandsave(int pid);
 int					handle_input_redirection(int flag, int fd, char *file);
@@ -95,4 +85,5 @@ int					handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag);
 int					cd_function2(char **argv);
 int					heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout,
 						char *red_args);
+void				init_tdata(int argc, char **argv, char **envp, t_data *data);
 #endif

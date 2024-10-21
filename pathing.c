@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   pathing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 11:12:04 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:45:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "parsing.h"
 
-void	execute_path(t_cmd *cmd_list, char **envp)
+void	execute_path(t_cmd *cmd_list, t_data *data)
 {
 	char	*path;
 	int		pid;
 	path = NULL;
 	pid = 1;
-	if (check_if_builtin(envp, cmd_list) == 1)
+	if (check_if_builtin(data->new_env, cmd_list) == 1)
 		return ;
 	if (cmd_list->args[0][0] == '/')
 	{
-		execute_absolute(path, cmd_list->args, envp);
+		execute_absolute(path, cmd_list->args, data->new_env);
 		return ;	
 	}
 	else if (cmd_list->args[0][0] == '.')
 	{
-		execute_relative(path, cmd_list->args, envp);
+		execute_relative(path, cmd_list->args, data->new_env);
 		return ;
 	}
 	
@@ -39,7 +39,7 @@ void	execute_path(t_cmd *cmd_list, char **envp)
 		if (pid == 0)
 		{
 			// signal(SIGINT, SIG_DFL);
-			if (execve(path, cmd_list->args, envp) == -1)
+			if (execve(path, cmd_list->args, data->new_env) == -1)
 			{
 				perror("cat_shell: ");
 				exit(1);
@@ -116,7 +116,7 @@ void execute_absolute(char *path, char **argv, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(path, argv, envp) == -1)
+			if (execve(path, argv, envp) == -1)//same as below, can be summarized
 			{
 				perror("cat_shell");
 				exit(1);
@@ -144,7 +144,7 @@ void execute_relative(char *path, char **argv, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(path, argv, envp) == -1)
+			if (execve(path, argv, envp) == -1)//same as above, can be summarized
 			{
 				perror("cat_shell");
 				exit(1);

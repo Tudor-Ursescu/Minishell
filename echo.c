@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/03 14:35:17 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:06:16 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,28 +56,35 @@ void	echo2(char **argv, int i)
 }
 int	echo3(char **argv, char **envp)
 {
-	if (argv[1] && argv[1][0] == '$')
-		return (handle_env(argv[1], envp));
-	else if (argv[2] && (ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0)
-		&& argv[2][0] == '$')
-		return (handle_n_flag(argv[2], envp));
+	int i = 0;
+	while (argv[i])
+	{
+		if (argv[i] && argv[i][0] == '$')
+			argv[i] = handle_env(argv[i], envp);
+		else if (argv[i] && (ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)
+			&& argv[i][0] == '$')
+			return (handle_n_flag(argv[i], envp));
+		i++;
+	}
 	return (0);
 }
 
-int	handle_env(char *arg, char **envp)
+char	*handle_env(char *arg, char **envp)
 {
+	char *env_value;
 	while (*envp)
 	{
 		if (ft_strncmp(arg + 1, *envp, ft_strlen(arg + 1)) == 0
 			&& (*envp)[ft_strlen(arg + 1)] == '=')
 		{
-			printf("%s", *envp + ft_strlen(arg));
-			printf("\n");
-			return (1);
+			env_value = *envp + ft_strlen(arg + 1) + 1;
+            free(arg);
+            arg = ft_strdup(env_value);
+			return (arg);
 		}
 		envp++;
 	}
-	return (0);
+	return (arg);
 }
 
 int	handle_n_flag(char *arg, char **envp)

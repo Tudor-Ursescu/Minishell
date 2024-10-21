@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:22:00 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/09/25 16:21:14 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:43:44 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ char	**ft_split(const char *s, char c)
 	array = malloc((words + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
-	if (!splat(s, c, array, words)) // Ensure splat works
-    {
-        free(array); // Free allocated memory if splat fails
-        return (NULL);
-    }
+	if (!splat(s, c, array, words))
+	{
+		free(array);
+		return (NULL);
+	}
 	return (array);
 }
 
@@ -109,7 +109,7 @@ char	**ft_split(const char *s, char c)
 //     printf("%s\n", result1[i]);
 //     free(result1[i]); // Free each substring
 //     i++;
-//      free(result1); 
+//      free(result1);
 // 	}
 // }
 // line 67 also okay as wordlen((&s[j]), c));
