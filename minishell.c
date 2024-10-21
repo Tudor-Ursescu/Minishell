@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/18 16:29:30 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:42:46 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 int g_exit = 0;
 int	main(int argc, char **argv, char **envp)
 {
+	t_data data;
+
 	(void)argv;
 	t_token *token_list;
 	t_cmd	*cmd_list;
@@ -26,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	line = NULL;
 	printf("\033[H\033[J");
 	signal_init();
+	data.env = init_env_list(envp);
 	while (1)
 	{
 		line = prompt();
@@ -71,6 +74,7 @@ int	main(int argc, char **argv, char **envp)
 		free_all(cmd_list, token_list);
 		free(line);
 	}
+	free_env(&data.env);
 }
 
 void    free_call(char **argv, char *input)
