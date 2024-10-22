@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 10:01:35 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:36:12 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,6 @@ int					cd_function2(char **argv);
 int					heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout,
 						char *red_args);
 void				init_tdata(int argc, char **argv, char **envp, t_data *data);
+int init_loop(t_data *data);
+void catloop(t_data *data);
 #endif

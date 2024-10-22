@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:33:35 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 10:21:47 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:47:18 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ void free_cmds(t_cmd *list)
     }
 }
 
-void	free_env(t_env **list)
+void	free_env(t_env **list, t_data *data)
 {
 	t_env	*temp;
 	t_env	*head;
-
+	if (data->new_env)
+		free_matrix(data->new_env);
 	head = *list;
 	while (head)
 	{
@@ -75,8 +76,9 @@ void	free_matrix(char **args)
 	args = NULL;
 }
 
-void    free_all(t_cmd *cmd_list, t_token *token_list)
+void    free_all(t_data *data)
 {
-    free_cmds(cmd_list);
-    free_tokens(&token_list);
+    free_cmds(data->cmd_list);
+    free_tokens(&data->token_list);
+	free(data->line);
 }
