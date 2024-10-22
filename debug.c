@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:29:43 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 12:51:53 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:46:55 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void print_token_list(t_token *head)
 	}
 }
 
-void print_env_list(t_env *head)
+void print_env_list(t_env **head)
 {
     t_env	*temp;
     char    *equal_sign_pos;
 
-    temp = head;
+    temp = *head;
     while (temp)
     {
 		equal_sign_pos = ft_strchr(temp->value, '=');
