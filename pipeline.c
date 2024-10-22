@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:48:50 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:09:09 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:44:18 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	child_function(int *pipefd, t_data *data, t_cmd *cmd_list, int prev_fd)
 	handle_redirect_or_execute(data, cmd_list);
 	if (find_path(cmd_list->args[0]) != NULL)
 		exit(0);
+	else if (!cmd_list->args[0])
+		exit (0);
 	else
 		exit(127);
 }

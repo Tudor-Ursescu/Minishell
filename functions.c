@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:04:55 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:30:16 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,17 @@ int	execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list,
 	i = 0;
 	while (command_table[i].name != NULL)
 	{
-		if (ft_strncmp(cmd_list->args[0], command_table[i].name,
-				ft_strlen(cmd_list->args[0])) == 0)
+		if (cmd_list->args[0])
 		{
-			if (command_table[i].func != NULL)
-				command_table[i].func(cmd_list->args, envp, data);
-			else if (command_table[i].func2 != NULL)
-				command_table[i].func2(&data->env, data->token_list, data);
-			return (1);
+			if (ft_strncmp(cmd_list->args[0], command_table[i].name,
+					ft_strlen(cmd_list->args[0])) == 0)
+			{
+				if (command_table[i].func != NULL)
+					command_table[i].func(cmd_list->args, envp, data);
+				else if (command_table[i].func2 != NULL)
+					command_table[i].func2(&data->env, data->token_list, data);
+				return (1);
+			}
 		}
 		i++;
 	}

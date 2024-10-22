@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:09:23 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:41:14 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 	pid = 1;
 	if (check_if_builtin(data->new_env, cmd_list, data) == 1)
 		return ;
-	if (cmd_list->args[0][0] == '/' || cmd_list->args[0][0] == '.')
+	if (cmd_list->args[0] &&  (cmd_list->args[0][0] == '/' ||
+		 cmd_list->args[0][0] == '.'))
 	{
 		execute_absolute_or_relative(path, cmd_list->args, data);
 		return ;
@@ -30,7 +31,7 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 	path = find_path(cmd_list->args[0]);
 	if (path != NULL)
 		fork_and_execute(path, cmd_list, data, pid);
-	else
+	else if (cmd_list->args[0])
 	{
 		printf("command not found: %s\n", cmd_list->args[0]);
 		data->exit = 127;
@@ -107,18 +108,21 @@ char	*stitching(char **tokens, const char *cmd)
 	int		i;
 
 	i = 0;
-	while (tokens[i])
+	if (cmd)
 	{
-		full_path = malloc(1024);
-		if (!full_path)
-			return (NULL);
-		ft_strlcpy(full_path, tokens[i], 1024);
-		ft_strlcat(full_path, "/", ft_strlen(full_path) + 2);
-		ft_strlcat(full_path, cmd, ft_strlen(full_path) + ft_strlen(cmd) + 2);
-		if (access(full_path, X_OK) == 0)
-			return (full_path);
-		free(full_path);
-		i++;
+		while (tokens[i])
+		{
+			full_path = malloc(1024);
+			if (!full_path)
+				return (NULL);
+			ft_strlcpy(full_path, tokens[i], 1024);
+			ft_strlcat(full_path, "/", ft_strlen(full_path) + 2);
+			ft_strlcat(full_path, cmd, ft_strlen(full_path) + ft_strlen(cmd) + 2);
+			if (access(full_path, X_OK) == 0)
+				return (full_path);
+			free(full_path);
+			i++;
+		}
 	}
 	return (NULL);
 }

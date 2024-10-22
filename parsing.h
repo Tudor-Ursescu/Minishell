@@ -88,11 +88,14 @@ void    free_all(t_data *data);
 void    free_all_env(t_data *data);
 //CMD
 t_token *find_next_cmd(t_token *tokens);
-t_token *get_redirectons(t_token *tokens);
+t_token *get_redirections(t_token *tokens);
 char    **get_args(t_token *tokens);
 size_t  nb_of_args(t_token *tokens);
 void    print_cmd_list(t_cmd *cmd_list);
 t_cmd	*create_cmd_list(t_token *tokens);
+void	link_command(t_cmd **cmd_list, t_cmd **last_cmd, t_cmd *new_cmd);
+int     process_current_cmd(t_cmd *cmd, t_token *curr_tokens, t_cmd *cmd_list);
+t_cmd	*create_cmd(void);
 //TOKENS
 t_token_types    set_type(const char *str);
 int	    list_len(t_token *head);
