@@ -80,11 +80,12 @@ typedef struct s_data
 }   t_data;
 
 //FREE
-void    free_env(t_env **list, t_data *data);
+void    free_env(t_env **list);
 void    free_tokens(t_token **list);
 void    free_cmds(t_cmd *head);
 void	free_matrix(char **args);
 void    free_all(t_data *data);
+void    free_all_env(t_data *data);
 //CMD
 t_token *find_next_cmd(t_token *tokens);
 t_token *get_redirectons(t_token *tokens);

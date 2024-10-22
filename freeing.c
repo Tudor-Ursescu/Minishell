@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:33:35 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 10:47:18 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:57:33 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@ void free_cmds(t_cmd *list)
     }
 }
 
-void	free_env(t_env **list, t_data *data)
+void	free_env(t_env **list)
 {
 	t_env	*temp;
 	t_env	*head;
-	if (data->new_env)
-		free_matrix(data->new_env);
+	
 	head = *list;
 	while (head)
 	{
@@ -81,4 +80,23 @@ void    free_all(t_data *data)
     free_cmds(data->cmd_list);
     free_tokens(&data->token_list);
 	free(data->line);
+}
+
+void free_all_env(t_data *data)
+{
+	t_env	*temp;
+	t_env	*head;
+	
+	if (data->new_env)
+		free_matrix(data->new_env);
+	head = data->env;
+	while (head)
+	{
+		temp = head;
+		head = head->next;
+		if (temp->value)
+			free(temp->value);
+		free(temp);
+	}
+	data->env = NULL;
 }
