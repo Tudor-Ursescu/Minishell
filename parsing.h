@@ -74,6 +74,7 @@ typedef struct s_data
     t_env	*env;
     t_pipeinfo pipeinfo;
     char    **new_env;
+    char    *line;
     int		exit;
 	int		is_heredoc;
 }   t_data;

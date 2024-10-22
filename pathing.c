@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 15:45:48 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:03:30 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 		return ;
 	if (cmd_list->args[0][0] == '/')
 	{
-		execute_absolute(path, cmd_list->args, data->new_env);
+		execute_absolute(path, cmd_list->args, data);
 		return ;	
 	}
 	else if (cmd_list->args[0][0] == '.')
 	{
-		execute_relative(path, cmd_list->args, data->new_env);
+		execute_relative(path, cmd_list->args, data);
 		return ;
 	}
 	
@@ -47,7 +47,7 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 		}
 		else
 		{
-			waitandsave(pid);
+			waitandsave(pid, data);
 			// signal(SIGINT, load_ammo);
 			// while(waitpid(pid, NULL, 0))
 			// {
@@ -67,7 +67,7 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 	else
 	{
 		printf("command not found: %s\n", cmd_list->args[0]);
-		g_exit = 127;
+		data->exit = 127;
 		// exit(127);
 		// if (pid == 0)
 		// {
@@ -78,7 +78,7 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 
 }
 
-void waitandsave(int pid)
+void waitandsave(int pid, t_data *data)
 {
 	int status;
 
@@ -86,7 +86,7 @@ void waitandsave(int pid)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-		g_exit = WEXITSTATUS(status);
+		data->exit = WEXITSTATUS(status);
 	}
 }
 
@@ -105,7 +105,7 @@ int check_if_builtin(char **envp, t_cmd *cmd_list)
 	return(0);
 }
 
-void execute_absolute(char *path, char **argv, char **envp)
+void execute_absolute(char *path, char **argv, t_data *data)
 {
 	int		pid;
 
@@ -116,14 +116,14 @@ void execute_absolute(char *path, char **argv, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(path, argv, envp) == -1)//same as below, can be summarized
+			if (execve(path, argv, data->new_env) == -1)//same as below, can be summarized
 			{
 				perror("cat_shell");
 				exit(1);
 			}
 		}
 		else
-			waitandsave(pid);
+			waitandsave(pid, data);
 	}
 	else
 	{
@@ -133,7 +133,7 @@ void execute_absolute(char *path, char **argv, char **envp)
 	}
 }
 
-void execute_relative(char *path, char **argv, char **envp)
+void execute_relative(char *path, char **argv, t_data *data)
 {
 	int		pid;
 
@@ -144,14 +144,14 @@ void execute_relative(char *path, char **argv, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(path, argv, envp) == -1)//same as above, can be summarized
+			if (execve(path, argv, data->new_env) == -1)//same as above, can be summarized
 			{
 				perror("cat_shell");
 				exit(1);
 			}
 		}
 		else
-			waitandsave(pid);
+			waitandsave(pid, data);
 	}
 	else
 	{

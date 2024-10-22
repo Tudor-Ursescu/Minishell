@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 13:41:13 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 09:58:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list)
             // {
             //     command_table[i].func2(&env_list, tokens); // Pass your env_list and tokens
             // }
-            return 1; // Command found and executed
+            return (1); // Command found and executed
 		}
 		i++;
 	}

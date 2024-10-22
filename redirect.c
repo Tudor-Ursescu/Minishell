@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 17:19:07 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 09:44:15 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 	fd = 0;
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-	temp = data->cmd_list->redirections;
-	while (data->cmd_list->redirections)
+	temp = cmd_list->redirections;
+	while (cmd_list->redirections)
 	{
-		if (data->cmd_list->redirections->type == T_HEREDOC) // <<
-			flag = handle_heredocpre(data->cmd_list, flag, fd);
-		data->cmd_list->redirections = data->cmd_list->redirections->next;
+		if (cmd_list->redirections->type == T_HEREDOC) // <<
+			flag = handle_heredocpre(cmd_list, flag, fd);
+		cmd_list->redirections = cmd_list->redirections->next;
 	}
-	data->cmd_list->redirections = temp;
+	cmd_list->redirections = temp;
 	if (handle_all_but_heredoc(cmd_list, fd, flag) == 1)
 		return ;
 	execute_path(cmd_list, data);

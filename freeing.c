@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:33:35 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/15 14:54:08 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:21:47 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void free_tokens(t_token **list)
 			free(temp->value);
 		free(temp);
 	}
+	*list = NULL;
 }
 
 void free_cmds(t_cmd *list)
@@ -56,12 +57,14 @@ void	free_env(t_env **list)
 			free(temp->value);
 		free(temp);
 	}
+	*list = NULL;
 }
 
 void	free_matrix(char **args)
 {
 	int	i;
-
+	if (args == NULL)
+		return;
 	i = 0;
 	while (args[i])
 	{
@@ -69,6 +72,7 @@ void	free_matrix(char **args)
 		i++;
 	}
 	free(args);
+	args = NULL;
 }
 
 void    free_all(t_cmd *cmd_list, t_token *token_list)

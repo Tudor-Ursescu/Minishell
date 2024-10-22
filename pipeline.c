@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:48:50 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 17:22:00 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:02:04 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	handle_pipe(t_data *data, t_cmd *cmd_list, t_pipeinfo pipeinfo)
 	}
 	pipeinfo.number_of_pipes--;
 	handle_pipe(data, cmd_list->next, pipeinfo);
-	waitandsave(pipeinfo.prev_pid);
+	waitandsave(pipeinfo.prev_pid, data);
 }
 
 void	check_next(int pipefd[2], t_cmd *cmd_list)

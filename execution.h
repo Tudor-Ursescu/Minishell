@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 17:09:59 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:01:35 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void				heredoc(char *red_args);
 void				handle_redirect_or_execute(t_data *data, t_cmd *cmd_list);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
 void				handle_pipe(t_data *data, t_cmd *cmd_list, t_pipeinfo pipeinfo);
-void				execute_absolute(char *path, char **argv, char **envp);
-void				execute_relative(char *path, char **argv, char **envp);
+void				execute_absolute(char *path, char **argv, t_data *data);
+void				execute_relative(char *path, char **argv, t_data *data);
 void				child_function(int *pipefd, t_data *data, t_cmd *cmd_list, int prev_fd);
 void				parent_function(int *pipefd, t_cmd *cmd_list, int *prev_fd);
 void				restore_fds(int saved_stdin, int saved_stdout);
@@ -77,7 +77,7 @@ int					execbuiltin(char **envp, t_firstcmd *command_table,
 						t_cmd *cmd_list);
 int					check_if_builtin(char **envp, t_cmd *cmd_list);
 t_pipeinfo			initialize_pipeinfo(t_token *token_list);
-void				waitandsave(int pid);
+void				waitandsave(int pid, t_data *data);
 int					handle_input_redirection(int flag, int fd, char *file);
 void				handle_append_and_out(t_cmd *cmd_list, int fd);
 int					handle_heredocpre(t_cmd *cmd_list, int flag, int fd);

@@ -63,7 +63,7 @@
 // 			else if (ft_strcmp(cmd_list->args[0], "unset") == 0)
 // 				handle_unset(&env_list, token_list->next);
 // 			else if (ft_strcmp(cmd_list->args[0], "env") == 0)
-// 				handle_env_tudor(env_list, token_list->next);
+				// handle_env_tudor(env_list, token_list->next);
 // 		}
 // 		free_all(cmd_list, token_list);
 // 		free(line);
