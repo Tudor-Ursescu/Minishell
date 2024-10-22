@@ -6,7 +6,7 @@
 #    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/10/22 18:08:07 by tursescu         ###   ########.fr        #
+#    Updated: 2024/10/22 18:43:41 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ LIBS = -L$(LIBFT_DIR) -lft
 # Source files for minishell
 MINISHELL_SRCSTUDOR = parse_utils.c function_utils.c tokens1.c\
                 tokens2.c env1.c env2.c env3.c tokenize.c\
-                freeing.c cmd1.c cmd2.c debug.c\
-				syntax.c sig_handle.c env_utils.c
+                freeing.c cmd1.c cmd2.c debug.c env_utils2.c\
+				syntax.c sig_handle.c env_utils1.c
               
 MINISHELL_SRCSCHRIS = minishell.c prompt.c echo.c cd.c functions.c \
 				pathing.c redirect.c heredoc.c pipeline.c signal.c \

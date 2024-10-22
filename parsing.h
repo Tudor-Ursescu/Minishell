@@ -102,7 +102,7 @@ t_token_types		set_type(const char *str);
 int					list_len(t_token *head);
 void				print_token_list(t_token *head);
 void				append_token(t_token **list, t_token *new);
-t_token	            *create_token(t_token_types type, const char *value);
+t_token				*create_token(t_token_types type, const char *value);
 t_token				*find_last_token(t_token *head);
 int					add_operator(t_token **list, char *line, int i);
 int					add_quote(t_token **list, char *line, int i);
@@ -132,7 +132,6 @@ void				ft_export(t_env **env_list, char *name, char *value,
 						t_data *data);
 t_env				*find_env_var(t_env *env_list, char *name);
 void				ft_unset(t_env **env_list, char *name);
-char				*ft_getenv(t_env *env_list, char *name);
 void				handle_env_tudor(t_env **env_list, t_token *tokens,
 						t_data *data);
 void				handle_unset(t_env **env_list, t_token *tokens,
@@ -141,8 +140,13 @@ void				handle_export(t_env **env_list, t_token *tokens,
 						t_data *data);
 t_token				*merge_tokens(t_token *tokens);
 int					is_valid_identifier(char *name);
-void				populate_env_array(t_data *data);
 char				**env_to_array(t_env *env_list);
+int					count_env_vars(t_env *env_list);
+char				**copy_env_vars(t_env *env_list, int count);
+void 				extract_name_value(t_token *token, char **name, char **value);
+void				handle_export_no_args(t_env **env_list);
+void				process_token(t_env **env_list, t_token *token, t_data *data);
+t_token 			*merge_next_token(t_token *current);
 // SYNTAX
 int					first_token(t_data *data);
 int					check_syntax(t_data *data);

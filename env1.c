@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:04:01 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 17:52:36 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:22:33 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ t_env	*create_env(char *value)
 	new->value = ft_strdup(value);
 	new->next = NULL;
 	return (new);
-}
-
-t_env	*find_last_env(t_env *head)
-{
-	t_env	*temp;
-
-	temp = head;
-	while (temp->next != NULL)
-		temp = temp->next;
-	return (temp);
 }
 
 void	append_env(t_env **list, t_env *new)
@@ -68,19 +58,32 @@ t_env	*init_env_list(char **envp)
 	return (env_list);
 }
 
-
-int	is_valid_identifier(char *name)
+char	**env_to_array(t_env *env_list)
 {
-	int	i;
+	int	count;
 
-	if (!(ft_isalpha(name[0]) || name[0] == '_'))
-		return (0);
-	i = 1;
-	while (name[i])
+	count = count_env_vars(env_list);
+	if (count == 0)
+		return (NULL);
+	return (copy_env_vars(env_list, count));
+}
+
+void	handle_export(t_env **env_list, t_token *tokens, t_data *data)
+{
+	t_token	*token;
+
+	tokens = tokens->next;
+	if (!tokens)
 	{
-		if (!(ft_isalnum(name[i]) || name[i] == '_'))
-			return (0);
-		i++;
+		handle_export_no_args(env_list);
+		return ;
 	}
-	return (1);
+	tokens = merge_tokens(tokens);
+	token = tokens;
+	while (token)
+	{
+		if (token->type <= 2)
+			process_token(env_list, token, data);
+		token = token->next;
+	}
 }

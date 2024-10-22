@@ -6,27 +6,11 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 17:52:31 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:25:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-t_env	*find_env_var(t_env *env_list, char *name)
-{
-	t_env	*temp;
-	int		len;
-
-	temp = env_list;
-	len = ft_strlen(name);
-	while (temp)
-	{
-		if (ft_strncmp(temp->value, name, len) == 0)
-			return (temp);
-		temp = temp->next;
-	}
-	return (NULL);
-}
 
 void	ft_export(t_env **env_list, char *name, char *value, t_data *data)
 {
@@ -98,44 +82,4 @@ void	ft_unset(t_env **env_list, char *name)
 		prev = temp;
 		temp = temp->next;
 	}
-}
-
-void	delete_env_var(t_env **env_list, char *name)
-{
-	t_env	*temp;
-	t_env	*prev;
-	int		len;
-
-	temp = *env_list;
-	prev = NULL;
-	len = ft_strlen(name);
-	while (temp)
-	{
-		if (ft_strncmp(temp->value, name, len) == 0 && temp->value[len] == '=')
-		{
-			if (prev)
-				prev->next = temp->next;
-			else
-				*env_list = temp->next;
-			free(temp->value);
-			free(temp);
-			return ;
-		}
-		prev = temp;
-		temp = temp->next;
-	}
-}
-
-char	*ft_getenv(t_env *env_list, char *name)
-{
-	t_env	*var;
-	char	*value;
-
-	var = find_env_var(env_list, name);
-	if (var)
-	{
-		value = ft_strchr(var->value, '=') + 1;
-		return (value);
-	}
-	return (NULL);
 }
