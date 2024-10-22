@@ -136,9 +136,10 @@ int	    is_valid_identifier(char *name);
 void	populate_env_array(t_data *data);
 char	**env_to_array(t_env *env_list);
 //SYNTAX
-int	    first_token (t_token *list);
-int	    check_syntax(t_token *list);
+int	    first_token (t_data *data);
+int	    check_syntax(t_data *data);
 //SIGNALS
 void    sig_handle(int sig_nb);
-void    signal_init(void);
+void    signal_init(t_data *data);
+
 #endif

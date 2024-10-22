@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 13:23:18 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:52:10 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data data;
 	init_tdata(argc, argv, envp, &data);
-	signal_init();
+	signal_init(&data);
 	while (1)
 	{
 		if(init_loop(&data) == 1)
@@ -73,7 +73,7 @@ int init_loop(t_data *data)
 		free(data->line);
 		return (1);
 	}
-	if (check_syntax(data->token_list))
+	if (check_syntax(data))
 	{
 		free_tokens(&data->token_list);
 		free(data->line);
