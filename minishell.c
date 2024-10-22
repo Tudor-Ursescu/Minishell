@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 14:52:10 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:04:45 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,35 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data data;
+	t_data	data;
+
 	init_tdata(argc, argv, envp, &data);
 	signal_init(&data);
 	while (1)
 	{
-		if(init_loop(&data) == 1)
-			continue;
+		if (init_loop(&data) == 1)
+			continue ;
 		catloop(&data);
 		free_all(&data);
 	}
 	free_all_env(&data);
 }
 
-void init_tdata(int argc, char **argv, char **envp, t_data *data)
+void	init_tdata(int argc, char **argv, char **envp, t_data *data)
 {
 	printf("\033[H\033[J");
 	(void)argc;
 	(void)argv;
 	data->line = NULL;
-    data->token_list = NULL;
-    data->cmd_list = NULL;
-    data->env = init_env_list(envp);
+	data->token_list = NULL;
+	data->cmd_list = NULL;
+	data->env = init_env_list(envp);
 	data->new_env = NULL;
-    data->exit = 0;
-    data->is_heredoc = 0;
+	data->exit = 0;
+	data->is_heredoc = 0;
 }
-void catloop(t_data *data)
+
+void	catloop(t_data *data)
 {
 	if (data->line)
 	{
@@ -61,7 +63,7 @@ void catloop(t_data *data)
 	}
 }
 
-int init_loop(t_data *data)
+int	init_loop(t_data *data)
 {
 	data->line = prompt();
 	if (data->new_env)
@@ -90,33 +92,10 @@ int init_loop(t_data *data)
 	return (0);
 }
 
-
-void    free_call(char **argv, char *input)
+void	restore_fds(int saved_stdin, int saved_stdout)
 {
-    int i;
-    free(input);
-    i = 0;
-    while (argv[i] != NULL)
-    {
-        free(argv[i]);
-        i++;
-    }
-    free(argv);
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
 }
-
-void    exit_function(t_data *data, char *input)
-{
-    printf("GOODBYE NYA\n");
-    free_call(data->cmd_list->args, input);
-    exit(0);
-}
-
-void restore_fds(int saved_stdin, int saved_stdout)
-{
-    dup2(saved_stdin, STDIN_FILENO);
-    dup2(saved_stdout, STDOUT_FILENO);
-    close(saved_stdin);
-    close(saved_stdout);
-}
-
-

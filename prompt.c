@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:48 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/18 10:46:27 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:08:24 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*prompt(void)
 		add_history(input);
 	if (!input)
 	{
-		// This happens when CTRL+D (EOF) is pressed
 		write(1, "OH GOD YOU KILLED THE CAT! \n", 28);
 		write(1, " /\\_/\\\n", 7);
 		write(1, "( x.x )\n", 8);

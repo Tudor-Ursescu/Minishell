@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 12:16:26 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:09:58 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 	temp = cmd_list->redirections;
 	while (cmd_list->redirections)
 	{
-		if (cmd_list->redirections->type == T_HEREDOC) // <<
+		if (cmd_list->redirections->type == T_HEREDOC)
 			flag = handle_heredocpre(cmd_list, flag, fd);
 		cmd_list->redirections = cmd_list->redirections->next;
 	}
@@ -48,9 +48,9 @@ int	handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag)
 	{
 		file = cmd_list->redirections->value;
 		if (cmd_list->redirections->type == T_APPEND
-			|| cmd_list->redirections->type == T_OUT) // >>
+			|| cmd_list->redirections->type == T_OUT)
 			handle_append_and_out(cmd_list, fd);
-		else if (cmd_list->redirections->type == T_IN) // <
+		else if (cmd_list->redirections->type == T_IN)
 		{
 			if (handle_input_redirection(flag, fd, file) == 1)
 				return (1);

@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 13:56:13 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:04:55 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_firstcmd	*init_command_table(void)
 {
 	t_firstcmd	*command_table;
+
 	command_table = malloc(7 * sizeof(t_firstcmd));
 	if (!command_table)
 	{
@@ -31,10 +32,11 @@ t_firstcmd	*init_command_table(void)
 	return (command_table);
 }
 
-int execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list, t_data *data)
+int	execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list,
+		t_data *data)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (command_table[i].name != NULL)
 	{
@@ -42,12 +44,41 @@ int execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list, t_data 
 				ft_strlen(cmd_list->args[0])) == 0)
 		{
 			if (command_table[i].func != NULL)
-                command_table[i].func(cmd_list->args, envp, data);
-            else if (command_table[i].func2 != NULL)
-                command_table[i].func2(&data->env, data->token_list, data);
-            return (1);
+				command_table[i].func(cmd_list->args, envp, data);
+			else if (command_table[i].func2 != NULL)
+				command_table[i].func2(&data->env, data->token_list, data);
+			return (1);
 		}
 		i++;
 	}
-	return(0);
+	return (0);
+}
+
+int	check_if_builtin(char **envp, t_cmd *cmd_list, t_data *data)
+{
+	t_firstcmd	*command_table;
+
+	command_table = init_command_table();
+	if (execbuiltin(envp, command_table, cmd_list, data) == 1)
+	{
+		free(command_table);
+		return (1);
+	}
+	free(command_table);
+	return (0);
+}
+
+int	check_fork(int *pid)
+{
+	*pid = fork();
+	if (*pid < 0)
+		return (1);
+	return (0);
+}
+
+void	exit_function(t_data *data, char *input)
+{
+	printf("GOODBYE NYA\n");
+	free_call(data->cmd_list->args, input);
+	exit(0);
 }

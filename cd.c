@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 14:22:51 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:05:31 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	cd_function(char **argv, char **envp, t_data *data)
 	(void)envp;
 	errno = 0;
 	if (argv[0] && argv[1] && argv[2])
-	{	
+	{
 		printf("cd: too many arguments\n");
 		data->exit = 1;
 		return ;
@@ -47,10 +47,10 @@ void	cd_function(char **argv, char **envp, t_data *data)
 	if (chdir(argv[1]) != 0)
 	{
 		if (errno == EACCES)
-			{
-				printf("cd: permission denied: %s\n", argv[1]);
-				data->exit = 1;
-			}
+		{
+			printf("cd: permission denied: %s\n", argv[1]);
+			data->exit = 1;
+		}
 		else
 			perror("cd");
 	}

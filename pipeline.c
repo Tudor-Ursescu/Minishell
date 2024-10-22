@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:48:50 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 10:02:04 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:09:09 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	handle_pipe(t_data *data, t_cmd *cmd_list, t_pipeinfo pipeinfo)
 	int	pipefd[2];
 	int	saved_stdin;
 	int	saved_stdout;
+
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	if (pipeinfo.number_of_pipes >= 0)

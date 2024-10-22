@@ -6,20 +6,17 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/18 14:36:18 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:10:28 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-//BIG FYI In terms of shell redirection, the first argument after <, >, or >> is strictly 
-//interpreted as a file. If it is not a file, the shell will either fail or behave unexpectedly.
-
 void	heredoc(char *red_args)
 {
-	int temp_fd;
-	int saved_stdin;
-	int saved_stdout;
+	int	temp_fd;
+	int	saved_stdin;
+	int	saved_stdout;
 
 	temp_fd = 0;
 	saved_stdin = dup(STDIN_FILENO);
@@ -31,9 +28,10 @@ void	heredoc(char *red_args)
 	close(temp_fd);
 }
 
-int heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout, char *red_args)
+int	heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout, char *red_args)
 {
-	char *input;
+	char	*input;
+
 	input = NULL;
 	while (1)
 	{
@@ -42,13 +40,13 @@ int heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout, char *red_args)
 		{
 			perror("heredoc error\n");
 			close(temp_fd);
-			restore_fds(saved_stdin, saved_stdout);// experimental, might need to revert if it bugs out
+			restore_fds(saved_stdin, saved_stdout);
 			return (1);
 		}
 		if (checkheredoc(input, temp_fd, red_args) == 0)
-		{	
+		{
 			restore_fds(saved_stdin, saved_stdout);
-			break;
+			break ;
 		}
 		write(temp_fd, input, ft_strlen(input));
 		write(temp_fd, "\n", 1);
@@ -60,11 +58,12 @@ int heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout, char *red_args)
 int	checkheredoc(char *input, int temp_fd, char *red_args)
 {
 	if (ft_strncmp(input, red_args, strlen(red_args)) == 0
-		&& (input[ft_strlen(red_args)] == '\n' || input[ft_strlen(red_args)] == '\0'))
+		&& (input[ft_strlen(red_args)] == '\n'
+			|| input[ft_strlen(red_args)] == '\0'))
 	{
 		free(input);
 		close(temp_fd);
-		return(0);
+		return (0);
 	}
 	return (1);
 }

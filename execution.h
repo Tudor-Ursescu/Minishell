@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 13:27:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:07:17 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,19 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 
-typedef void		(*command_func)(char **argv, char **envp, t_data *data);
-typedef void		(*command_func2)(t_env **env_list, t_token *tokens, t_data *data);
+typedef void		(*t_command_func)(char **argv, char **envp, t_data *data);
+typedef void		(*t_command_func2)(t_env **env_list, t_token *tokens,
+			t_data *data);
 
 typedef struct t_firstcmd
 {
 	char			*name;
-	command_func	func;
-	command_func2	func2;
+	t_command_func	func;
+	t_command_func2	func2;
 }					t_firstcmd;
 
 char				*prompt(void);
-void	echo(char **argv, char **envp, t_data *data);
+void				echo(char **argv, char **envp, t_data *data);
 void				echo2(char **argv, int i);
 int					echo3(char **argv, char **envp);
 void				free_call(char **argv, char *input);
@@ -58,8 +59,8 @@ void				handle_redirect_or_execute(t_data *data, t_cmd *cmd_list);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
 void				handle_pipe(t_data *data, t_cmd *cmd_list,
 						t_pipeinfo pipeinfo);
-void				execute_absolute(char *path, char **argv, t_data *data);
-void				execute_relative(char *path, char **argv, t_data *data);
+void				execute_absolute_or_relative(char *path, char **argv,
+						t_data *data);
 void				child_function(int *pipefd, t_data *data, t_cmd *cmd_list,
 						int prev_fd);
 void				parent_function(int *pipefd, t_cmd *cmd_list, int *prev_fd);
@@ -82,4 +83,6 @@ void				init_tdata(int argc, char **argv, char **envp,
 						t_data *data);
 int					init_loop(t_data *data);
 void				catloop(t_data *data);
+void				fork_and_execute(char *path, t_cmd *cmd_list, t_data *data,
+						int pid);
 #endif

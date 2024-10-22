@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 12:29:21 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:05:53 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	echo(char **argv, char **envp, t_data *data)
 {
 	int	i;
-	
+
 	data->exit = 0;
 	i = 1;
 	if (argv[1])
@@ -47,7 +47,8 @@ void	echo2(char **argv, int i)
 		return ;
 	while (argv[i])
 	{
-		while(argv[i+1] && ((ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)))
+		while (argv[i + 1] && ((ft_strncmp(argv[i], "-n",
+						ft_strlen(argv[i])) == 0)))
 			i++;
 		printf("%s", argv[i]);
 		if (argv[i + 1])
@@ -55,9 +56,12 @@ void	echo2(char **argv, int i)
 		i++;
 	}
 }
+
 int	echo3(char **argv, char **envp)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (argv[i])
 	{
 		if (argv[i] && argv[i][0] == '$')
@@ -72,15 +76,16 @@ int	echo3(char **argv, char **envp)
 
 char	*handle_env(char *arg, char **envp)
 {
-	char *env_value;
+	char	*env_value;
+
 	while (*envp)
 	{
 		if (ft_strncmp(arg + 1, *envp, ft_strlen(arg + 1)) == 0
 			&& (*envp)[ft_strlen(arg + 1)] == '=')
 		{
 			env_value = *envp + ft_strlen(arg + 1) + 1;
-            free(arg);
-            arg = ft_strdup(env_value);
+			free(arg);
+			arg = ft_strdup(env_value);
 			return (arg);
 		}
 		envp++;

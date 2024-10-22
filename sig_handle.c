@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:59:37 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 14:44:03 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:58:47 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,16 @@ void signal_init(t_data *data)
 	sigaction(SIGCHLD, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	sigaction(SIGTSTP, &sa, NULL);
+}
+
+void	waitandsave(int pid, t_data *data)
+{
+	int	status;
+
+	status = 0;
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+	{
+		data->exit = WEXITSTATUS(status);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:45:14 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/11 12:59:06 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:08:13 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,23 @@ int	ft_strcmp(const char *s1, char const *s2)
 	return (0);
 }
 
-int skip_whitespace(char *line, int i)
+int	skip_whitespace(char *line, int i)
 {
-    while(line[i] && ft_isspace(line[i]))
-        i++;
-    return (i);
+	while (line[i] && ft_isspace(line[i]))
+		i++;
+	return (i);
 }
 
-void	remove_quotes(char ** value)
+void	remove_quotes(char **value)
 {
 	size_t	len;
 	char	*temp;
 
 	if (!value || !*value)
-		return;
+		return ;
 	len = ft_strlen(*value);
-	if ((*value[0] == '"' && (*value)[len - 1] == '"') ||
-		(*value [0] == '\'' && (*value)[len - 1] == '\''))
+	if ((*value[0] == '"' && (*value)[len - 1] == '"') || (*value[0] == '\''
+			&& (*value)[len - 1] == '\''))
 	{
 		temp = ft_strndup((*value) + 1, len - 2);
 		if (temp)
