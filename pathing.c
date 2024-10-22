@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 10:03:30 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:50:41 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 	int		pid;
 	path = NULL;
 	pid = 1;
-	if (check_if_builtin(data->new_env, cmd_list) == 1)
+	if (check_if_builtin(data->new_env, cmd_list, data) == 1)
 		return ;
 	if (cmd_list->args[0][0] == '/')
 	{
@@ -90,12 +90,12 @@ void waitandsave(int pid, t_data *data)
 	}
 }
 
-int check_if_builtin(char **envp, t_cmd *cmd_list)
+int check_if_builtin(char **envp, t_cmd *cmd_list, t_data *data)
 {
 	t_firstcmd	*command_table;
 	command_table = init_command_table();
 
-	if(execbuiltin(envp, command_table, cmd_list) == 1)
+	if(execbuiltin(envp, command_table, cmd_list, data) == 1)
 	{
 		free(command_table);
 		g_exit = 0;

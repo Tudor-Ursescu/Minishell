@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 10:58:17 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:44:54 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int init_loop(t_data *data)
 	data->cmd_list = create_cmd_list(data->token_list);
 	if (!data->cmd_list)
 	{
-		printf("Parsing failed!\n");// if possible i want this block of code inside create_cmd_list
+		printf("Parsing failed!\n");
 		free(data->line);
 		free_tokens(&data->token_list);
 		return (0);

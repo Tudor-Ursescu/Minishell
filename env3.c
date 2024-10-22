@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:44:25 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 10:51:19 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:59:58 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	handle_export(t_env **env_list, t_token *tokens)
 	char	*name;
 	char	*value;
 	int		i;
-
+	tokens = tokens->next;
 	if (!tokens)
 	{
 		t_env	*sorted_list;
@@ -111,7 +111,7 @@ void	handle_unset(t_env **env_list, t_token *tokens)
 	}
 }
 
-void	handle_env_tudor(t_env *env_list, t_token *tokens)
+void	handle_env_tudor(t_env **env_list, t_token *tokens)
 {
 	if (!tokens || !tokens->next)
 		print_env_list(env_list);
