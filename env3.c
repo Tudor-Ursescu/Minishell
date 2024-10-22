@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:44:25 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 11:59:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:40:34 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ void	sort_env_list(t_env *env_list)
 	}
 }
 
-void	handle_export(t_env **env_list, t_token *tokens)
+void	handle_export(t_env **env_list, t_token *tokens, t_data *data)
 {
 	t_token	*token;
 	char	*name;
 	char	*value;
 	int		i;
 	tokens = tokens->next;
+	// data->exit = 0; // again, delete when actual error handling is done
 	if (!tokens)
 	{
 		t_env	*sorted_list;
@@ -89,7 +90,7 @@ void	handle_export(t_env **env_list, t_token *tokens)
 			}
 			else
 				name = ft_strdup(token->value);
-			ft_export(env_list, name, value);
+			ft_export(env_list, name, value, data);
 			free(name);
 			if (value)
 				free(value);
@@ -98,25 +99,31 @@ void	handle_export(t_env **env_list, t_token *tokens)
 	}
 }
 
-void	handle_unset(t_env **env_list, t_token *tokens)
+void	handle_unset(t_env **env_list, t_token *tokens, t_data *data)
 {
 	t_token *token;
-
-	token = tokens;
+	data->exit = 0;// only to make it stop complaining
+	token = tokens;//pass data to ft_unset and get rid of the data->exit = 0 when done
 	while (token)
 	{
 		if (token->type <= 2)
-			ft_unset(env_list, token->value);
+			ft_unset(env_list, token->value);// needs error handling to handle exit code
 		token = token->next;
 	}
 }
 
-void	handle_env_tudor(t_env **env_list, t_token *tokens)
+void	handle_env_tudor(t_env **env_list, t_token *tokens, t_data *data)
 {
 	if (!tokens || !tokens->next)
+	{
 		print_env_list(env_list);
+		data->exit = 0;
+	}
 	else
+	{
 		printf("Syntax error: 'env' does not accept arguments.\n");
+		data->exit = 1;
+	}
 }
 
 t_token	*merge_tokens(t_token *tokens)

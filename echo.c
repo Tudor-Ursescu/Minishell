@@ -6,16 +6,17 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/21 14:06:16 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:29:21 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	echo(char **argv, char **envp)
+void	echo(char **argv, char **envp, t_data *data)
 {
 	int	i;
-
+	
+	data->exit = 0;
 	i = 1;
 	if (argv[1])
 	{

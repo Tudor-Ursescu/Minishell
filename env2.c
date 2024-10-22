@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/18 11:37:17 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:37:57 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*find_env_var(t_env *env_list, char *name)
 	return (NULL);
 }
 
-void	ft_export(t_env **env_list, char *name, char *value)
+void	ft_export(t_env **env_list, char *name, char *value, t_data *data)
 {
 	t_env	*var;
 	t_env	*new_var;
@@ -37,7 +37,8 @@ void	ft_export(t_env **env_list, char *name, char *value)
 	
 	if (!is_valid_identifier(name))
 	{
-		printf("bash: export: `%s=%s': not a valid identifier\n", name, value);
+		printf("export: `%s=%s': not a valid identifier\n", name, value);
+		data->exit = 1;
 		return;
 	}
 	var = find_env_var(*env_list, name);
@@ -57,7 +58,6 @@ void	ft_export(t_env **env_list, char *name, char *value)
 	{
 		free(var->value);
 		var->value = ft_strdup(new_value);
-
 	}
 	else
 	{

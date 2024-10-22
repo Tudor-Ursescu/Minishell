@@ -6,43 +6,61 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/18 16:22:52 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:22:51 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	lstatcheck(char **argv)
+void	lstatcheck(char **argv, t_data *data)
 {
 	if (errno == ENOENT)
-		printf("cd: no such file or directory: %s\n", argv[1]);
+	{
+		printf("cd: no such files or directory: %s\n", argv[1]);
+		data->exit = 1;
+	}
 	else if (errno == EACCES)
+	{
 		printf("cd: permission denied: %s\n", argv[1]);
+		data->exit = 1;
+	}
 	else
-		perror("cd"); // Catch-all for other errors
+	{
+		data->exit = 1;
+		perror("cd");
+	}
 }
 
-void	cd_function(char **argv, char **envp)
+void	cd_function(char **argv, char **envp, t_data *data)
 {
+	data->exit = 0;
 	(void)envp;
 	errno = 0;
-	if(cd_function2(argv) == 1)
-		return;
+	if (argv[0] && argv[1] && argv[2])
+	{	
+		printf("cd: too many arguments\n");
+		data->exit = 1;
+		return ;
+	}
+	if (cd_function2(argv, data) == 1)
+		return ;
 	if (chdir(argv[1]) != 0)
 	{
-		printf("directioning\n");
 		if (errno == EACCES)
-			printf("cd: permission denied: %s\n", argv[1]);
+			{
+				printf("cd: permission denied: %s\n", argv[1]);
+				data->exit = 1;
+			}
 		else
 			perror("cd");
 	}
 }
 
-int	 cd_function2(char **argv)
+int	cd_function2(char **argv, t_data *data)
 {
-	char *home_dir;
+	char		*home_dir;
 	struct stat	statbuf;
-	
+
 	if (!argv[1])
 	{
 		home_dir = getenv("HOME");
@@ -52,7 +70,7 @@ int	 cd_function2(char **argv)
 	}
 	if (lstat(argv[1], &statbuf) != 0)
 	{
-		lstatcheck(argv);
+		lstatcheck(argv, data);
 		return (1);
 	}
 	if (!S_ISDIR(statbuf.st_mode))
@@ -63,7 +81,7 @@ int	 cd_function2(char **argv)
 	return (0);
 }
 
-void	pwd_function(char **argv, char **envp)
+void	pwd_function(char **argv, char **envp, t_data *data)
 {
 	char	path[1024];
 	int		argc;
@@ -76,10 +94,11 @@ void	pwd_function(char **argv, char **envp)
 	{
 		getcwd(path, sizeof(path));
 		printf("%s\n", path);
+		data->exit = 0;
 	}
 	else
 	{
 		printf("pwd: too many arguments\n");
-		g_exit = 1;
+		data->exit = 1;
 	}
 }

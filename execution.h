@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 12:03:52 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:27:58 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-extern int			g_exit;
 
-typedef void		(*command_func)(char **argv, char **envp);
-typedef void		(*command_func2)(t_env **env_list, t_token *tokens);
+typedef void		(*command_func)(char **argv, char **envp, t_data *data);
+typedef void		(*command_func2)(t_env **env_list, t_token *tokens, t_data *data);
 
 typedef struct t_firstcmd
 {
@@ -38,13 +37,13 @@ typedef struct t_firstcmd
 }					t_firstcmd;
 
 char				*prompt(void);
-void				echo(char **argv, char **envp);
+void	echo(char **argv, char **envp, t_data *data);
 void				echo2(char **argv, int i);
 int					echo3(char **argv, char **envp);
 void				free_call(char **argv, char *input);
-void				cd_function(char **argv, char **envp);
-void				pwd_function(char **argv, char **envp);
-void				lstatcheck(char **argv);
+void				cd_function(char **argv, char **envp, t_data *data);
+void				pwd_function(char **argv, char **envp, t_data *data);
+void				lstatcheck(char **argv, t_data *data);
 t_firstcmd			*init_command_table(void);
 char				*handle_env(char *arg, char **envp);
 int					handle_n_flag(char *arg, char **envp);
@@ -76,7 +75,7 @@ int					handle_input_redirection(int flag, int fd, char *file);
 void				handle_append_and_out(t_cmd *cmd_list, int fd);
 int					handle_heredocpre(t_cmd *cmd_list, int flag, int fd);
 int					handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag);
-int					cd_function2(char **argv);
+int					cd_function2(char **argv, t_data *data);
 int					heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout,
 						char *red_args);
 void				init_tdata(int argc, char **argv, char **envp,

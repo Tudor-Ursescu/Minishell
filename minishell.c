@@ -6,14 +6,13 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 11:44:54 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:23:18 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "parsing.h"
 
-int g_exit = 0;
 int	main(int argc, char **argv, char **envp)
 {
 	t_data data;

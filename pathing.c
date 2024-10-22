@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 11:50:41 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:39:55 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int check_if_builtin(char **envp, t_cmd *cmd_list, t_data *data)
 	if(execbuiltin(envp, command_table, cmd_list, data) == 1)
 	{
 		free(command_table);
-		g_exit = 0;
 		return (1);
 	}
 	free(command_table);

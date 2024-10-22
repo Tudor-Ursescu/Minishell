@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 09:44:15 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:16:26 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 	int		flag;
 	t_token	*temp;
 
+	flag = 0;
 	fd = 0;
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
@@ -38,34 +39,6 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 	free_tokens(&temp);
 	unlink("tempfile.txt");
 }
-
-
-// void	handle_redirect_or_execute(t_cmd *cmd_list, char **envp)
-// {
-// 	int		fd;
-// 	int		saved_stdin;
-// 	int		saved_stdout;
-// 	int		flag;
-// 	t_token	*temp;
-
-// 	fd = 0;
-// 	saved_stdin = dup(STDIN_FILENO);
-// 	saved_stdout = dup(STDOUT_FILENO);
-// 	temp = cmd_list->redirections;
-// 	while (cmd_list->redirections)
-// 	{
-// 		if (cmd_list->redirections->type == T_HEREDOC) // <<
-// 			flag = handle_heredocpre(cmd_list, flag, fd);
-// 		cmd_list->redirections = cmd_list->redirections->next;
-// 	}
-// 	cmd_list->redirections = temp;
-// 	if (handle_all_but_heredoc(cmd_list, fd, flag) == 1)
-// 		return ;
-// 	execute_path(cmd_list, envp);
-// 	restore_fds(saved_stdin, saved_stdout);
-// 	free_tokens(&temp);
-// 	unlink("tempfile.txt");
-// }
 
 int	handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag)
 {
@@ -103,7 +76,6 @@ int	handle_input_redirection(int flag, int fd, char *file)
 {
 	if (flag == 1)
 		file = "tempfile.txt";
-	// Setup input redirection (stdin)// triggers error == Warning: invalid file descriptor -1 in syscall close()
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{

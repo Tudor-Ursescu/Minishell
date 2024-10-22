@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 12:01:45 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:56:13 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list, t_data 
 	while (command_table[i].name != NULL)
 	{
 		if (ft_strncmp(cmd_list->args[0], command_table[i].name,
-				ft_strlen(command_table[i].name)) == 0)
+				ft_strlen(cmd_list->args[0])) == 0)
 		{
 			if (command_table[i].func != NULL)
-                command_table[i].func(cmd_list->args, envp);
+                command_table[i].func(cmd_list->args, envp, data);
             else if (command_table[i].func2 != NULL)
-                command_table[i].func2(&data->env, data->token_list);
+                command_table[i].func2(&data->env, data->token_list, data);
             return (1);
 		}
 		i++;
