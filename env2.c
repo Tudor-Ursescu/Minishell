@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 19:25:57 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:45:59 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,33 @@ void	ft_export(t_env **env_list, char *name, char *value, t_data *data)
 	free(new_value);
 }
 
+int	comapre_env_var(t_env *temp, char *name)
+{
+	char	*equal_sign;
+	int		var_name_len;
+	int		len;
+
+	len = ft_strlen(name);
+	equal_sign = ft_strchr(temp->value, '=');
+	if (equal_sign)
+		var_name_len = equal_sign - temp->value;
+	else
+		var_name_len = ft_strlen(temp->value);
+	if (ft_strncmp(temp->value, name, len) == 0 && var_name_len == len)
+		return (1);
+	return (0);
+}
+
 void	ft_unset(t_env **env_list, char *name)
 {
 	t_env	*temp;
 	t_env	*prev;
-	int		len;
-	int		var_name_len;
-	char	*equal_sign;
 
 	temp = *env_list;
 	prev = NULL;
-	len = ft_strlen(name);
 	while (temp)
 	{
-		equal_sign = ft_strchr(temp->value, '=');
-		if (equal_sign)
-			var_name_len = equal_sign - temp->value;
-		else
-			var_name_len = ft_strlen(temp->value);
-		if (ft_strncmp(temp->value, name, len) == 0 && var_name_len == len)
+		if (comapre_env_var(temp, name))
 		{
 			if (prev)
 				prev->next = temp->next;
