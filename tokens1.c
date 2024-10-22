@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:40:33 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 14:16:41 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:07:39 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_token	*create_token(t_token_types type, const char *value)
 {
-	t_token *new;
-	
+	t_token	*new;
+
 	new = malloc(sizeof(t_token));
 	if (!new)
 	{
@@ -31,8 +31,8 @@ t_token	*create_token(t_token_types type, const char *value)
 
 t_token	*find_last_token(t_token *head)
 {
-	t_token *temp;
-	
+	t_token	*temp;
+
 	temp = head;
 	while (temp->next != NULL)
 		temp = temp->next;
@@ -41,8 +41,8 @@ t_token	*find_last_token(t_token *head)
 
 void	append_token(t_token **list, t_token *new)
 {
-	t_token *temp;
-	
+	t_token	*temp;
+
 	if (*list)
 	{
 		temp = find_last_token(*list);
@@ -51,6 +51,6 @@ void	append_token(t_token **list, t_token *new)
 	else
 	{
 		*list = new;
-		(*list)->next = NULL;	
+		(*list)->next = NULL;
 	}
 }

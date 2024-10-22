@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
+#    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/10/22 15:57:55 by ckonneck         ###   ########.fr        #
+#    Updated: 2024/10/22 18:08:07 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBS = -L$(LIBFT_DIR) -lft
 # Source files for minishell
 MINISHELL_SRCSTUDOR = parse_utils.c function_utils.c tokens1.c\
                 tokens2.c env1.c env2.c env3.c tokenize.c\
-                freeing.c cmd1.c cmd2.c debug.c main.c\
+                freeing.c cmd1.c cmd2.c debug.c\
 				syntax.c sig_handle.c env_utils.c
               
 MINISHELL_SRCSCHRIS = minishell.c prompt.c echo.c cd.c functions.c \

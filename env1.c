@@ -6,27 +6,27 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:04:01 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 11:26:13 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:52:36 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_env   *create_env(char *value)
+t_env	*create_env(char *value)
 {
-    t_env   *new;
+	t_env	*new;
 
-    new = malloc(sizeof(t_env));
-    if (!new)
-        return(NULL);
-    new->value = ft_strdup(value);
-    new->next = NULL;
-    return (new);
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->value = ft_strdup(value);
+	new->next = NULL;
+	return (new);
 }
 
-t_env   *find_last_env(t_env *head)
+t_env	*find_last_env(t_env *head)
 {
-    t_env	*temp;
+	t_env	*temp;
 
 	temp = head;
 	while (temp->next != NULL)
@@ -66,4 +66,21 @@ t_env	*init_env_list(char **envp)
 		i++;
 	}
 	return (env_list);
+}
+
+
+int	is_valid_identifier(char *name)
+{
+	int	i;
+
+	if (!(ft_isalpha(name[0]) || name[0] == '_'))
+		return (0);
+	i = 1;
+	while (name[i])
+	{
+		if (!(ft_isalnum(name[i]) || name[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
 }

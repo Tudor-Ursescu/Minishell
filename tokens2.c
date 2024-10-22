@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:07:28 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/03 12:38:51 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:07:42 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	list_len(t_token *head)
 {
-	t_token *temp;
-	size_t i;
+	t_token	*temp;
+	size_t	i;
 
 	temp = head;
 	i = 0;
@@ -29,12 +29,11 @@ int	list_len(t_token *head)
 
 int	is_redirection(t_token *token)
 {
-	return (token->type == T_IN || token->type == T_OUT ||
-			token->type == T_HEREDOC || token->type == T_APPEND);
+	return (token->type == T_IN || token->type == T_OUT
+		|| token->type == T_HEREDOC || token->type == T_APPEND);
 }
 
 int	is_pipe(t_token *token)
 {
 	return (token->type == T_PIPE);
 }
-

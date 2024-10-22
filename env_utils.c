@@ -6,29 +6,11 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:00:46 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/21 17:57:48 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:50:24 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-// static void print_matrix(char **matrix)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if (!matrix)
-// 	{
-// 		printf("Matrix is NULL.\n");
-// 		return;
-// 	}
-// 	while (matrix[i])
-// 	{
-// 		printf("[%d]: %s\n", i, matrix[i]);
-// 		i++;
-// 	}
-	
-// }
 
 char	**env_to_array(t_env *env_list)
 {
@@ -66,8 +48,3 @@ char	**env_to_array(t_env *env_list)
 	return (new_env);
 }
 
-// void	populate_env_array(t_data *data)
-// {
-
-// 	data->new_env = env_to_array(data->env, &count);
-// }

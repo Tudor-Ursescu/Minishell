@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:33:35 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 15:57:26 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:53:40 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void free_tokens(t_token **list)
+void	free_tokens(t_token **list)
 {
 	t_token	*temp;
 	t_token	*head;
@@ -29,25 +29,25 @@ void free_tokens(t_token **list)
 	*list = NULL;
 }
 
-void free_cmds(t_cmd *list)
+void	free_cmds(t_cmd *list)
 {
-    t_cmd   *temp;
+	t_cmd	*temp;
 
-    while (list)
-    {
-        free_tokens(&list->redirections);
-        free_matrix(list->args);
-        temp = list->next;
-        free(list);
-        list = temp;
-    }
+	while (list)
+	{
+		free_tokens(&list->redirections);
+		free_matrix(list->args);
+		temp = list->next;
+		free(list);
+		list = temp;
+	}
 }
 
 void	free_env(t_env **list)
 {
 	t_env	*temp;
 	t_env	*head;
-	
+
 	head = *list;
 	while (head)
 	{
@@ -63,8 +63,9 @@ void	free_env(t_env **list)
 void	free_matrix(char **args)
 {
 	int	i;
+
 	if (args == NULL)
-		return;
+		return ;
 	i = 0;
 	while (args[i])
 	{
@@ -75,9 +76,9 @@ void	free_matrix(char **args)
 	args = NULL;
 }
 
-void    free_all(t_data *data)
+void	free_all(t_data *data)
 {
-    free_cmds(data->cmd_list);
-    free_tokens(&data->token_list);
+	free_cmds(data->cmd_list);
+	free_tokens(&data->token_list);
 	free(data->line);
 }

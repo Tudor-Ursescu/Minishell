@@ -6,25 +6,25 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/16 09:40:23 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:07:34 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int add_operator(t_token **list, char *line, int i)
+int	add_operator(t_token **list, char *line, int i)
 {
-	t_token *new;
-    int     op_len;
-    char    *temp;
-	
-    op_len = is_operator(&line[i]);
+	t_token	*new;
+	int		op_len;
+	char	*temp;
+
+	op_len = is_operator(&line[i]);
 	if (op_len > 0)
-    {
-        temp = ft_strndup(&line[i], op_len);
-        new = create_token(set_type(&line[i]), temp);
+	{
+		temp = ft_strndup(&line[i], op_len);
+		new = create_token(set_type(&line[i]), temp);
 		append_token(list, new);
-        free(temp);
+		free(temp);
 		i += op_len;
 	}
 	return (i);
@@ -52,7 +52,7 @@ int	add_quote(t_token **list, char *line, int i)
 	new = create_token(set_type(&line[start]), temp);
 	free(temp);
 	if (!ft_isspace(line[i]) && !is_operator(line + i))
-			new->append = 1;
+		new->append = 1;
 	append_token(list, new);
 	return (i);
 }
@@ -62,7 +62,7 @@ int	add_words(t_token **list, char *line, int i)
 	t_token	*new;
 	int		start;
 	char	*sub;
-	
+
 	start = i;
 	while (line[i] && is_word(&line[i]))
 		i++;
@@ -103,5 +103,5 @@ t_token	*tokenize(char *line)
 		else
 			i = add_words(&tokens, line, i);
 	}
-	return(tokens);
+	return (tokens);
 }

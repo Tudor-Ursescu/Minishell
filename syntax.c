@@ -6,17 +6,18 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:19:42 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 14:50:57 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:06:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	first_token (t_data *data)
+int	first_token(t_data *data)
 {
 	if (is_pipe(data->token_list))
 	{
-		printf("Syntax error near unexpected token '%s'\n", data->token_list->value);
+		printf("Syntax error near unexpected token '%s'\n",
+			data->token_list->value);
 		data->exit = 2;
 		return (1);
 	}
@@ -34,8 +35,8 @@ int	check_syntax(t_data *data)
 	{
 		if (temp->type > 2 && temp->next->type > 2)
 		{
-			printf("Syntax error near unexpected token '%s'\n", 
-					temp->next->value);
+			printf("Syntax error near unexpected token '%s'\n",
+				temp->next->value);
 			data->exit = 2;
 			return (1);
 		}
@@ -47,6 +48,6 @@ int	check_syntax(t_data *data)
 		data->exit = 2;
 		return (1);
 	}
-	else 
+	else
 		return (0);
 }
