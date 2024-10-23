@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 14:13:48 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:07:49 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	echo2(char **argv, int i)
 			printf(" ");
 		i++;
 	}
+	if ((ft_strcmp(argv[1], "-n") != 0))
+		printf("\n");
 }
 
 int	echo3(char **argv, char **envp)

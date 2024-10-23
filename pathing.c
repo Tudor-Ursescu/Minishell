@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 15:00:33 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:17:10 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,16 @@ char	*find_path(const char *cmd, t_data *data)
 	return (full_path);
 }
 
-char *getpath(char *pathstring, t_data *data)
+char	*getpath(char *pathstring, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(data->new_env[i])
+	while (data->new_env[i])
 	{
-		if (ft_strncmp(data->new_env[i], pathstring, ft_strlen(pathstring)) == 0)
-			return(data->new_env[i] + ft_strlen(pathstring));
+		if (ft_strncmp(data->new_env[i], pathstring,
+				ft_strlen(pathstring)) == 0)
+			return (data->new_env[i] + ft_strlen(pathstring));
 		i++;
 	}
 	return (NULL);

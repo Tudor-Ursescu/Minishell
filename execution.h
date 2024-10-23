@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 15:51:57 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:16:32 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void				lstatcheck(char **argv, t_data *data);
 t_firstcmd			*init_command_table(void);
 char				*handle_env(char *arg, char **envp);
 int					handle_n_flag(char *arg, char **envp);
-char	*find_path(const char *cmd, t_data *data);
+char				*find_path(const char *cmd, t_data *data);
 void				free_tokensexec(char **tokens);
 void				execute_path(t_cmd *cmd_list, t_data *data);
 int					check_fork(int *pid);
@@ -74,7 +74,8 @@ t_pipeinfo			initialize_pipeinfo(t_token *token_list);
 void				waitandsave(int pid, t_data *data);
 int					handle_input_redirection(int flag, int fd, char *file);
 void				handle_append_and_out(t_cmd *cmd_list, int fd);
-int					handle_heredocpre(t_cmd *cmd_list, int flag, int fd, t_data *data);
+int					handle_heredocpre(t_cmd *cmd_list, int flag, int fd,
+						t_data *data);
 int					handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag);
 int					cd_function2(char **argv, t_data *data);
 int					heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout,
@@ -85,10 +86,10 @@ int					init_loop(t_data *data);
 void				catloop(t_data *data);
 void				fork_and_execute(char *path, t_cmd *cmd_list, t_data *data,
 						int pid);
-int				check_and_print_env(t_data *data);
-int				check_and_print_exit(t_data *data);
-int dollarcheck(t_data *data);
-void print_spaces(char **argv);
-void	cmd_not_found(t_cmd *cmd_list, t_data *data);
-char *getpath(char *pathstring, t_data *data);
+int					check_and_print_env(t_data *data);
+int					check_and_print_exit(t_data *data);
+int					dollarcheck(t_data *data);
+void				print_spaces(char **argv);
+void				cmd_not_found(t_cmd *cmd_list, t_data *data);
+char				*getpath(char *pathstring, t_data *data);
 #endif
