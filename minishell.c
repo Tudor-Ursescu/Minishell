@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 17:22:56 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:23:20 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	catloop(t_data *data)
 {
 	if (data->line)
 	{
-		if (ft_strncmp(data->line, "$?", ft_strlen("$?")) == 0)
-			printf("%d ", data->exit);
+		if (dollarcheck(data) == 1)
+			return ;
 		if (ft_strncmp(data->line, "exit", ft_strlen("exit")) == 0)
 		{
 			exit_function(data, data->line);

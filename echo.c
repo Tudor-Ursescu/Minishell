@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:05:53 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:13:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,7 @@ void	echo(char **argv, char **envp, t_data *data)
 		if (echo3(argv, envp) == 1)
 			return ;
 		if (!(ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0))
-		{
-			while (argv[i])
-			{
-				printf("%s", argv[i]);
-				if (argv[i + 1])
-					printf(" ");
-				i++;
-			}
-			printf("\n");
-		}
+			print_spaces(argv);
 		else
 			echo2(argv, i);
 	}
@@ -90,6 +81,8 @@ char	*handle_env(char *arg, char **envp)
 		}
 		envp++;
 	}
+	free(arg);
+	arg = ft_strdup("");
 	return (arg);
 }
 

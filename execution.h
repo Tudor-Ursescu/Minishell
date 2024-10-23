@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:07:17 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:24:21 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,9 @@ int					init_loop(t_data *data);
 void				catloop(t_data *data);
 void				fork_and_execute(char *path, t_cmd *cmd_list, t_data *data,
 						int pid);
+int				check_and_print_env(t_data *data);
+int				check_and_print_exit(t_data *data);
+int dollarcheck(t_data *data);
+void print_spaces(char **argv);
+void	cmd_not_found(t_cmd *cmd_list, t_data *data);
 #endif

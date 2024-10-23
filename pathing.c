@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 17:41:14 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:26:29 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 	pid = 1;
 	if (check_if_builtin(data->new_env, cmd_list, data) == 1)
 		return ;
-	if (cmd_list->args[0] &&  (cmd_list->args[0][0] == '/' ||
-		 cmd_list->args[0][0] == '.'))
+	if (cmd_list->args[0] && (cmd_list->args[0][0] == '/'
+		|| cmd_list->args[0][0] == '.'))
 	{
 		execute_absolute_or_relative(path, cmd_list->args, data);
 		return ;
@@ -32,10 +32,7 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 	if (path != NULL)
 		fork_and_execute(path, cmd_list, data, pid);
 	else if (cmd_list->args[0])
-	{
-		printf("command not found: %s\n", cmd_list->args[0]);
-		data->exit = 127;
-	}
+		cmd_not_found(cmd_list, data);
 }
 
 void	fork_and_execute(char *path, t_cmd *cmd_list, t_data *data, int pid)
@@ -46,7 +43,7 @@ void	fork_and_execute(char *path, t_cmd *cmd_list, t_data *data, int pid)
 	{
 		if (execve(path, cmd_list->args, data->new_env) == -1)
 		{
-			perror("cat_shell: ");
+			perror("cat_shell ");
 			exit(1);
 		}
 	}
@@ -80,7 +77,7 @@ void	execute_absolute_or_relative(char *path, char **argv, t_data *data)
 	}
 	else
 	{
-		printf("command not found: %s\n", argv[0]);
+		printf(":command not found %s\n", argv[0]);
 		data->exit = 127;
 	}
 }
@@ -117,7 +114,8 @@ char	*stitching(char **tokens, const char *cmd)
 				return (NULL);
 			ft_strlcpy(full_path, tokens[i], 1024);
 			ft_strlcat(full_path, "/", ft_strlen(full_path) + 2);
-			ft_strlcat(full_path, cmd, ft_strlen(full_path) + ft_strlen(cmd) + 2);
+			ft_strlcat(full_path, cmd, ft_strlen(full_path) + ft_strlen(cmd)
+				+ 2);
 			if (access(full_path, X_OK) == 0)
 				return (full_path);
 			free(full_path);
