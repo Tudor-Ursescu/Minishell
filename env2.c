@@ -6,13 +6,13 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/23 10:36:37 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:45:32 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	update_or_add_env(t_env **env_list, t_env *var, char *name, char *value)
+void	u_a_env(t_env **env_list, t_env *var, char *name, char *value)
 {
 	t_env	*new_var;
 	char	*new_value;
@@ -54,7 +54,7 @@ void	ft_export(t_env **env_list, char *name, char *value, t_data *data)
 		append_env(env_list, var);
 		return ;
 	}
-	update_or_add_env(env_list, var, name, value);
+	u_a_env(env_list, var, name, value);
 }
 
 int	comapre_env_var(t_env *temp, char *name)

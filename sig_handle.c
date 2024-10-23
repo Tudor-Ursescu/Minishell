@@ -6,12 +6,13 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:59:37 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/23 18:17:28 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:47:28 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include <errno.h>
+
 int		g_sig_nb = 0;
 
 void	sig_handle(int sig_nb)
@@ -20,7 +21,7 @@ void	sig_handle(int sig_nb)
 	{
 		g_sig_nb = SIGCHLD;
 	}
-	else if(sig_nb == SIGINT)
+	else if (sig_nb == SIGINT)
 	{
 		write(1, "\n", 1);
 		wait(NULL);
@@ -36,9 +37,9 @@ void	sig_handle(int sig_nb)
 	}
 }
 
-void signal_init(void)
+void	signal_init(void)
 {
-	struct	sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = sig_handle;
 	sa.sa_flags = SA_RESTART;

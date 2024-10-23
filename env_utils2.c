@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 18:47:12 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 19:26:41 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:39:26 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handle_export_no_args(t_env **env_list)
 	free_env(&sorted_list);
 }
 
-void	extract_name_value(t_token *token, char **name, char **value)
+void	extr_name_value(t_token *token, char **name, char **value)
 {
 	int	i;
 
@@ -41,14 +41,14 @@ void	extract_name_value(t_token *token, char **name, char **value)
 	}
 }
 
-void	process_token(t_env **env_list, t_token *token, t_data *data)
+void	prcs_token(t_env **env_list, t_token *token, t_data *data)
 {
 	char	*name;
 	char	*value;
 
 	name = NULL;
 	value = NULL;
-	extract_name_value(token, &name, &value);
+	extr_name_value(token, &name, &value);
 	ft_export(env_list, name, value, data);
 	free(name);
 	if (value)

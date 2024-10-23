@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:04:01 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 19:22:33 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:39:38 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	handle_export(t_env **env_list, t_token *tokens, t_data *data)
 	while (token)
 	{
 		if (token->type <= 2)
-			process_token(env_list, token, data);
+			prcs_token(env_list, token, data);
 		token = token->next;
 	}
 }

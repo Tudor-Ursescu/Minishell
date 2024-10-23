@@ -6,13 +6,13 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 18:17:48 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:30:18 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void killchild(int sig_nb)
+void	killchild(int sig_nb)
 {
 	if (sig_nb == SIGINT)
 	{

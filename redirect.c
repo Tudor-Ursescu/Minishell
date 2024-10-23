@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 17:55:04 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:31:47 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag)
 
 int	handle_heredocpre(t_cmd *cmd_list, int flag, int fd, t_data *data)
 {
-	int pid;
+	int	pid;
 
 	pid = fork();
 	if (pid == 0)
