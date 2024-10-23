@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:44:25 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 19:34:20 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 10:54:13 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,19 @@ t_token	*merge_next_token(t_token *current)
 
 	while (current->next)
 	{
-		new_value = ft_strjoin(current->value, current->next->value);
+		next_token = current->next;
+		new_value = ft_strjoin(current->value, next_token->value);
 		free(current->value);
 		current->value = new_value;
-		next_token = current->next;
 		current->next = next_token->next;
 		free(next_token->value);
-		free(next_token);
 		if (next_token->append == 0)
+		{
+			free(next_token);
 			break ;
+		}
+		free(next_token);
+			
 	}
 	return (current);
 }

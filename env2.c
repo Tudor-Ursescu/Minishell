@@ -6,18 +6,38 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:57:44 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 19:45:59 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/23 10:36:37 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	ft_export(t_env **env_list, char *name, char *value, t_data *data)
+void	update_or_add_env(t_env **env_list, t_env *var, char *name, char *value)
 {
-	t_env	*var;
 	t_env	*new_var;
 	char	*new_value;
 	char	*temp;
+
+	new_value = ft_strjoin(name, "=");
+	temp = new_value;
+	new_value = ft_strjoin(new_value, value);
+	free(temp);
+	if (var)
+	{
+		free(var->value);
+		var->value = ft_strdup(new_value);
+	}
+	else
+	{
+		new_var = create_env(new_value);
+		append_env(env_list, new_var);
+	}
+	free(new_value);
+}
+
+void	ft_export(t_env **env_list, char *name, char *value, t_data *data)
+{
+	t_env	*var;
 
 	if (!is_valid_identifier(name))
 	{
@@ -34,21 +54,7 @@ void	ft_export(t_env **env_list, char *name, char *value, t_data *data)
 		append_env(env_list, var);
 		return ;
 	}
-	new_value = ft_strjoin(name, "=");
-	temp = new_value;
-	new_value = ft_strjoin(new_value, value);
-	free(temp);
-	if (var)
-	{
-		free(var->value);
-		var->value = ft_strdup(new_value);
-	}
-	else
-	{
-		new_var = create_env(new_value);
-		append_env(env_list, new_var);
-	}
-	free(new_value);
+	update_or_add_env(env_list, var, name, value);
 }
 
 int	comapre_env_var(t_env *temp, char *name)

@@ -147,6 +147,7 @@ void 				extract_name_value(t_token *token, char **name, char **value);
 void				handle_export_no_args(t_env **env_list);
 void				process_token(t_env **env_list, t_token *token, t_data *data);
 t_token 			*merge_next_token(t_token *current);
+void				update_or_add_env(t_env **env_list, t_env *var, char *name, char *value);
 // SYNTAX
 int					first_token(t_data *data);
 int					check_syntax(t_data *data);
