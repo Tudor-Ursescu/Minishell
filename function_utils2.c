@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:14:10 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 14:27:04 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:00:43 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,23 @@ void	cmd_not_found(t_cmd *cmd_list, t_data *data)
 	printf("command not found: %s\n", cmd_list->args[0]);
 	data->exit = 127;
 	free(exit_str);
+}
+
+void	fork_and_execute(char *path, t_cmd *cmd_list, t_data *data, int pid)
+{
+	if (check_fork(&pid) == 1)
+		return ;
+	if (pid == 0)
+	{
+		if (execve(path, cmd_list->args, data->new_env) == -1)
+		{
+			perror("cat_shell ");
+			exit(1);
+		}
+	}
+	else
+	{
+		waitandsave(pid, data);
+		free(path);
+	}
 }

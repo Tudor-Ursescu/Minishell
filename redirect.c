@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:09:58 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:51:42 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 	while (cmd_list->redirections)
 	{
 		if (cmd_list->redirections->type == T_HEREDOC)
-			flag = handle_heredocpre(cmd_list, flag, fd);
+			flag = handle_heredocpre(cmd_list, flag, fd, data);
 		cmd_list->redirections = cmd_list->redirections->next;
 	}
 	cmd_list->redirections = temp;
@@ -60,16 +60,27 @@ int	handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag)
 	return (0);
 }
 
-int	handle_heredocpre(t_cmd *cmd_list, int flag, int fd)
+int	handle_heredocpre(t_cmd *cmd_list, int flag, int fd, t_data *data)
 {
-	heredoc(cmd_list->redirections->value);
-	flag = 1;
-	free(cmd_list->redirections->value);
-	cmd_list->redirections->value = ft_strdup("tempfile.txt");
-	fd = open("tempfile.txt", O_RDONLY);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	return (flag);
+	int pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		heredoc(cmd_list->redirections->value);
+		exit(0);
+	}
+	else
+	{
+		waitandsave(pid, data);
+		flag = 1;
+		free(cmd_list->redirections->value);
+		cmd_list->redirections->value = ft_strdup("tempfile.txt");
+		fd = open("tempfile.txt", O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+		return (flag);
+	}
 }
 
 int	handle_input_redirection(int flag, int fd, char *file)

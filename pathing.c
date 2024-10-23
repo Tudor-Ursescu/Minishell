@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:25:58 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 14:26:29 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:00:33 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,11 @@ void	execute_path(t_cmd *cmd_list, t_data *data)
 		execute_absolute_or_relative(path, cmd_list->args, data);
 		return ;
 	}
-	path = find_path(cmd_list->args[0]);
+	path = find_path(cmd_list->args[0], data);
 	if (path != NULL)
 		fork_and_execute(path, cmd_list, data, pid);
 	else if (cmd_list->args[0])
 		cmd_not_found(cmd_list, data);
-}
-
-void	fork_and_execute(char *path, t_cmd *cmd_list, t_data *data, int pid)
-{
-	if (check_fork(&pid) == 1)
-		return ;
-	if (pid == 0)
-	{
-		if (execve(path, cmd_list->args, data->new_env) == -1)
-		{
-			perror("cat_shell ");
-			exit(1);
-		}
-	}
-	else
-	{
-		waitandsave(pid, data);
-		free(path);
-	}
 }
 
 void	execute_absolute_or_relative(char *path, char **argv, t_data *data)
@@ -82,13 +63,13 @@ void	execute_absolute_or_relative(char *path, char **argv, t_data *data)
 	}
 }
 
-char	*find_path(const char *cmd)
+char	*find_path(const char *cmd, t_data *data)
 {
 	char	*path;
 	char	*full_path;
 	char	**tokens;
 
-	path = getenv("PATH");
+	path = getpath("PATH=", data);
 	if (!path)
 		return (NULL);
 	tokens = ft_split(path, ':');
@@ -97,6 +78,20 @@ char	*find_path(const char *cmd)
 	full_path = stitching(tokens, cmd);
 	free_tokensexec(tokens);
 	return (full_path);
+}
+
+char *getpath(char *pathstring, t_data *data)
+{
+	int i;
+
+	i = 0;
+	while(data->new_env[i])
+	{
+		if (ft_strncmp(data->new_env[i], pathstring, ft_strlen(pathstring)) == 0)
+			return(data->new_env[i] + ft_strlen(pathstring));
+		i++;
+	}
+	return (NULL);
 }
 
 char	*stitching(char **tokens, const char *cmd)

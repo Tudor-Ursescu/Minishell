@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:10:28 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:48:28 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout, char *red_args)
 	char	*input;
 
 	input = NULL;
+	
 	while (1)
 	{
 		input = readline(">");
@@ -57,7 +58,7 @@ int	heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout, char *red_args)
 
 int	checkheredoc(char *input, int temp_fd, char *red_args)
 {
-	if (ft_strncmp(input, red_args, strlen(red_args)) == 0
+	if (ft_strncmp(input, red_args, ft_strlen(red_args)) == 0
 		&& (input[ft_strlen(red_args)] == '\n'
 			|| input[ft_strlen(red_args)] == '\0'))
 	{
