@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 15:48:28 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:17:48 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+void killchild(int sig_nb)
+{
+	if (sig_nb == SIGINT)
+	{
+		exit(130);
+	}
+}
 
 void	heredoc(char *red_args)
 {
@@ -33,7 +41,7 @@ int	heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout, char *red_args)
 	char	*input;
 
 	input = NULL;
-	
+	signal(SIGINT, killchild);
 	while (1)
 	{
 		input = readline(">");
