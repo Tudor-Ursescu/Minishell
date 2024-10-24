@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/23 18:44:56 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:20:33 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ void			append_token(t_token **list, t_token *new);
 t_token			*create_token(t_token_types type, const char *value);
 t_token			*find_last_token(t_token *head);
 int				add_operator(t_token **list, char *line, int i);
-int				add_quote(t_token **list, char *line, int i);
+int				add_quote(t_token **list, char *line, int i, t_data *data);
 int				add_words(t_token **list, char *line, int i);
-t_token			*tokenize(char *line);
+t_token			*tokenize(char *line, t_data *data);
 int				is_pipe(t_token *token);
 int				is_redirection(t_token *token);
 int				is_operator(const char *s);
@@ -149,5 +149,7 @@ int				check_syntax(t_data *data);
 void			sig_handle(int sig_nb);
 void			signal_init(void);
 void			killchild(int sig_nb);
+char			*concat_2d_arr(char **arr);
+char			*ft_strcat(char *dest, const char *src);
 
 #endif

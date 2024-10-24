@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 17:16:32 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:37:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ int					dollarcheck(t_data *data);
 void				print_spaces(char **argv);
 void				cmd_not_found(t_cmd *cmd_list, t_data *data);
 char				*getpath(char *pathstring, t_data *data);
+char *replace_exit(char *str, char *replacement);
 #endif

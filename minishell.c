@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/24 10:51:54 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:56:44 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		catloop(&data);
 		if (g_sig_nb == SIGINT)
+		{
 			data.exit = 130;
+			break ;	
+		}
 		free_all(&data);
 	}
 	free_all_env(&data);
@@ -71,7 +74,7 @@ int	init_loop(t_data *data)
 	if (data->new_env)
 		free_matrix(data->new_env);
 	data->new_env = env_to_array(data->env);
-	data->token_list = tokenize(data->line);
+	data->token_list = tokenize(data->line, data);
 	if (!data->token_list)
 	{
 		free(data->line);

@@ -6,7 +6,7 @@
 #    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/10/24 11:09:04 by tursescu         ###   ########.fr        #
+#    Updated: 2024/10/24 14:08:14 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ MINISHELL_SRCSTUDOR = parse_utils.c function_utils.c tokens1.c\
               
 MINISHELL_SRCSCHRIS = minishell.c prompt.c echo.c cd.c functions.c \
 				pathing.c redirect.c heredoc.c pipeline.c \
-				freeing2.c function_utils2.c
+				freeing2.c function_utils2.c function_utils3.c
 MINISHELL_OBJS = $(MINISHELL_SRCSTUDOR:.c=.o) $(MINISHELL_SRCSCHRIS:.c=.o)
 
 # 'all' target

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 17:07:49 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:10:53 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	echo3(char **argv, char **envp)
 	i = 0;
 	while (argv[i])
 	{
-		if (argv[i] && argv[i][0] == '$')
-			argv[i] = handle_env(argv[i], envp);
-		else if (argv[i] && (ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)
+		// if (argv[i] && argv[i][0] == '$')
+		// 	argv[i] = handle_env(argv[i], envp);
+		if (argv[i] && (ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)
 			&& argv[i][0] == '$')
 			return (handle_n_flag(argv[i], envp));
 		i++;
