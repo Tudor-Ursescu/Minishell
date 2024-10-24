@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:59:37 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/23 18:47:28 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:15:48 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	sig_handle(int sig_nb)
 	else if (sig_nb == SIGINT)
 	{
 		write(1, "\n", 1);
+		g_sig_nb = SIGINT;
 		wait(NULL);
 		if (g_sig_nb == SIGCHLD)
 		{
@@ -33,7 +34,7 @@ void	sig_handle(int sig_nb)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_sig_nb = 0;
+		// g_sig_nb = 0;
 	}
 }
 
@@ -60,4 +61,6 @@ void	waitandsave(int pid, t_data *data)
 	{
 		data->exit = WEXITSTATUS(status);
 	}
+	else if (WIFSIGNALED(status))
+		data->exit = 128 + WTERMSIG(status);
 }

@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 16:05:33 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:14:29 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	main(int argc, char **argv, char **envp)
 		if (init_loop(&data) == 1)
 			continue ;
 		catloop(&data);
+		if (g_sig_nb == SIGINT)
+			data.exit = 130;
 		free_all(&data);
 	}
 	free_all_env(&data);
