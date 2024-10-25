@@ -6,73 +6,35 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:01:41 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/24 15:36:18 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/25 10:57:26 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include <string.h>
 
-
-// char	*concat_2d_arr(char **arr)
-// {
-// 	int	i;
-// 	char *res;
-// 	char *temp;
-
-// 	i = 1;
-// 	res = ft_strdup(arr[0]);
-// 	while (arr[i])
-// 	{
-// 		temp = res;
-// 		res = ft_strjoin(res, arr[i]);
-// 		free(temp);
-// 		temp = res;
-// 		res = ft_strjoin(res, " ");
-// 		free(temp);
-// 		i++;
-// 	}
-// 	res[ft_strlen(res) - 1] = '\0';
-// 	return (res);
-// }
-
-char* concat_2d_arr(char **arr) {
+char	*concat_2d_arr(char **arr)
+{
 	int		i;
 	int		total_len;
 	char	*res;
 
 	i = 0;
-	total_len = 0;
-
-	// Calculate the total length needed for the final string
-	while (arr[i])
-	{
-		total_len += strlen(arr[i]);  // Length of each string
-		if (arr[i + 1]) // Add space between words (but not at the end)
-			total_len += 1;
-		i++;
-	}
-
-	// Allocate memory for the final string (+1 for null terminator)
+	total_len = find_total_length(arr);
 	res = (char *)malloc(total_len + 1);
 	if (!res)
 		return (NULL);
-
-	res[0] = '\0'; // Initialize empty string
-
-	// Stitch the array into the final string
+	res[0] = '\0';
 	i = 0;
 	while (arr[i])
 	{
-		strcat(res, arr[i]);  // Append current word
-		if (arr[i + 1])       // Add space if it's not the last word
-			strcat(res, " ");
+		ft_strcat(res, arr[i]);
+		if (arr[i + 1])
+			ft_strcat(res, " ");
 		i++;
 	}
-
 	return (res);
 }
-
 
 char	*ft_strcat(char *dest, const char *src)
 {
@@ -90,4 +52,21 @@ char	*ft_strcat(char *dest, const char *src)
 	}
 	dest[dest_len + i] = '\0';
 	return (dest);
+}
+
+int	find_total_length(char **arr)
+{
+	int	i;
+	int	res;
+
+	res = 0;
+	i = 0;
+	while (arr[i])
+	{
+		res += ft_strlen(arr[i]);
+		if (arr[i + 1])
+			res += 1;
+		i++;
+	}
+	return (res);
 }

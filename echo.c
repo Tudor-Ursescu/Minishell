@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/24 16:10:53 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:14:10 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	echo(char **argv, char **envp, t_data *data)
 	i = 1;
 	if (argv[1])
 	{
-		if (echo3(argv, envp) == 1)
+		if (echo3(argv, envp, data) == 1)
 			return ;
 		if (!(ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0))
 			print_spaces(argv);
@@ -50,20 +50,27 @@ void	echo2(char **argv, int i)
 		printf("\n");
 }
 
-int	echo3(char **argv, char **envp)
+int	echo3(char **argv, char **envp, t_data *data)
 {
 	int	i;
+	t_token *temp;
 
+	temp = data->token_list;
 	i = 0;
 	while (argv[i])
 	{
-		// if (argv[i] && argv[i][0] == '$')
-		// 	argv[i] = handle_env(argv[i], envp);
+		if (argv[i] && argv[i][0] == '$' && temp && temp->type != 1)
+			argv[i] = handle_env(argv[i], envp);
 		if (argv[i] && (ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)
 			&& argv[i][0] == '$')
+		{
+			free(temp);
 			return (handle_n_flag(argv[i], envp));
+		}
 		i++;
+		temp = temp->next;
 	}
+	free(temp);
 	return (0);
 }
 
@@ -83,9 +90,7 @@ char	*handle_env(char *arg, char **envp)
 		}
 		envp++;
 	}
-	free(arg);
-	arg = ft_strdup("");
-	return (arg);
+	return (ft_strdup(""));
 }
 
 int	handle_n_flag(char *arg, char **envp)

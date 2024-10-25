@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/24 16:06:52 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:57:53 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	add_quote(t_token **list, char *line, int i, t_data *data)
 	}
 	else
 		temp = ft_strndup(&line[start], i - start - 1);
-	new = create_token(set_type(&line[start]), temp);
+	new = create_token(set_type(&line[start - 1]), temp);
 	free(temp);
 	if (!ft_isspace(line[i]) && !is_operator(line + i))
 		new->append = 1;
@@ -116,7 +116,7 @@ int	add_words(t_token **list, char *line, int i)
 		i++;
 	if (start != i)
 	{
-		sub = ft_substr(line, start, i - start);
+		sub = ft_strndup(&line[start], i - start);
 		new = create_token(T_WORD, sub);
 		free(sub);
 		if (!ft_isspace(line[i]) && !is_operator(line + i))
