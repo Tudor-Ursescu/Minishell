@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 11:21:11 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:09:35 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void				execute_path(t_cmd *cmd_list, t_data *data);
 int					check_fork(int *pid);
 char				*stitching(char **tokens, const char *cmd);
 void				exit_function(t_data *data, char *input);
-void				heredoc(char *red_args);
+void	heredoc(char *tempfile, t_data *data);
 void				handle_redirect_or_execute(t_data *data, t_cmd *cmd_list);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
 void				handle_pipe(t_data *data, t_cmd *cmd_list,
@@ -72,14 +72,12 @@ int					check_if_builtin(char **envp, t_cmd *cmd_list,
 						t_data *data);
 t_pipeinfo			initialize_pipeinfo(t_token *token_list);
 void				waitandsave(int pid, t_data *data);
-int					handle_input_redirection(int flag, int fd, char *file);
+int	handle_input_redirection(int fd, char *file);
 void				handle_append_and_out(t_cmd *cmd_list, int fd);
-int					handle_heredocpre(t_cmd *cmd_list, int flag, int fd,
-						t_data *data);
-int					handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag);
+void	handle_heredocpre(t_cmd *cmd_list, t_data *data, int heredoc_num);
+int	handle_all_but_heredoc(t_cmd *cmd_list, int fd);
 int					cd_function2(char **argv, t_data *data);
-int					heredoc_loop(int temp_fd, int saved_stdin, int saved_stdout,
-						char *red_args);
+int	heredoc_loop(int temp_fd, char *red_args);
 void				init_tdata(int argc, char **argv, char **envp,
 						t_data *data);
 int					init_loop(t_data *data);
@@ -93,4 +91,5 @@ void				print_spaces(char **argv);
 void				cmd_not_found(t_cmd *cmd_list, t_data *data);
 char				*getpath(char *pathstring, t_data *data);
 char				*replace_exit(char *str, char *replacement);
+void handle_all_heredocs(t_data *data);
 #endif

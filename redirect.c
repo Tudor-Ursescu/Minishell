@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 18:31:47 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:11:40 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,75 +18,66 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 	int		saved_stdin;
 	int		saved_stdout;
 	int		flag;
-	t_token	*temp;
 
 	flag = 0;
 	fd = 0;
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-	temp = cmd_list->redirections;
-	while (cmd_list->redirections)
-	{
-		if (cmd_list->redirections->type == T_HEREDOC)
-			flag = handle_heredocpre(cmd_list, flag, fd, data);
-		cmd_list->redirections = cmd_list->redirections->next;
-	}
-	cmd_list->redirections = temp;
-	if (handle_all_but_heredoc(cmd_list, fd, flag) == 1)
+	if (handle_all_but_heredoc(cmd_list, fd) == 1)
 		return ;
+
 	execute_path(cmd_list, data);
 	restore_fds(saved_stdin, saved_stdout);
-	free_tokens(&temp);
-	unlink("tempfile.txt");
+	// unlink("tempfile.txt");gotta unlink all of them
 }
 
-int	handle_all_but_heredoc(t_cmd *cmd_list, int fd, int flag)
+int	handle_all_but_heredoc(t_cmd *cmd_list, int fd)
 {
 	char	*file;
-
 	while (cmd_list->redirections)
 	{
-		file = cmd_list->redirections->value;
+		file = ft_strdup(cmd_list->redirections->value);
 		if (cmd_list->redirections->type == T_APPEND
 			|| cmd_list->redirections->type == T_OUT)
 			handle_append_and_out(cmd_list, fd);
-		else if (cmd_list->redirections->type == T_IN)
+		else if (cmd_list->redirections->type == T_IN 
+			|| cmd_list->redirections->type == T_HEREDOC)
 		{
-			if (handle_input_redirection(flag, fd, file) == 1)
+			if (handle_input_redirection(fd, file) == 1)
 				return (1);
 		}
 		cmd_list->redirections = cmd_list->redirections->next;
+		free(file);
 	}
 	return (0);
 }
 
-int	handle_heredocpre(t_cmd *cmd_list, int flag, int fd, t_data *data)
+void	handle_heredocpre(t_cmd *cmd_list, t_data *data, int heredoc_num)
 {
 	int	pid;
+	char *tempfile;
+	char *num;
+	num = ft_itoa(heredoc_num);
+	tempfile = ft_strjoin("tempfile", num);
 
 	pid = fork();
 	if (pid == 0)
 	{
-		heredoc(cmd_list->redirections->value);
+		heredoc(tempfile, data);
 		exit(0);
 	}
 	else
 	{
 		waitandsave(pid, data);
-		flag = 1;
+		free(num);
 		free(cmd_list->redirections->value);
-		cmd_list->redirections->value = ft_strdup("tempfile.txt");
-		fd = open("tempfile.txt", O_RDONLY);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-		return (flag);
+		data->cmd_list->redirections->value = ft_strdup(tempfile);
+		free(tempfile);
 	}
 }
 
-int	handle_input_redirection(int flag, int fd, char *file)
+int	handle_input_redirection(int fd, char *file)
 {
-	if (flag == 1)
-		file = "tempfile.txt";
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{

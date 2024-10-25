@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:59:37 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/24 09:15:48 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:21:39 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,26 @@
 
 int		g_sig_nb = 0;
 
-void	sig_handle(int sig_nb)
+void    sig_handle(int sig_nb)
 {
-	if (sig_nb == SIGCHLD)
-	{
-		g_sig_nb = SIGCHLD;
-	}
-	else if (sig_nb == SIGINT)
-	{
-		write(1, "\n", 1);
-		g_sig_nb = SIGINT;
-		wait(NULL);
-		if (g_sig_nb == SIGCHLD)
-		{
-			g_sig_nb = 0;
-			return ;
-		}
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		// g_sig_nb = 0;
-	}
+    if (sig_nb == SIGCHLD)
+    {
+        g_sig_nb = SIGCHLD;
+    }
+    else if (sig_nb == SIGINT)
+    {
+        write(1, "\n", 1);
+        g_sig_nb = 130;
+        wait(NULL);
+        if (g_sig_nb == SIGCHLD)
+        {
+            g_sig_nb = 130;
+            return ;
+        }
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
 }
 
 void	signal_init(void)
