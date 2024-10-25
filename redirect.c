@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 17:11:40 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:09:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,24 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 int	handle_all_but_heredoc(t_cmd *cmd_list, int fd)
 {
 	char	*file;
-	while (cmd_list->redirections)
+	t_token *temp;
+	temp = cmd_list->redirections;
+	while (temp)
 	{
-		file = ft_strdup(cmd_list->redirections->value);
-		if (cmd_list->redirections->type == T_APPEND
-			|| cmd_list->redirections->type == T_OUT)
+		file = ft_strdup(temp->value);
+		if (temp->type == T_APPEND
+			|| temp->type == T_OUT)
 			handle_append_and_out(cmd_list, fd);
-		else if (cmd_list->redirections->type == T_IN 
-			|| cmd_list->redirections->type == T_HEREDOC)
+		else if (temp->type == T_IN 
+			|| temp->type == T_HEREDOC)
 		{
 			if (handle_input_redirection(fd, file) == 1)
+			{
+				free(file);
 				return (1);
+			}
 		}
-		cmd_list->redirections = cmd_list->redirections->next;
+		temp = temp->next;
 		free(file);
 	}
 	return (0);
@@ -59,19 +64,18 @@ void	handle_heredocpre(t_cmd *cmd_list, t_data *data, int heredoc_num)
 	char *num;
 	num = ft_itoa(heredoc_num);
 	tempfile = ft_strjoin("tempfile", num);
-
+	free(num);
 	pid = fork();
 	if (pid == 0)
 	{
-		heredoc(tempfile, data);
+		heredoc(tempfile, cmd_list);
 		exit(0);
 	}
 	else
 	{
 		waitandsave(pid, data);
-		free(num);
 		free(cmd_list->redirections->value);
-		data->cmd_list->redirections->value = ft_strdup(tempfile);
+		cmd_list->redirections->value = ft_strdup(tempfile);
 		free(tempfile);
 	}
 }

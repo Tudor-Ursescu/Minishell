@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 16:09:35 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:10:22 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void				execute_path(t_cmd *cmd_list, t_data *data);
 int					check_fork(int *pid);
 char				*stitching(char **tokens, const char *cmd);
 void				exit_function(t_data *data, char *input);
-void	heredoc(char *tempfile, t_data *data);
+void	heredoc(char *tempfile, t_cmd *cmd_list);
 void				handle_redirect_or_execute(t_data *data, t_cmd *cmd_list);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
 void				handle_pipe(t_data *data, t_cmd *cmd_list,

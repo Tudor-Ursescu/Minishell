@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 17:19:41 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:03:31 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void handle_all_heredocs(t_data *data)
 		else
 			temp = temp->next;
 	}
-	free(temp);
+	// free(temp);
 }
 
 int	init_loop(t_data *data)
