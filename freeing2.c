@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:57:20 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 12:43:17 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:53:24 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ void	free_call(char **argv, char *input)
 
 void	unlink_heredocfiles(t_data *data)
 {
-	int i;
-	char *heredocfile;
-	char *num;
+	int		i;
+	char	*heredocfile;
+	char	*num;
+
 	i = 0;
-	while(i < data->nb_heredoc)
+	while (i < data->nb_heredoc)
 	{
 		num = ft_itoa(i);
 		heredocfile = ft_strjoin("tempfile", num);

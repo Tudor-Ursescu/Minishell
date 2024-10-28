@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 14:53:00 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:55:25 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int	execbuiltin(char **envp, t_firstcmd *command_table, t_cmd *cmd_list,
 	{
 		if (cmd_list->args[0])
 		{
-			if (ft_strncmp(cmd_list->args[0], command_table[i].name,
-					ft_strlen(command_table[i].name)) == 0)
+			if (ft_strcmp(cmd_list->args[0], command_table[i].name) == 0)
 			{
 				if (command_table[i].func != NULL)
 					command_table[i].func(cmd_list->args, envp, data);

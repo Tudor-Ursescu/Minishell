@@ -6,34 +6,35 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:07:28 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/22 18:07:42 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:16:58 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "execution.h"
 
-int	list_len(t_token *head)
+char	*prcs_qt_content(char *line, int start, int end, t_data *data)
 {
-	t_token	*temp;
-	size_t	i;
+	char	*temp;
+	char	**dqstr;
+	char	*result;
+	char	*exitcode;
+	int		j;
 
-	temp = head;
-	i = 0;
-	while (temp != NULL)
+	j = 0;
+	temp = ft_strndup(&line[start], end - start - 1);
+	dqstr = ft_split(temp, ' ');
+	free(temp);
+	while (dqstr[j])
 	{
-		temp = temp->next;
-		i++;
+		if (dqstr[j][0] == '$' && dqstr[j][1] != '?')
+			dqstr[j] = handle_env(dqstr[j], data->new_env);
+		j++;
 	}
-	return (i);
-}
-
-int	is_redirection(t_token *token)
-{
-	return (token->type == T_IN || token->type == T_OUT
-		|| token->type == T_HEREDOC || token->type == T_APPEND);
-}
-
-int	is_pipe(t_token *token)
-{
-	return (token->type == T_PIPE);
+	result = concat_2d_arr(dqstr);
+	free_matrix(dqstr);
+	exitcode = ft_itoa(data->exit);
+	temp = replace_exit(result, exitcode);
+	free(result);
+	free(exitcode);
+	return (temp);
 }

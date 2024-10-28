@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/28 11:48:57 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:16:35 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int				process_current_cmd(t_cmd *cmd, t_token *curr_tokens,
 					t_cmd *cmd_list);
 t_cmd			*create_cmd(void);
 t_token_types	set_type(const char *str);
-int				list_len(t_token *head);
 void			print_token_list(t_token *head);
 void			append_token(t_token **list, t_token *new);
 t_token			*create_token(t_token_types type, const char *value);
@@ -153,5 +152,6 @@ char			*concat_2d_arr(char **arr);
 char			*ft_strcat(char *dest, const char *src);
 int				find_total_length(char **arr);
 int				get_here_nb(t_token *list);
+char			*prcs_qt_content(char *line, int start, int end, t_data *data);
 
 #endif

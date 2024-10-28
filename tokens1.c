@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:40:33 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/25 12:40:22 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:59:49 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,15 @@ void	append_token(t_token **list, t_token *new)
 		*list = new;
 		(*list)->next = NULL;
 	}
+}
+
+int	is_redirection(t_token *token)
+{
+	return (token->type == T_IN || token->type == T_OUT
+		|| token->type == T_HEREDOC || token->type == T_APPEND);
+}
+
+int	is_pipe(t_token *token)
+{
+	return (token->type == T_PIPE);
 }

@@ -6,12 +6,12 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/25 12:57:53 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:14:35 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
 #include "execution.h"
+#include "parsing.h"
 
 int	add_operator(t_token **list, char *line, int i)
 {
@@ -37,41 +37,19 @@ int	add_quote(t_token **list, char *line, int i, t_data *data)
 	char	quote;
 	int		start;
 	char	*temp;
-	char	**dqstr;
 
 	quote = line[i];
 	start = ++i;
 	while (line[i] && line[i] != quote)
 		i++;
-	if (line[i] == quote)
-		i++;
-	else
+	if (!line[i])
 	{
 		printf("Syntax error: Unclosed quotes detected.\n");
 		return (0);
 	}
+	i++;
 	if (quote == '\"')
-	{
-		temp = ft_strndup(&line[start], i - start - 1);
-		dqstr = ft_split(temp, ' ');
-		free (temp);
-		temp = NULL;
-		int j  = 0 ;
-		while (dqstr[j])
-		{
-			if (dqstr[j][0] == '$' && dqstr[j][1] != '?')
-				dqstr[j] = handle_env(dqstr[j], data->new_env);
-			j++;
-		}
-		temp = concat_2d_arr(dqstr);
-		free_matrix(dqstr);
-		char *exitcode;
-		exitcode = ft_itoa(data->exit);
-		char *temp2 = temp;
-		temp = replace_exit(temp, exitcode);
-		free(temp2);
-		free(exitcode);
-	}
+		temp = process_quoted_content(line, start, i, data);
 	else
 		temp = ft_strndup(&line[start], i - start - 1);
 	new = create_token(set_type(&line[start - 1]), temp);
@@ -82,28 +60,27 @@ int	add_quote(t_token **list, char *line, int i, t_data *data)
 	return (i);
 }
 
-char *replace_exit(char *str, char *replacement)
+char	*replace_exit(char *str, char *replacement)
 {
-	char *pos;
-    char *new_str;
-    int len_before;
-    int len_new;
+	char	*pos;
+	char	*new_str;
+	int		len_before;
+	int		len_new;
 
-    pos = ft_strnstr(str, "$?", ft_strlen(str));
-    if (!pos)
-        return (ft_strdup(str));  // maybe strdup
-    len_before = pos - str;
-    len_new = len_before + ft_strlen(replacement) + ft_strlen(pos + 2);
-    new_str = (char *)malloc(len_new + 1);
-    if (!new_str)
-        return (NULL);
-    ft_strlcpy(new_str, str, len_before + 1);
-    new_str[len_before] = '\0';
+	pos = ft_strnstr(str, "$?", ft_strlen(str));
+	if (!pos)
+		return (ft_strdup(str));
+	len_before = pos - str;
+	len_new = len_before + ft_strlen(replacement) + ft_strlen(pos + 2);
+	new_str = (char *)malloc(len_new + 1);
+	if (!new_str)
+		return (NULL);
+	ft_strlcpy(new_str, str, len_before + 1);
+	new_str[len_before] = '\0';
 	ft_strcat(new_str, replacement);
-    ft_strcat(new_str, pos + 2);
-    return new_str;
+	ft_strcat(new_str, pos + 2);
+	return (new_str);
 }
-
 
 int	add_words(t_token **list, char *line, int i)
 {
