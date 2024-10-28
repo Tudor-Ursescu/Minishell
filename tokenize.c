@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/28 15:14:35 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:24:24 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	add_quote(t_token **list, char *line, int i, t_data *data)
 	}
 	i++;
 	if (quote == '\"')
-		temp = process_quoted_content(line, start, i, data);
+		temp = prcs_qt_content(line, start, i, data);
 	else
 		temp = ft_strndup(&line[start], i - start - 1);
 	new = create_token(set_type(&line[start - 1]), temp);
