@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:48:50 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 17:21:10 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:50:20 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	child_function(int *pipefd, t_data *data, t_cmd *cmd_list, int prev_fd)
 	}
 	handle_redirect_or_execute(data, cmd_list);
 	if (find_path(cmd_list->args[0], data) != NULL)
-		exit(2);// maybe exit 0 or some bullshit
+		exit(2);
 	else if (!cmd_list->args[0])
 		exit(0);
 	else

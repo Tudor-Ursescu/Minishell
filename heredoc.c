@@ -6,24 +6,16 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 12:59:38 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:52:09 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	killchild(int sig_nb)
-{
-	if (sig_nb == SIGINT)
-	{
-		g_sig_nb  = SIGINT;
-		exit(130);
-	}
-}
-
 void	heredoc(char *tempfile, t_token *redtemp)
 {
 	int	temp_fd;
+
 	temp_fd = 0;
 	temp_fd = open(tempfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (temp_fd == -1)
@@ -74,4 +66,52 @@ int	checkheredoc(char *input, int temp_fd, char *red_args)
 		return (0);
 	}
 	return (1);
+}
+
+void	handle_all_heredocs(t_data *data)
+{
+	t_cmd	*temp;
+	t_token	*redtemp;
+	int		heredoc_num;
+
+	heredoc_num = 0;
+	temp = data->cmd_list;
+	while (temp)
+	{
+		redtemp = temp->redirections;
+		while (redtemp)
+		{
+			if (redtemp->type == T_HEREDOC)
+			{
+				handle_heredocpre(data, heredoc_num, redtemp);
+				heredoc_num++;
+			}
+			redtemp = redtemp->next;
+		}
+		temp = temp->next;
+	}
+}
+
+void	handle_heredocpre(t_data *data, int heredoc_num, t_token *redtemp)
+{
+	int		pid;
+	char	*tempfile;
+	char	*num;
+
+	num = ft_itoa(heredoc_num);
+	tempfile = ft_strjoin("tempfile", num);
+	free(num);
+	pid = fork();
+	if (pid == 0)
+	{
+		heredoc(tempfile, redtemp);
+		exit(0);
+	}
+	else
+	{
+		waitandsave(pid, data);
+		free(redtemp->value);
+		redtemp->value = ft_strdup(tempfile);
+		free(tempfile);
+	}
 }

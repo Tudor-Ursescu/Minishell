@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 13:01:47 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:51:36 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ void	catloop(t_data *data)
 	{
 		if (dollarcheck(data) == 1)
 			return ;
-		if (data->cmd_list->args[0] && ft_strcmp(data->cmd_list->args[0], "exit") == 0)
-        {
-            exit_function(data, data->line);
-        }
+		if (data->cmd_list->args[0] && ft_strcmp(data->cmd_list->args[0],
+				"exit") == 0)
+		{
+			exit_function(data, data->line);
+		}
 		data->pipeinfo = initialize_pipeinfo(data->token_list);
 		handle_all_heredocs(data);
 		if (data->pipeinfo.number_of_pipes > 0)
@@ -68,30 +69,6 @@ void	catloop(t_data *data)
 		else if (data->pipeinfo.number_of_pipes == 0)
 			handle_redirect_or_execute(data, data->cmd_list);
 	}
-}
-
-void handle_all_heredocs(t_data *data)
-{
-    t_cmd   *temp;
-	t_token *redtemp;
-    int heredoc_num;
-    heredoc_num = 0;
-    temp = data->cmd_list;
-    while (temp)
-    {
-		redtemp = temp->redirections;
-        while (redtemp)
-        {
-            if (redtemp->type == T_HEREDOC)
-            {
-                handle_heredocpre(data, heredoc_num, redtemp);
-                heredoc_num++;
-            }
-           redtemp = redtemp->next;
-        }
-        temp = temp->next;
-    }
-    // free(temp);
 }
 
 int	init_loop(t_data *data)
@@ -121,12 +98,4 @@ int	init_loop(t_data *data)
 		return (0);
 	}
 	return (0);
-}
-
-void	restore_fds(int saved_stdin, int saved_stdout)
-{
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
 }

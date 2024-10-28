@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 17:20:27 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:53:00 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,16 @@ int	check_fork(int *pid)
 	return (0);
 }
 
-void    exit_function(t_data *data, char *input)
+void	exit_function(t_data *data, char *input)
 {
-    printf("GOODBYE NYA\n");
-    if (data->cmd_list->args[1])
-    {
-        int exitcode = ft_atoi(data->cmd_list->args[1]);
-        exit(exitcode);
-    }
-    free_call(data->cmd_list->args, input);
-    exit(data->exit);//changed from exit(0)
+	int	exitcode;
+
+	printf("GOODBYE NYA\n");
+	if (data->cmd_list->args[1])
+	{
+		exitcode = ft_atoi(data->cmd_list->args[1]);
+		exit(exitcode);
+	}
+	free_call(data->cmd_list->args, input);
+	exit(data->exit);
 }

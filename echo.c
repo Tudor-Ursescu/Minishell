@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 11:36:20 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:49:29 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	echo2(char **argv, int i)
 
 int	echo3(char **argv, char **envp, t_data *data)
 {
-	int	i;
-	t_token *temp;
+	int		i;
+	t_token	*temp;
 
 	temp = data->token_list;
 	i = 0;

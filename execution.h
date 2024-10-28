@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 14:42:24 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:52:38 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void				execute_path(t_cmd *cmd_list, t_data *data);
 int					check_fork(int *pid);
 char				*stitching(char **tokens, const char *cmd);
 void				exit_function(t_data *data, char *input);
-void	heredoc(char *tempfile, t_token *redtemp);
+void				heredoc(char *tempfile, t_token *redtemp);
 void				handle_redirect_or_execute(t_data *data, t_cmd *cmd_list);
 int					checkheredoc(char *input, int temp_fd, char *red_args);
 void				handle_pipe(t_data *data, t_cmd *cmd_list,
@@ -72,12 +72,12 @@ int					check_if_builtin(char **envp, t_cmd *cmd_list,
 						t_data *data);
 t_pipeinfo			initialize_pipeinfo(t_token *token_list);
 void				waitandsave(int pid, t_data *data);
-int	handle_input_redirection(char *file);
-// void				handle_append_and_out(t_cmd *cmd_list);
-void	handle_heredocpre(t_data *data, int heredoc_num, t_token *redtemp);
-int	handle_all_redirections(t_cmd *cmd_list);
+int					handle_input_redirection(char *file);
+void				handle_heredocpre(t_data *data, int heredoc_num,
+						t_token *redtemp);
+int					handle_all_redirections(t_cmd *cmd_list);
 int					cd_function2(char **argv, t_data *data);
-int	heredoc_loop(int temp_fd, char *red_args);
+int					heredoc_loop(int temp_fd, char *red_args);
 void				init_tdata(int argc, char **argv, char **envp,
 						t_data *data);
 int					init_loop(t_data *data);
@@ -93,6 +93,6 @@ char				*getpath(char *pathstring, t_data *data);
 char				*replace_exit(char *str, char *replacement);
 void				handle_all_heredocs(t_data *data);
 void				unlink_heredocfiles(t_data *data);
-void handle_append_and_out(t_token_types type, char *file);
-void		output_redirections(t_token *temp, char *file);
+void				handle_append_and_out(t_token_types type, char *file);
+void				output_redirections(t_token *temp, char *file);
 #endif

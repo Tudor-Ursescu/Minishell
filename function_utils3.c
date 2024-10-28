@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:01:41 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/28 11:51:39 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:51:15 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,12 @@ int	get_here_nb(t_token *list)
 		temp = temp->next;
 	}
 	return (res);
+}
+
+void	restore_fds(int saved_stdin, int saved_stdout)
+{
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
 }
