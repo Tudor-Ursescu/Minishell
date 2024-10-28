@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 15:06:35 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:14:44 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void				restore_fds(int saved_stdin, int saved_stdout);
 void				check_next(int pipefd[2], t_cmd *cmd_list);
 void				waitandsave(int pid, t_data *data);
 int					dollarcheck(t_data *data);
-void				print_spaces(char **argv);
+void				print_spaces(char **argv, t_data *data);
 char				*getpath(char *pathstring, t_data *data);
 char				*replace_exit(char *str, char *replacement);
 void				cmd_not_found(t_cmd *cmd_list, t_data *data);

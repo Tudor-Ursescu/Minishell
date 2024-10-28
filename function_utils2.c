@@ -3,32 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   function_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:14:10 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 15:00:43 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:10:14 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	print_spaces(char **argv)
+void	print_spaces(char **argv, t_data *data)
 {
 	int	first_word;
 	int	i;
+	t_token	*temp;
 
 	i = 1;
 	first_word = 1;
+	temp = data->token_list;
 	while (argv[i])
 	{
 		if (argv[i][0] != '\0')
 		{
-			if (!first_word)
+			if (!first_word && !temp->append)
 				printf(" ");
 			printf("%s", argv[i]);
 			first_word = 0;
 		}
 		i++;
+		temp = temp->next;
 	}
 	printf("\n");
 }

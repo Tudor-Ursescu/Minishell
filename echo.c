@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 14:49:29 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:03:51 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	echo(char **argv, char **envp, t_data *data)
 		if (echo3(argv, envp, data) == 1)
 			return ;
 		if (!(ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0))
-			print_spaces(argv);
+			print_spaces(argv, data);
 		else
 			echo2(argv, i);
 	}
