@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 11:35:18 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:52:14 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	init_tdata(int argc, char **argv, char **envp, t_data *data)
 	data->env = init_env_list(envp);
 	data->new_env = NULL;
 	data->exit = 0;
-	data->is_heredoc = 0;
+	data->nb_heredoc = 0;
 }
 
 void	catloop(t_data *data)
@@ -111,6 +111,7 @@ int	init_loop(t_data *data)
 		free(data->line);
 		return (1);
 	}
+	data->nb_heredoc = get_here_nb(data->token_list);
 	data->cmd_list = create_cmd_list(data->token_list);
 	if (!data->cmd_list)
 	{

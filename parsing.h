@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/25 10:55:15 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:48:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_data
 	char			**new_env;
 	char			*line;
 	int				exit;
-	int				is_heredoc;
+	int				nb_heredoc;
 }					t_data;
 
 void			free_env(t_env **list);
@@ -152,5 +152,6 @@ void			killchild(int sig_nb);
 char			*concat_2d_arr(char **arr);
 char			*ft_strcat(char *dest, const char *src);
 int				find_total_length(char **arr);
+int				get_here_nb(t_token *list);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:01:41 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/25 10:57:26 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:51:39 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,22 @@ int	find_total_length(char **arr)
 		if (arr[i + 1])
 			res += 1;
 		i++;
+	}
+	return (res);
+}
+
+int	get_here_nb(t_token *list)
+{
+	t_token	*temp;
+	int		res;
+
+	temp = list;
+	res = 0;
+	while (temp)
+	{
+		if (temp->type == T_HEREDOC)
+			res++;
+		temp = temp->next;
 	}
 	return (res);
 }
