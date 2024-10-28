@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 13:14:10 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:36:20 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,10 @@ int	echo3(char **argv, char **envp, t_data *data)
 			argv[i] = handle_env(argv[i], envp);
 		if (argv[i] && (ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)
 			&& argv[i][0] == '$')
-		{
-			free(temp);
 			return (handle_n_flag(argv[i], envp));
-		}
 		i++;
 		temp = temp->next;
 	}
-	free(temp);
 	return (0);
 }
 
@@ -90,6 +86,7 @@ char	*handle_env(char *arg, char **envp)
 		}
 		envp++;
 	}
+	free(arg);
 	return (ft_strdup(""));
 }
 
