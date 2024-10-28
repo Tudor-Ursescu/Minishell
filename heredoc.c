@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:00:39 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 18:14:19 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:59:38 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	killchild(int sig_nb)
 	}
 }
 
-void	heredoc(char *tempfile, t_cmd *cmd_list)
+void	heredoc(char *tempfile, t_token *redtemp)
 {
 	int	temp_fd;
 	temp_fd = 0;
@@ -31,7 +31,7 @@ void	heredoc(char *tempfile, t_cmd *cmd_list)
 		free(tempfile);
 		return ;
 	}
-	if (heredoc_loop(temp_fd, cmd_list->redirections->value) == 1)
+	if (heredoc_loop(temp_fd, redtemp->value) == 1)
 	{
 		free(tempfile);
 		return ;

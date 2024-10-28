@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:33:35 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/25 13:16:25 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:56:28 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "execution.h"
 
 void	free_tokens(t_token **list)
 {
@@ -81,4 +81,5 @@ void	free_all(t_data *data)
 	free_cmds(data->cmd_list);
 	free_tokens(&data->token_list);
 	free(data->line);
+	unlink_heredocfiles(data);
 }

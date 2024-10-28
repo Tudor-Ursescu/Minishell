@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:57:20 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/22 16:03:40 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:43:17 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,21 @@ void	free_call(char **argv, char *input)
 		i++;
 	}
 	free(argv);
+}
+
+void	unlink_heredocfiles(t_data *data)
+{
+	int i;
+	char *heredocfile;
+	char *num;
+	i = 0;
+	while(i < data->nb_heredoc)
+	{
+		num = ft_itoa(i);
+		heredocfile = ft_strjoin("tempfile", num);
+		free(num);
+		unlink(heredocfile);
+		free(heredocfile);
+		i++;
+	}
 }

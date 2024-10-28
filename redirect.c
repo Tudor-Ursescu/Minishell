@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:54:23 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/25 18:09:48 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:15:13 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	handle_redirect_or_execute(t_data *data, t_cmd *cmd_list)
 
 	execute_path(cmd_list, data);
 	restore_fds(saved_stdin, saved_stdout);
-	// unlink("tempfile.txt");gotta unlink all of them
 }
 
 int	handle_all_but_heredoc(t_cmd *cmd_list, int fd)
@@ -39,6 +38,7 @@ int	handle_all_but_heredoc(t_cmd *cmd_list, int fd)
 	while (temp)
 	{
 		file = ft_strdup(temp->value);
+		// printf("file = %s\n", file);
 		if (temp->type == T_APPEND
 			|| temp->type == T_OUT)
 			handle_append_and_out(cmd_list, fd);
@@ -47,6 +47,7 @@ int	handle_all_but_heredoc(t_cmd *cmd_list, int fd)
 		{
 			if (handle_input_redirection(fd, file) == 1)
 			{
+				// printf("test\n");
 				free(file);
 				return (1);
 			}
@@ -57,7 +58,7 @@ int	handle_all_but_heredoc(t_cmd *cmd_list, int fd)
 	return (0);
 }
 
-void	handle_heredocpre(t_cmd *cmd_list, t_data *data, int heredoc_num)
+void	handle_heredocpre(t_data *data, int heredoc_num, t_token *redtemp)
 {
 	int	pid;
 	char *tempfile;
@@ -68,14 +69,14 @@ void	handle_heredocpre(t_cmd *cmd_list, t_data *data, int heredoc_num)
 	pid = fork();
 	if (pid == 0)
 	{
-		heredoc(tempfile, cmd_list);
+		heredoc(tempfile, redtemp);
 		exit(0);
 	}
 	else
 	{
 		waitandsave(pid, data);
-		free(cmd_list->redirections->value);
-		cmd_list->redirections->value = ft_strdup(tempfile);
+		free(redtemp->value);
+		redtemp->value = ft_strdup(tempfile);
 		free(tempfile);
 	}
 }
@@ -85,6 +86,7 @@ int	handle_input_redirection(int fd, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
+		// printf("file = %s\n", file);
 		perror("fd error");
 		return (1);
 	}
