@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:08:51 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/28 15:16:35 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:49:04 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,5 +153,6 @@ char			*ft_strcat(char *dest, const char *src);
 int				find_total_length(char **arr);
 int				get_here_nb(t_token *list);
 char			*prcs_qt_content(char *line, int start, int end, t_data *data);
+int				is_n_flag(char *str);
 
 #endif

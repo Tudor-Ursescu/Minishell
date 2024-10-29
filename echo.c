@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 16:03:51 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:01:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	echo(char **argv, char **envp, t_data *data)
 	{
 		if (echo3(argv, envp, data) == 1)
 			return ;
-		if (!(ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0))
+		if (!is_n_flag(argv[1]))
 			print_spaces(argv, data);
 		else
 			echo2(argv, i);
@@ -38,15 +38,14 @@ void	echo2(char **argv, int i)
 		return ;
 	while (argv[i])
 	{
-		while (argv[i + 1] && ((ft_strncmp(argv[i], "-n",
-						ft_strlen(argv[i])) == 0)))
+		while (argv[i + 1] && (!is_n_flag(argv[i])))
 			i++;
 		printf("%s", argv[i]);
 		if (argv[i + 1])
 			printf(" ");
 		i++;
 	}
-	if ((ft_strcmp(argv[1], "-n") != 0))
+	if (!is_n_flag(argv[1]))
 		printf("\n");
 }
 
@@ -61,7 +60,7 @@ int	echo3(char **argv, char **envp, t_data *data)
 	{
 		if (argv[i] && argv[i][0] == '$' && temp && temp->type != 1)
 			argv[i] = handle_env(argv[i], envp);
-		if (argv[i] && (ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)
+		if (argv[i] && is_n_flag(argv[i])
 			&& argv[i][0] == '$')
 			return (handle_n_flag(argv[i], envp));
 		i++;
@@ -103,4 +102,23 @@ int	handle_n_flag(char *arg, char **envp)
 		envp++;
 	}
 	return (0);
+}
+
+int	is_n_flag(char *str)
+{
+	int	i;
+
+	i = 2;
+	if (str[0] == '-' && str[1] == 'n')
+	{
+		while (str[i])
+		{
+			if (str[i] != 'n')
+				return (0);
+			i++;
+		}
+		return (1);
+	}
+	else
+		return (0);
 }
