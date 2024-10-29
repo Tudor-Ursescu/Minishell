@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:04:01 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/23 18:39:38 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:27:44 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ void	handle_export(t_env **env_list, t_token *tokens, t_data *data)
 
 	tokens = tokens->next;
 	if (!tokens)
+	{
+		handle_export_no_args(env_list);
+		return ;
+	}
+	else if (data->cmd_list->next)
 	{
 		handle_export_no_args(env_list);
 		return ;
