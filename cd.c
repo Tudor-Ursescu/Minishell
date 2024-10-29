@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/29 12:59:33 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:47:22 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,13 @@ int	cd_function2(char **argv, t_data *data)
 {
 	char		*home_dir;
 	struct stat	statbuf;
+	t_env		*temp;
 
+	home_dir = NULL;
+	temp = find_env_var(data->env, "HOME");
 	if (!argv[1])
 	{
-		home_dir = getenv("HOME");
-		if (chdir(home_dir) != 0)
-		{
-			perror("cd");
-			return (1);
-		}
+		cd_home(temp, home_dir);
 		return (1);
 	}
 	if (lstat(argv[1], &statbuf) != 0)
@@ -83,6 +81,17 @@ int	cd_function2(char **argv, t_data *data)
 		return (1);
 	}
 	return (0);
+}
+
+void	cd_home(t_env *temp, char *home_dir)
+{
+	if (temp != NULL)
+		home_dir = ft_substr(temp->value, 5, (ft_strlen(temp->value) - 5));
+	if (home_dir != NULL && (chdir(home_dir) != 0))
+		perror("cd");
+	else if (!home_dir)
+		printf("cd: HOME not set\n");
+	free(home_dir);
 }
 
 void	cd_function_wrap(char **argv, char **envp, t_data *data)
@@ -111,27 +120,5 @@ void	cd_function_wrap(char **argv, char **envp, t_data *data)
 		tmp = temp->value;
 		temp->value = ft_strjoin(temp->value, newpwd);
 		free(tmp);
-	}
-}
-
-void	pwd_function(char **argv, char **envp, t_data *data)
-{
-	char	path[1024];
-	int		argc;
-
-	(void)envp;
-	argc = 0;
-	while (argv[argc])
-		argc++;
-	if (argc == 1)
-	{
-		getcwd(path, sizeof(path));
-		printf("%s\n", path);
-		data->exit = 0;
-	}
-	else
-	{
-		printf("pwd: too many arguments\n");
-		data->exit = 1;
 	}
 }

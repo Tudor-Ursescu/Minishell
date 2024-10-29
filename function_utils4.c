@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:56:32 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/29 12:59:39 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:47:10 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,26 @@ int	dollarcheck(t_data *data)
 	if (check_and_print_env(data) == 1)
 		return (1);
 	return (0);
+}
+
+void	pwd_function(char **argv, char **envp, t_data *data)
+{
+	char	path[1024];
+	int		argc;
+
+	(void)envp;
+	argc = 0;
+	while (argv[argc])
+		argc++;
+	if (argc == 1)
+	{
+		getcwd(path, sizeof(path));
+		printf("%s\n", path);
+		data->exit = 0;
+	}
+	else
+	{
+		printf("pwd: too many arguments\n");
+		data->exit = 1;
+	}
 }

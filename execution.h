@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/29 13:02:23 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:37:26 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char				*handle_env(char *arg, char **envp);
 void				cd_function_wrap(char **argv, char **envp, t_data *data);
 int					cd_function(char **argv, char **envp, t_data *data);
 int					cd_function2(char **argv, t_data *data);
+void				cd_home(t_env *temp, char *home_dir);
 void				lstatcheck(char **argv, t_data *data);
 void				pwd_function(char **argv, char **envp, t_data *data);
 int					check_fork(int *pid);
