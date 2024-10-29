@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:29:44 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 14:55:25 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:58:42 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_firstcmd	*init_command_table(void)
 		perror("Failed to allocate memory for command table");
 		exit(1);
 	}
-	command_table[0] = (t_firstcmd){"cd", cd_function, NULL};
+	command_table[0] = (t_firstcmd){"cd", cd_function_wrap, NULL};
 	command_table[1] = (t_firstcmd){"pwd", pwd_function, NULL};
 	command_table[2] = (t_firstcmd){"export", NULL, handle_export};
 	command_table[3] = (t_firstcmd){"echo", echo, NULL};

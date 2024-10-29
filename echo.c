@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/29 12:01:57 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:01:48 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int	echo3(char **argv, char **envp, t_data *data)
 	{
 		if (argv[i] && argv[i][0] == '$' && temp && temp->type != 1)
 			argv[i] = handle_env(argv[i], envp);
-		if (argv[i] && is_n_flag(argv[i])
-			&& argv[i][0] == '$')
+		if (argv[i] && is_n_flag(argv[i]) && argv[i][0] == '$')
 			return (handle_n_flag(argv[i], envp));
 		i++;
 		temp = temp->next;
@@ -102,23 +101,4 @@ int	handle_n_flag(char *arg, char **envp)
 		envp++;
 	}
 	return (0);
-}
-
-int	is_n_flag(char *str)
-{
-	int	i;
-
-	i = 2;
-	if (str[0] == '-' && str[1] == 'n')
-	{
-		while (str[i])
-		{
-			if (str[i] != 'n')
-				return (0);
-			i++;
-		}
-		return (1);
-	}
-	else
-		return (0);
 }

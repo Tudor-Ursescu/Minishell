@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 16:14:44 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:02:23 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void				echo2(char **argv, int i);
 int					echo3(char **argv, char **envp, t_data *data);
 int					handle_n_flag(char *arg, char **envp);
 char				*handle_env(char *arg, char **envp);
-void				cd_function(char **argv, char **envp, t_data *data);
+void				cd_function_wrap(char **argv, char **envp, t_data *data);
+int					cd_function(char **argv, char **envp, t_data *data);
 int					cd_function2(char **argv, t_data *data);
 void				lstatcheck(char **argv, t_data *data);
 void				pwd_function(char **argv, char **envp, t_data *data);
@@ -95,4 +96,5 @@ int					check_and_print_exit(t_data *data);
 void				exit_function(t_data *data, char *input);
 void				free_call(char **argv, char *input);
 void				free_tokensexec(char **tokens);
+
 #endif

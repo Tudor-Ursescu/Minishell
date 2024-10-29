@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_utils4.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:56:32 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/29 12:56:54 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:59:39 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,14 @@ int	is_n_flag(char *str)
 	}
 	else
 		return (0);
+}
+
+int	dollarcheck(t_data *data)
+{
+	if (ft_strncmp(data->line, "$?", ft_strlen("$?")) == 0)
+		printf("%d: ", data->exit);
+	check_and_print_exit(data);
+	if (check_and_print_env(data) == 1)
+		return (1);
+	return (0);
 }

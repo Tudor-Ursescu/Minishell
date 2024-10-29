@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:14:10 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/28 16:10:14 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:02:12 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	print_spaces(char **argv, t_data *data)
 {
-	int	first_word;
-	int	i;
+	int		first_word;
+	int		i;
 	t_token	*temp;
 
 	i = 1;

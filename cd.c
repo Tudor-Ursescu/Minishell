@@ -6,7 +6,7 @@
 /*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:12:18 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/23 17:16:19 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:59:33 by ckonneck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	lstatcheck(char **argv, t_data *data)
 	}
 }
 
-void	cd_function(char **argv, char **envp, t_data *data)
+int	cd_function(char **argv, char **envp, t_data *data)
 {
 	data->exit = 0;
 	(void)envp;
@@ -40,10 +40,10 @@ void	cd_function(char **argv, char **envp, t_data *data)
 	{
 		printf("cd: too many arguments\n");
 		data->exit = 1;
-		return ;
+		return (1);
 	}
 	if (cd_function2(argv, data) == 1)
-		return ;
+		return (1);
 	if (chdir(argv[1]) != 0)
 	{
 		if (errno == EACCES)
@@ -54,6 +54,7 @@ void	cd_function(char **argv, char **envp, t_data *data)
 		else
 			perror("cd");
 	}
+	return (0);
 }
 
 int	cd_function2(char **argv, t_data *data)
@@ -65,7 +66,10 @@ int	cd_function2(char **argv, t_data *data)
 	{
 		home_dir = getenv("HOME");
 		if (chdir(home_dir) != 0)
+		{
 			perror("cd");
+			return (1);
+		}
 		return (1);
 	}
 	if (lstat(argv[1], &statbuf) != 0)
@@ -79,6 +83,35 @@ int	cd_function2(char **argv, t_data *data)
 		return (1);
 	}
 	return (0);
+}
+
+void	cd_function_wrap(char **argv, char **envp, t_data *data)
+{
+	char	path[1024];
+	char	*currentpwd;
+	char	*newpwd;
+	t_env	*temp;
+	char	*tmp;
+
+	currentpwd = NULL;
+	currentpwd = getcwd(path, sizeof(path));
+	newpwd = NULL;
+	if (cd_function(argv, envp, data) == 0)
+	{
+		temp = find_env_var(data->env, "OLDPWD");
+		free(temp->value);
+		temp->value = ft_strdup("OLDPWD=");
+		tmp = temp->value;
+		temp->value = ft_strjoin(temp->value, currentpwd);
+		free(tmp);
+		newpwd = getcwd(path, sizeof(path));
+		temp = find_env_var(data->env, "PWD");
+		free(temp->value);
+		temp->value = ft_strdup("PWD=");
+		tmp = temp->value;
+		temp->value = ft_strjoin(temp->value, newpwd);
+		free(tmp);
+	}
 }
 
 void	pwd_function(char **argv, char **envp, t_data *data)
@@ -101,14 +134,4 @@ void	pwd_function(char **argv, char **envp, t_data *data)
 		printf("pwd: too many arguments\n");
 		data->exit = 1;
 	}
-}
-
-int	dollarcheck(t_data *data)
-{
-	if (ft_strncmp(data->line, "$?", ft_strlen("$?")) == 0)
-		printf("%d: ", data->exit);
-	check_and_print_exit(data);
-	if (check_and_print_env(data) == 1)
-		return (1);
-	return (0);
 }
