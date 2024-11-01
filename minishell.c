@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:27:51 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/29 13:03:00 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:02:57 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 		free_all(&data);
 	}
 	free_all_env(&data);
+	rl_clear_history();
 }
 
 void	init_tdata(int argc, char **argv, char **envp, t_data *data)

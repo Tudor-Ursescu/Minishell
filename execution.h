@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:41:34 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/29 13:37:26 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:00:03 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				catloop(t_data *data);
 t_firstcmd			*init_command_table(void);
 char				*prompt(void);
 void				echo(char **argv, char **envp, t_data *data);
-void				echo2(char **argv, int i);
+void				echo2(char **argv, int i, int no_newline);
 int					echo3(char **argv, char **envp, t_data *data);
 int					handle_n_flag(char *arg, char **envp);
 char				*handle_env(char *arg, char **envp);

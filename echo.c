@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:18:06 by ckonneck          #+#    #+#             */
-/*   Updated: 2024/10/29 13:01:48 by ckonneck         ###   ########.fr       */
+/*   Updated: 2024/11/01 13:59:18 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
 
 void	echo(char **argv, char **envp, t_data *data)
 {
@@ -22,32 +23,34 @@ void	echo(char **argv, char **envp, t_data *data)
 	{
 		if (echo3(argv, envp, data) == 1)
 			return ;
-		if (!is_n_flag(argv[1]))
-			print_spaces(argv, data);
+		if (is_n_flag(argv[1]))
+			i = 2;
 		else
-			echo2(argv, i);
+			i = 1;
+		echo2(argv, i, is_n_flag(argv[1]));
 	}
 	else
+	{
 		printf("\n");
+	}
 }
 
-void	echo2(char **argv, int i)
+void	echo2(char **argv, int i, int no_newline)
 {
-	i = 2;
-	if (!argv[2])
-		return ;
+	// Loop through arguments starting from i
 	while (argv[i])
 	{
-		while (argv[i + 1] && (!is_n_flag(argv[i])))
-			i++;
 		printf("%s", argv[i]);
 		if (argv[i + 1])
 			printf(" ");
 		i++;
 	}
-	if (!is_n_flag(argv[1]))
+
+	// Print newline only if `-n` flag is not present
+	if (!no_newline)
 		printf("\n");
 }
+
 
 int	echo3(char **argv, char **envp, t_data *data)
 {
@@ -56,7 +59,7 @@ int	echo3(char **argv, char **envp, t_data *data)
 
 	temp = data->token_list;
 	i = 0;
-	while (argv[i])
+	while (argv[i] && argv[i + 1])
 	{
 		if (argv[i] && argv[i][0] == '$' && temp && temp->type != 1)
 			argv[i] = handle_env(argv[i], envp);

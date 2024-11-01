@@ -6,7 +6,7 @@
 /*   By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:49:05 by tursescu          #+#    #+#             */
-/*   Updated: 2024/10/28 15:24:24 by tursescu         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:03:35 by tursescu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,39 @@ char	*replace_exit(char *str, char *replacement)
 {
 	char	*pos;
 	char	*new_str;
+	char	*temp;
 	int		len_before;
 	int		len_new;
 
-	pos = ft_strnstr(str, "$?", ft_strlen(str));
-	if (!pos)
-		return (ft_strdup(str));
-	len_before = pos - str;
-	len_new = len_before + ft_strlen(replacement) + ft_strlen(pos + 2);
-	new_str = (char *)malloc(len_new + 1);
-	if (!new_str)
+	new_str = ft_strdup("");
+	while ((pos = ft_strnstr(str, "$?", ft_strlen(str))) != NULL)
+	{
+		len_before = pos - str;
+		len_new = ft_strlen(new_str) + len_before + ft_strlen(replacement);
+		temp = (char *)malloc(len_new + 1);
+		if (!temp)
+		{
+			free(new_str);
+			return (NULL);
+		}
+		ft_strlcpy(temp, new_str, ft_strlen(new_str) + 1);
+		ft_strncat(temp, str, len_before);
+		ft_strcat(temp, replacement);
+		free(new_str);
+		new_str = temp;
+		str = pos + 2;
+	}
+	temp = (char *)malloc(ft_strlen(new_str) + ft_strlen(str) + 1);
+	if (!temp)
+	{
+		free(new_str);
 		return (NULL);
-	ft_strlcpy(new_str, str, len_before + 1);
-	new_str[len_before] = '\0';
-	ft_strcat(new_str, replacement);
-	ft_strcat(new_str, pos + 2);
-	return (new_str);
+	}
+	ft_strcpy(temp, new_str);
+	ft_strcat(temp, str);
+	free(new_str);
+
+	return (temp);
 }
 
 int	add_words(t_token **list, char *line, int i)
