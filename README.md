@@ -75,6 +75,7 @@ MiniShell supports the following built-in commands:
 All other commands are executed using system binaries 
 ## 👥 Contributors
 [**Tudor Ursescu**](https://github.com/Tudor-Ursescu)
+
 [**Christoph Könnecke**](https://github.com/ckonneck-42)
 ## 📜 License
 This is an open-source project, and you are free to use, modify, and distribute it as you see fit. Contributions and improvements are always welcome! 😊
