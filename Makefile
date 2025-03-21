@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ckonneck <ckonneck@student.42.fr>          +#+  +:+       +#+         #
+#    By: tursescu <tursescu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 13:31:15 by ckonneck          #+#    #+#              #
-#    Updated: 2024/10/29 13:00:01 by ckonneck         ###   ########.fr        #
+#    Updated: 2025/03/21 10:23:06 by tursescu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,13 @@ CFLAGS = -Wall -Wextra -Werror -I$(LIBFT_DIR)
 LIBFT_DIR = ./libft
 LIBS = -L$(LIBFT_DIR) -lft -lreadline
 # Source files for minishell
-MINISHELL_SRCSTUDOR = parse_utils.c function_utils.c tokens1.c\
-				tokens2.c env1.c env2.c env3.c tokenize.c\
-				freeing.c cmd1.c cmd2.c debug.c env_utils2.c\
-				syntax.c sig_handle.c env_utils1.c function_utils4.c
-MINISHELL_SRCSCHRIS = minishell.c prompt.c echo.c cd.c functions.c \
-				pathing.c redirect.c heredoc.c pipeline.c \
-				freeing2.c function_utils2.c function_utils3.c
+MINISHELL_SRCSTUDOR = src/parse_utils.c src/function_utils.c src/tokens1.c\
+				src/tokens2.c src/env1.c src/env2.c src/env3.c src/tokenize.c\
+				src/freeing.c src/cmd1.c src/cmd2.c src/debug.c src/env_utils2.c\
+				src/syntax.c src/sig_handle.c src/env_utils1.c src/function_utils4.c
+MINISHELL_SRCSCHRIS = src/minishell.c src/prompt.c src/echo.c src/cd.c src/functions.c \
+				src/pathing.c src/redirect.c src/heredoc.c src/pipeline.c \
+				src/freeing2.c src/function_utils2.c src/function_utils3.c
 MINISHELL_OBJS = $(MINISHELL_SRCSTUDOR:.c=.o) $(MINISHELL_SRCSCHRIS:.c=.o)
 # 'all' target
 all: $(NAME)
