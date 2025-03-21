@@ -5,7 +5,7 @@
 
 2.[Features](#-features)
 
-3.[Instalation](#-instalation)
+3.[Installation](#-installation)
 
 4.[Usage](#-usage)
 
@@ -34,7 +34,7 @@ This project is part of the 42 School curriculum, focusing on process management
 
 ✔️ Basic error handling for invalid commands and syntax
 
-## 🔧 Instalation
+## 🔧 Installation
 To install and compile minishell, follow these steps:
 ```sh
 #Clone the repository
